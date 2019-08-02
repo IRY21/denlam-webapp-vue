@@ -214,3 +214,25 @@ export default new Router({
   mode: 'history'
 })
 
+/* router.beforeEach((to, from, next) => {
+  store.dispatch('auth/getAuthUser')
+    .then(() => {
+      const isAuthenticated = store.getters['auth/isAuthenticated']
+      if(to.meta.onlyAuthUser) {
+        if(isAuthenticated) {
+          next()
+        } else {
+          next({ name: 'PageLogin'})
+        }
+      } else if(to.meta.onlyGuestUser) {
+        if(isAuthenticated) {
+          next({ name: 'PageHome'})
+        } else {
+          next()
+        }
+      } else {
+        next()
+      }
+    })
+    .catch(err => console.error(err))
+}) */
