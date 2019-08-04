@@ -43,6 +43,7 @@
             <div class="Form-Row Form-Row_btnWrap">
                 <button 
                     class="Btn Btn_theme_blue Form-Btn"
+                    :class="{'Btn_theme_wait': loading}"
                     :disabled="isFormInvalid"
                     @click.prevent="login"
                 >
@@ -84,17 +85,18 @@ export default {
     computed: {
         isFormInvalid() {
             return this.$v.form.$invalid
+        },
+        loading() {
+            return this.$store.getters['shared/loading']
         }
     },
     methods: {
         login() {
             this.$v.form.$touch()
-
             this.$store.dispatch('auth/login', this.form)
             .then(() => this.$router.push('/projects'))
             .catch((err) => {
                 this.formServerInvalid = true
-                console.log(err)
             })
         }
     }

@@ -3,32 +3,47 @@ import axios from 'axios';
 export default {
   namespaced: true,
   state: {
-    token: null,
-    loading: false
+    user: null,
+    token: null
   },
   mutations: {
     SET_TOKEN (state, token) {
       state.token = token;
-    },
-    LOGIN_PENDING (state) {
-      state.loading = true;
-    },
-    LOGIN_SUCCESS (state) {
-      state.loading = false;
     }
   },
   actions: {
     login ({ commit }, formData) {
-      commit('LOGIN_PENDING');
-      return axios.post('http://api.denlam.ru/auth', formData).then((res) => {
+      commit('shared/SET_LOADING', null, { root: true })
+      return axios.post('http://api2.denlam.ru', formData).then((res) => {
         const data = res.data
-        if (data.error) return new Promise((resolve, reject) => {
-          reject(data.error)
-        })
         localStorage.setItem("access_token", data.auth_access_token);
         commit('SET_TOKEN', data.auth_access_token);
-        commit('LOGIN_SUCCESS');
-      });
+        commit('shared/CLEAR_LOADING', null, { root: true })
+      })
+      .catch(err => {
+        commit('shared/CLEAR_LOADING', null, { root: true })
+        return Promise.reject(err)
+      })
+    },
+    getAuthUser({ commit }) {
+      commit('shared/SET_LOADING', null, { root: true })
+      const authUser = getters['authUser'];
+      if (authUser) { 
+        commit('shared/CLEAR_LOADING', null, { root: true })
+        return Promise.resolve(authUser)
+      }
+      if (!authUser) { 
+        commit('shared/CLEAR_LOADING', null, { root: true })
+        return Promise.reject({message: 'noAuthUser'})
+      }
+
+      /* const config = {
+        headers: {
+          'Cache-Control': 'no-cache'
+        }
+      }
+
+      return axios.get('http://api2.denlam.ru', config) */
     },
     logout ({ commit }) {
       return new Promise((resolve) => {
@@ -39,7 +54,7 @@ export default {
     }
   },
   getters: {
-    token: state => state.token,
-    loading: state => state.loading
+    authUser: state => state.user,
+    token: state => state.token
   }
 }
