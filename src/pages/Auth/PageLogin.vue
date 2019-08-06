@@ -95,7 +95,7 @@ export default {
             this.$v.form.$touch()
             this.$store.dispatch('auth/login', this.form)
             .then(() => this.$router.push('/projects'))
-            .catch((err) => {
+            .catch(() => {
                 this.formServerInvalid = true
             })
         }

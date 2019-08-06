@@ -11,7 +11,7 @@
     name: 'app',
     computed: {
       layout() {
-        return this.$route.meta.layout || 'layout-default'
+        return this.$route.meta.layout || 'auth-layout'
       }
     }
   }

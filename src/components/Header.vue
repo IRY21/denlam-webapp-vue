@@ -16,7 +16,12 @@
                         Иван Иванович<br>
                         <span class="Logout-Username-Post">Администратор</span>
                     </p>
-                    <a class="Btn Logout-Btn" href="/logout">Выйти</a>
+                    <button 
+                        class="Btn Logout-Btn" 
+                        @click.prevent="logout"
+                    >
+                        Выйти
+                    </button>
                 </div>
             </div>
         </div>
@@ -26,9 +31,13 @@
 </template>
 
 <script>
-  export default {
-
-  }
+    export default {
+        methods: {
+            logout() {
+                this.$store.dispatch('auth/logout');
+            }
+        }
+    }
 </script>
 
 <style>
