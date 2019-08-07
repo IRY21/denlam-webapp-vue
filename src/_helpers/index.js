@@ -1,0 +1,13 @@
+export const config = {
+  apiUrl: 'http://api2.denlam.ru'
+}
+
+export const rejectError = ({ response = null}) => {
+  let message = 'Ooops, something went wrong'
+
+  if(response && response.data && response.data.error) {
+    message = response.data.error.message
+  }
+
+  return Promise.reject(message)
+}

@@ -1,18 +1,23 @@
+import { AUTH_LOGIN, AUTH_LOGOUT } from '@/store/mutation-types/auth'
+import { SET_AUTH_USER } from '@/store/mutation-types/user'
+
 export default function configureModerator (store, router) {
   // listen to mutations
   //store.subscribe(({ type, payload }, state) => {
-  // store.subscribe(({ type }) => {
-  //   switch (type) {
-  //     case 'auth/setToken':
-  //       return store.dispatch('service/fetchData')
-  //   }
-  // })
+  store.subscribe(({ type }) => {
+    switch (type) {
+      case `user/${SET_AUTH_USER}`: {
+        return store.commit(`auth/${AUTH_LOGIN}`)
+      }
+    }
+  })
   // listen to actions
   // note: doesn't not wait for the result of async actions
   store.subscribeAction(({ type }) => {
     switch (type) {
       case 'auth/logout': {
-        store.dispatch(`user/AUTH_LOGOUT`);
+        store.commit(`auth/${AUTH_LOGOUT}`)
+        store.dispatch(`user/userLogout`);
         return router.push('/');
       }
     }

@@ -51,7 +51,7 @@
                       </div>
                   </div>
                   <div class="Form-Row">
-                      <my-file-component 
+                      <oko-file 
                         v-model="newAkt.file"
                         :size="'default'"
                         :label="'Подтверждающий документ'"
@@ -161,7 +161,7 @@
                       </p>
                   </div>
                   <div class="Table-Column">
-                      <my-file-component 
+                      <oko-file 
                         v-model="aktsArr.id1.file"
                         :btnText="'Прикрепить скан'"
                       />
@@ -199,7 +199,7 @@
                       </p>
                   </div>
                   <div class="Table-Column">
-                      <my-file-component 
+                      <oko-file 
                         v-model="aktsArr.id2.file"
                         :btnText="'Прикрепить скан'"
                       />
@@ -237,7 +237,7 @@
                       </p>
                   </div>
                   <div class="Table-Column">
-                      <my-file-component 
+                      <oko-file 
                         v-model="aktsArr.id3.file"
                         :btnText="'Прикрепить скан'"
                       />
@@ -275,7 +275,7 @@
                       </p>
                   </div>
                   <div class="Table-Column">
-                      <my-file-component 
+                      <oko-file 
                         v-model="aktsArr.id4.file"
                         :btnText="'Прикрепить скан'"
                       />
@@ -294,7 +294,7 @@
 </template>
 
 <script>
-import MyFileComponent from '@/components/Controls/MyFileComponent.vue'
+import OkoFile from '@/components/Controls/OkoFile.vue'
 
 export default {
     props: {
@@ -308,7 +308,7 @@ export default {
         }
     },
     components: {
-        MyFileComponent
+        OkoFile
     },
     data() {
         return {
