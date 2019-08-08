@@ -1,11 +1,9 @@
 import OkoError from './Controls/OkoError';
 import OkoFile from './Controls/OkoFile';
-import CustomInput from './Controls/CustomInput';
-import OkoAutocomplete from './Controls/OkoAutocomplete';
+import AutocompleteInput from './Controls/Autocomplete/AutocompleteInput';
 
 export default [
   OkoError,
   OkoFile,
-  CustomInput,
-  OkoAutocomplete,
+  AutocompleteInput,
 ];

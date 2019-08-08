@@ -123,27 +123,61 @@
                 <div class="Form-Column">
                     <div class="Input Input_type_search">
                         <p class="Label">Наименование организации или ФИО</p>
-                        <oko-autocomplete
+                        <autocomplete
                             :search="search"
                             placeholder="Введите наименование"
+                            aria-label="Поиск контрагентов"
                         >
-                        </oko-autocomplete>
-                        <div class="Input-Wrap">
-                            <input type="text"
-                                  value=""
-                                  class="Input-Control"
-                                  placeholder="Введите наименование"
-                            />
-                            <div class="Input-SearchResult">
-                                <div class="Input-SearchResult-Item" data-counterparties-id="1">ООО "Аренда пляжа"</div>
-                                <div class="Input-SearchResult-Item" data-counterparties-id="2">ООО "Аренда пляжа"</div>
-                                <div class="Input-SearchResult-Item" data-counterparties-id="3">ООО "Аренда пляжа"</div>
-                                <div class="Input-SearchResult-Item" data-counterparties-id="4">ООО "Аренда пляжа"</div>
-                                <div class="Input-SearchResult-Item Input-SearchResult-Item_all">
-                                    смотреть полный список
+                            <template
+                                v-slot="{
+                                    rootProps,
+                                    inputProps,
+                                    inputListeners,
+                                    resultListProps,
+                                    resultListListeners,
+                                    results,
+                                    resultProps
+                                }"
+                            >
+                                <div v-bind="rootProps">
+                                    <autocomplete-input
+                                        v-bind="inputProps"
+                                        v-on="inputListeners"
+                                        :class="[
+                                                'autocomplete-input',
+                                                { 'autocomplete-input-no-results': noResults },
+                                                { 'autocomplete-input-focused': autocomleteComponent.focused }
+                                            ]"
+                                        @focus="handleFocus"
+                                        @blur="handleBlur"
+                                    ></autocomplete-input>
+                                    <ul
+                                        v-if="noResults"
+                                        class="autocomplete-result-list"
+                                        style="position: absolute; z-index: 1; width: 100%; top: 100%;"
+                                    >
+                                        <li class="autocomplete-result">No results found</li>
+                                    </ul>
+                                    <ul
+                                         class="Input-SearchResult" 
+                                        v-bind="resultListProps" 
+                                        v-on="resultListListeners"
+                                    >
+                                        <li
+                                            v-for="(result, index) in results"
+                                            :key="resultProps[index].id"
+                                            v-bind="resultProps[index]"
+                                        >{{ result }}</li>
+                                        <li 
+                                            class="Input-SearchResult-Item Input-SearchResult-Item_all"
+                                            @click="toggleCounteragentFullListPopup"
+                                        >
+                                            смотреть полный список
+                                        </li>
+                                    </ul>
                                 </div>
-                            </div>
-                        </div>
+                            </template>
+                        </autocomplete>
                     </div>
                 </div>
                 <div class="Form-Column">
@@ -473,29 +507,59 @@
 
 <script>
 export default {
+    name: 'PageProjectsAdd',
     data() {
         return {
+            form: {
+                counteragentData: {
+                    name: ''
+                }
+            },
+            autocomleteComponent: {
+                counteragents: [
+                    'I',
+                    'I1',
+                    'I2',
+                    'I3',
+                    'I4',
+                    'I5',
+                    'I6',
+                    'R',
+                    'a'
+                ],
+                focused: false,
+                results: [],
+            },
             counteragentFullListPopupShow: false,
-            counteragents: [
-                'I',
-                'R',
-                'a'
-            ]
         }
     },
     computed: {
-        
+        noResults() {
+            return this.form.counteragentData.name && this.autocomleteComponent.results.length === 0;
+        }
     },
     methods: {
         toggleCounteragentFullListPopup() {
             this.counteragentFullListPopupShow = !this.counteragentFullListPopupShow;
         },
         search(input) {
-            if (input.length < 1) { return [] }
-            return this.counteragents.filter(counteragent => {
-                return counteragent.toLowerCase()
-                    .startsWith(input.toLowerCase())
-            })
+            this.form.counteragentData.name = input
+            if (input.length < 1) {
+                this.autocomleteComponent.results = []
+            } else {
+                this.autocomleteComponent.results = this.autocomleteComponent.counteragents.filter(counteragent => {
+                    return counteragent.toLowerCase()
+                        .startsWith(input.toLowerCase())
+                })
+            }
+            return this.autocomleteComponent.results.slice(0, 5)
+        },
+        handleFocus() {
+            this.autocomleteComponent.focused = true
+        },
+        
+        handleBlur() {
+            this.autocomleteComponent.focused = false
         }
     }
 }
@@ -562,5 +626,15 @@ export default {
 
 .Btn.chooseFromList {
   height: 30px; }
+
+.Input_type_search .Input-SearchResult {
+    display: initial;
+}
+.Input-SearchResult-Item {
+    padding-left: 48px;
+}
+.chooseFromListPopup-Overlay {
+    z-index: 500;
+}
 
 </style>

@@ -8,7 +8,7 @@
 
 <script>
 export default {
-  name: 'custom-input',
+  name: 'autocomplete-input',
   props: {
       value: {
         type: String,
