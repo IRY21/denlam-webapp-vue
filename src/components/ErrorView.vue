@@ -1,10 +1,15 @@
 <template>
   <div class="notFoundContainer">
-    <div class="m-b-xxl">
-      <h1 class="title">{{ title }}</h1>
-      <router-link :to="{name: navigateToPage}" class="button is-primary">{{ navigateToText }}</router-link>
+    <div class="MainSection-Row MainSection-Row_bgGrey MainSection-Row_title">
+      <h1 class="Heading_lvl1">{{ title }}</h1>
+      <h2 class="Heading_lvl2">{{ status }}<span> :(</span></h2>
+      <router-link 
+        :to="{name: navigateToPage}" 
+        class="Btn Btn_size_m Btn_theme_blue"
+      >
+        {{ navigateToText }}
+      </router-link>
     </div>
-    <h2 class="subtitle">{{ status }}<span> :(</span></h2>
   </div>
 </template>
 
@@ -32,14 +37,15 @@
 </script>
 
 <style scoped>
-  .title {
+  .Heading_lvl1 {
+    margin-bottom: 20px;
+    font-size: 30px;
+  }
+  .Heading_lvl2 {
     font-size: 40px;
   }
-  .subtitle {
-    font-size: 140px;
+  .Btn {
+    margin-top: 20px;
     text-align: center;
-  }
-  .notFoundContainer {
-    margin-top: 80px;
   }
 </style>

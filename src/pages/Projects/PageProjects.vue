@@ -7,7 +7,7 @@
           </h1>
           <router-link 
             class="Btn Btn_theme_green Btn_type_add"
-            :to="'/projects/add'"
+            :to="{name: 'PageProjectsAdd'}"
           >
               Добавить проект
           </router-link>
@@ -87,7 +87,7 @@
               <article class="ProjectCard Project-ProjectCard">
                   <router-link
                     class="ProjectCard-Link"
-                    :to="'/project/1/about'"
+                    :to="{name: 'PageProjectAbout', params: {projectId: '1'}}"
                   >
                       <p class="ProjectCard-Title" title="Транснефть-Сибирь Транснефть-Сибирь">Транснефть-Сибирь Транснефть-Сибирь</p>
                       <p class="ProjectCard-Cost">1 000 000 руб.</p>

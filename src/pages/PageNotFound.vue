@@ -1,10 +1,10 @@
 <template>
   <div class="container">
     <ErrorView 
-      :title="'Ooooops, page you are trying to access doesn\'t exist'"
+      :title="'Такой страницы не существует'"
       :status="'404'"
       :navigateToPage="'PageProjects'"
-      :navigateToText="'Navigate back Home'"
+      :navigateToText="'Вернуться'"
     />
   </div>
 </template>

@@ -294,7 +294,6 @@
 </template>
 
 <script>
-import OkoFile from '@/components/Controls/OkoFile.vue'
 
 export default {
     props: {
@@ -306,9 +305,6 @@ export default {
             required: true,
             type: Function
         }
-    },
-    components: {
-        OkoFile
     },
     data() {
         return {

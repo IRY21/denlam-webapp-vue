@@ -11,3 +11,8 @@ export const rejectError = ({ response = null}) => {
 
   return Promise.reject(message)
 }
+
+export const Role = {
+  Admin: 'admin',
+  Worker: 'worker',
+}

@@ -1,10 +1,10 @@
 <template>
   <div class="container">
     <ErrorView 
-      :title="'Ooooops, you are not authenticated, please authorize'"
+      :title="'У Вас нет прав доступа на данную страницу'"
       :status="'401'"
       :navigateToPage="'PageLogin'"
-      :navigateToText="'Navigate to Login Page'"
+      :navigateToText="'Перйти на страницу входа'"
     />
   </div>
 </template>

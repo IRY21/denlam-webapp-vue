@@ -104,11 +104,11 @@
                 </div>
             </div>
             <div class="Form-Row">
-                <label class="File File_theme_link File_size_default">
-                    <p class="Label">Файл договора</p>
-                    <input name="photo" id="photo" type="file" class="File-Control">
-                    <div class="File-Link">Выберите файл</div>
-                </label>
+                <oko-file 
+                    :size="'default'"
+                    :label="'Файл договора'"
+                    :btnText="'Выберите файл'"
+                />
             </div>
             <div class="Form-Row">
                 <p class="Label">Примечание</p>
@@ -123,6 +123,11 @@
                 <div class="Form-Column">
                     <div class="Input Input_type_search">
                         <p class="Label">Наименование организации или ФИО</p>
+                        <oko-autocomplete
+                            :search="search"
+                            placeholder="Введите наименование"
+                        >
+                        </oko-autocomplete>
                         <div class="Input-Wrap">
                             <input type="text"
                                   value=""
@@ -134,7 +139,7 @@
                                 <div class="Input-SearchResult-Item" data-counterparties-id="2">ООО "Аренда пляжа"</div>
                                 <div class="Input-SearchResult-Item" data-counterparties-id="3">ООО "Аренда пляжа"</div>
                                 <div class="Input-SearchResult-Item" data-counterparties-id="4">ООО "Аренда пляжа"</div>
-                                <div class="Input-SearchResult-Item Input-SearchResult-Item_all chooseFromList">
+                                <div class="Input-SearchResult-Item Input-SearchResult-Item_all">
                                     смотреть полный список
                                 </div>
                             </div>
@@ -143,7 +148,12 @@
                 </div>
                 <div class="Form-Column">
                     <p class="Label">&nbsp;</p>
-                    <div class="Btn Btn_theme_blue chooseFromList">смотреть полный список</div>
+                    <div 
+                        class="Btn Btn_theme_blue chooseFromList"
+                        @click="toggleCounteragentFullListPopup"
+                    >
+                        смотреть полный список
+                    </div>
                 </div>
             </div>
             <div class="Form-Row">
@@ -393,9 +403,15 @@
         </div>
     </form>
     
-    <div class="chooseFromListPopup-Overlay" style="display: none;">
+    <div 
+        class="chooseFromListPopup-Overlay"
+        v-if="counteragentFullListPopupShow"
+    >
         <div class="chooseFromListPopup">
-            <div class="chooseFromListPopup-Close">
+            <div 
+                class="chooseFromListPopup-Close"
+                @click="toggleCounteragentFullListPopup"
+            >
                 <svg class="Icon">
                     <use
                             xlink:href="/img/sprite.svg#cancel"
@@ -457,7 +473,31 @@
 
 <script>
 export default {
-
+    data() {
+        return {
+            counteragentFullListPopupShow: false,
+            counteragents: [
+                'I',
+                'R',
+                'a'
+            ]
+        }
+    },
+    computed: {
+        
+    },
+    methods: {
+        toggleCounteragentFullListPopup() {
+            this.counteragentFullListPopupShow = !this.counteragentFullListPopupShow;
+        },
+        search(input) {
+            if (input.length < 1) { return [] }
+            return this.counteragents.filter(counteragent => {
+                return counteragent.toLowerCase()
+                    .startsWith(input.toLowerCase())
+            })
+        }
+    }
 }
 </script>
 

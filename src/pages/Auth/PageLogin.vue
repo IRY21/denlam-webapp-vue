@@ -17,9 +17,10 @@
                 </label>
                 <oko-error
                     class="Login-Error"
-                    :text="'Поле логин обязательно'"
                     v-show="$v.form.user_password.$error"
-                />
+                >
+                    Поле логин обязательно
+                </oko-error>
             </div>
             <div class="Form-Row">
                 <label class="Input">
@@ -34,9 +35,10 @@
                 </label>
                 <oko-error
                     class="Login-Error"
-                    :text="'Поле пароль обязательно'"
                     v-show="$v.form.user_password.$error"
-                />
+                >
+                    Поле пароль обязательно
+                </oko-error>
             </div>
             <div class="Form-Row Form-Row_btnWrap">
                 <button 
@@ -51,8 +53,9 @@
             <div v-show="formServerInvalid" class="Form-Row">
                 <oko-error 
                     class="Login-Error"
-                    :text="'Неверный логин или пароль.'"
-                />
+                >
+                    Неверный логин или пароль.
+                </oko-error>
             </div>
         </form>
     </div>
@@ -60,8 +63,6 @@
 
 <script>
 import { required } from "vuelidate/lib/validators";
-
-import OkoError from '@/components/Controls/OkoError.vue'
 
 export default {
     data() {
@@ -73,9 +74,6 @@ export default {
             formServerInvalid: false,
             error: ''
         }
-    },
-    components: {
-        OkoError
     },
     validations: {
         form: {

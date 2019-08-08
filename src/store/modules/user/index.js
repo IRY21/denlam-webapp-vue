@@ -26,10 +26,15 @@ const actions = {
       return Promise.resolve(authUser);
     }
     if (!authUser) {
-      const authUser = {id: "1", login: "denlam", role: "ADMIN"}
+      const authUser = {
+        id: "1",
+        login: "denlam",
+        role_id: "1",
+        role_name: "admin"
+      }
       commit(SET_AUTH_USER, authUser)
       dispatch('shared/clearLoading', null, { root: true });
-      return Promise.reject(authUser);
+      return Promise.resolve(authUser);
     }
 
     /* const config = {

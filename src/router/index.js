@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import store from '@/store'
+import { Role } from '@/_helpers'
 
 import PageLogin from '@/pages/Auth/PageLogin'
 
@@ -68,7 +69,7 @@ const router = new Router({
       meta: {
         layout: 'default-layout',
         permissions: {
-          role: ['ADMIN']
+          role: [Role.Admin]
         }
       }
     },
@@ -79,7 +80,7 @@ const router = new Router({
       meta: {
         layout: 'default-layout',
         permissions: {
-          role: ['ADMIN']
+          role: [Role.Admin]
         }
       }
     },
@@ -90,7 +91,7 @@ const router = new Router({
       meta: {
         layout: 'default-layout',
         permissions: {
-          role: ['ADMIN']
+          role: [Role.Admin]
         }
       },
       children: [
@@ -101,7 +102,7 @@ const router = new Router({
           meta: {
             layout: 'default-layout',
             permissions: {
-              role: ['ADMIN']
+              role: [Role.Admin]
             }
           }
         },
@@ -112,7 +113,7 @@ const router = new Router({
           meta: {
             layout: 'default-layout',
             permissions: {
-              role: ['ADMIN']
+              role: [Role.Admin]
             }
           }
         },
@@ -123,7 +124,7 @@ const router = new Router({
           meta: {
             layout: 'default-layout',
             permissions: {
-              role: ['ADMIN']
+              role: [Role.Admin]
             }
           }
         },
@@ -134,7 +135,7 @@ const router = new Router({
           meta: {
             layout: 'default-layout',
             permissions: {
-              role: ['ADMIN']
+              role: [Role.Admin]
             }
           }
         }
@@ -147,7 +148,7 @@ const router = new Router({
       meta: {
         layout: 'default-layout',
         permissions: {
-          role: ['ADMIN']
+          role: [Role.Admin]
         }
       }
     },
@@ -158,7 +159,7 @@ const router = new Router({
       meta: {
         layout: 'default-layout',
         permissions: {
-          role: ['ADMIN']
+          role: [Role.Admin]
         }
       }
     },
@@ -169,7 +170,7 @@ const router = new Router({
       meta: {
         layout: 'default-layout',
         permissions: {
-          role: ['ADMIN']
+          role: [Role.Admin]
         }
       }
     },
@@ -180,7 +181,7 @@ const router = new Router({
       meta: {
         layout: 'default-layout',
         permissions: {
-          role: ['ADMIN']
+          role: [Role.Admin]
         }
       },
       children: [
@@ -191,7 +192,7 @@ const router = new Router({
           meta: {
             layout: 'default-layout',
             permissions: {
-              role: ['ADMIN']
+              role: [Role.Admin]
             }
           }
         },
@@ -202,7 +203,7 @@ const router = new Router({
           meta: {
             layout: 'default-layout',
             permissions: {
-              role: ['ADMIN']
+              role: [Role.Admin]
             }
           }
         }
@@ -215,7 +216,7 @@ const router = new Router({
       meta: {
         layout: 'default-layout',
         permissions: {
-          role: ['ADMIN']
+          role: [Role.Admin]
         }
       }
     },
@@ -226,7 +227,7 @@ const router = new Router({
       meta: {
         layout: 'default-layout',
         permissions: {
-          role: ['ADMIN']
+          role: [Role.Admin]
         }
       }
     },
@@ -237,7 +238,7 @@ const router = new Router({
       meta: {
         layout: 'default-layout',
         permissions: {
-          role: ['ADMIN']
+          role: [Role.Admin]
         }
       }
     },
@@ -248,7 +249,7 @@ const router = new Router({
       meta: {
         layout: 'default-layout',
         permissions: {
-          role: ['ADMIN']
+          role: [Role.Admin]
         }
       }
     },
@@ -259,7 +260,7 @@ const router = new Router({
       meta: {
         layout: 'default-layout',
         permissions: {
-          role: ['ADMIN']
+          role: [Role.Admin]
         }
       },
       children: [
@@ -270,7 +271,7 @@ const router = new Router({
           meta: {
             layout: 'default-layout',
             permissions: {
-              role: ['ADMIN']
+              role: [Role.Admin]
             }
           }
         },
@@ -281,7 +282,7 @@ const router = new Router({
           meta: {
             layout: 'default-layout',
             permissions: {
-              role: ['ADMIN']
+              role: [Role.Admin]
             }
           }
         },
@@ -292,7 +293,7 @@ const router = new Router({
           meta: {
             layout: 'default-layout',
             permissions: {
-              role: ['ADMIN']
+              role: [Role.Admin]
             }
           }
         },
@@ -305,7 +306,7 @@ const router = new Router({
       meta: {
         layout: 'default-layout',
         permissions: {
-          role: ['ADMIN']
+          role: [Role.Admin]
         }
       }
     },
@@ -316,7 +317,7 @@ const router = new Router({
       meta: {
         layout: 'default-layout',
         permissions: {
-          role: ['ADMIN']
+          role: [Role.Admin]
         }
       }
     },
@@ -327,7 +328,7 @@ const router = new Router({
       meta: {
         layout: 'default-layout',
         permissions: {
-          role: ['ADMIN']
+          role: [Role.Admin]
         }
       }
     },
@@ -338,7 +339,7 @@ const router = new Router({
       meta: {
         layout: 'default-layout',
         permissions: {
-          role: ['ADMIN']
+          role: [Role.Admin]
         }
       }
     },
@@ -349,7 +350,7 @@ const router = new Router({
       meta: {
         layout: 'default-layout',
         permissions: {
-          role: ['ADMIN']
+          role: [Role.Admin]
         }
       }
     },
@@ -360,7 +361,7 @@ const router = new Router({
       meta: {
         layout: 'default-layout',
         permissions: {
-          role: ['ADMIN']
+          role: [Role.Admin]
         }
       }
     },
@@ -371,7 +372,7 @@ const router = new Router({
       meta: {
         layout: 'default-layout',
         permissions: {
-          role: ['ADMIN']
+          role: [Role.Admin]
         }
       }
     },
@@ -399,7 +400,7 @@ router.beforeEach((to, from, next) => {
   // redirect to login page if not logged in and trying to access a restricted page
   const { permissions } = to.meta;
 
-  /* if (permissions) {
+  if (permissions) {
     store.dispatch('user/getAuthUser')
       .then(() => {
         const pageRole = permissions.role;
@@ -410,7 +411,7 @@ router.beforeEach((to, from, next) => {
           }
     
           // check if route is restricted by role
-          if (pageRole.length && !pageRole.includes(currentUser.role)) {
+          if (pageRole.length && !pageRole.includes(currentUser.role_name)) {
               // role not authorised so redirect to home page
               return next({ name: 'PageNotAuthenticated' });
           }
@@ -418,7 +419,7 @@ router.beforeEach((to, from, next) => {
       .catch(() => {
         return next({ name: 'PageLogin' });
       })
-  } */
+  }
 
   next();
 })
