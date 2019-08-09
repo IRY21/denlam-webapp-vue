@@ -7,12 +7,6 @@
 <script>
 export default {
   name: 'oko-error',
-  props: {
-    text: {
-      required: true,
-      type: String
-    }
-  },
   computed: {
     
   },
@@ -23,5 +17,7 @@ export default {
 </script>
 
 <style scoped>
-
+.Error {
+  visibility: visible;
+}
 </style>

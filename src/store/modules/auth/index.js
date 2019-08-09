@@ -19,9 +19,10 @@ const mutations = {
 const actions = {
   login ({ dispatch, commit }, formData) {
     dispatch('shared/setLoading', null, { root: true });
-    return axios.post(`${config.apiUrl}`, formData).then(() => {
+    return axios.post(`${config.apiUrl}/auth`, formData).then((res) => {
       dispatch('shared/clearLoading', null, { root: true });
       commit(AUTH_LOGIN);
+      console.log(res)
     })
     .catch(err => {
       const errMessage = rejectError(err);

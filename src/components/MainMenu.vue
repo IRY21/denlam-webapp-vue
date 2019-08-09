@@ -122,8 +122,8 @@
     </router-link>
     <router-link 
       class="MainMenu-Item MainMenu-Item_Icon MainMenu-Item_IconSetting"
-      :class="{'active': currentRoute === 'PageSettings'}"
-      :to="{name: 'PageSettings'}" 
+      :class="{'active': currentRoute === 'PageSettingsUsers'}"
+      :to="{name: 'PageSettingsUsers'}" 
     >
         <svg class="Icon">
             <use

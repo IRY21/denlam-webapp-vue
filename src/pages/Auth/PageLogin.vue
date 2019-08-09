@@ -11,13 +11,13 @@
                         class="Input-Control" 
                         placeholder="Логин"
                         value=""
-                        v-model="form.user_login"
-                        @blur="$v.form.user_login.$touch()"
+                        v-model="form.login"
+                        @blur="$v.form.login.$touch()"
                     >
                 </label>
                 <oko-error
                     class="Login-Error"
-                    v-show="$v.form.user_password.$error"
+                    v-show="$v.form.login.$error"
                 >
                     Поле логин обязательно
                 </oko-error>
@@ -29,13 +29,13 @@
                         class="Input-Control" 
                         placeholder="Пароль"
                         value=""
-                        v-model="form.user_password"
-                        @blur="$v.form.user_password.$touch()"
+                        v-model="form.password"
+                        @blur="$v.form.password.$touch()"
                     >
                 </label>
                 <oko-error
                     class="Login-Error"
-                    v-show="$v.form.user_password.$error"
+                    v-show="$v.form.password.$error"
                 >
                     Поле пароль обязательно
                 </oko-error>
@@ -68,8 +68,8 @@ export default {
     data() {
         return {
             form: {
-                user_login: null,
-                user_password: null
+                login: null,
+                password: null
             },
             formServerInvalid: false,
             error: ''
@@ -77,10 +77,10 @@ export default {
     },
     validations: {
         form: {
-            user_login: {
+            login: {
                 required
             },
-            user_password: {
+            password: {
                 required
             }
       }

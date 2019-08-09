@@ -46,6 +46,8 @@ import PageWorker from '@/pages/Worker/PageWorker'
 import PageWorkerSalary from '@/pages/Worker/PageWorkerSalary'
 
 import PageSettings from '@/pages/Settings/PageSettings'
+import PageSettingsUsers from '@/pages/Settings/PageSettingsUsers'
+import PageSettingsServices from '@/pages/Settings/PageSettingsServices'
 
 import PageNotAuthenticated from '@/pages/PageNotAuthenticated'
 import PageNotFound from '@/pages/PageNotFound'
@@ -374,7 +376,31 @@ const router = new Router({
         permissions: {
           role: [Role.Admin]
         }
-      }
+      },
+      children: [
+        {
+          path: 'users',
+          name: 'PageSettingsUsers',
+          component: PageSettingsUsers,
+          meta: {
+            layout: 'default-layout',
+            permissions: {
+              role: [Role.Admin]
+            }
+          }
+        },
+        {
+          path: 'services',
+          name: 'PageSettingsServices',
+          component: PageSettingsServices,
+          meta: {
+            layout: 'default-layout',
+            permissions: {
+              role: [Role.Admin]
+            }
+          }
+        },
+      ]
     },
     {
       path: '/401',

@@ -45,6 +45,9 @@ const actions = {
 
     return axios.get('http://api2.denlam.ru', config) */
   },
+  // addUser({ commit }) {
+
+  // },
   userLogout ({ commit }) {
     commit(USER_LOGOUT)
   }
