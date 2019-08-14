@@ -7,6 +7,7 @@ import vuelidate from 'vuelidate'
 import storeModerator from '@/_helpers/store-moderator'
 
 import commonComponents from '@/components/UI';
+import AppSpinner from './components/AppSpinner'
 
 import Autocomplete from '@trevoreyre/autocomplete-vue'
 import '@trevoreyre/autocomplete-vue/dist/style.css'
@@ -17,6 +18,7 @@ import AuthLayout from '@/layouts/AuthLayout.vue'
 Vue.config.productionTip = false
 Vue.component('default-layout', DefaultLayout)
 Vue.component('auth-layout', AuthLayout)
+Vue.component('AppSpinner', AppSpinner)
 
 commonComponents.forEach(component => {
   Vue.component(component.name, component);

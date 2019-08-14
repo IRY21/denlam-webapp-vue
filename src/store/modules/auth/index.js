@@ -1,7 +1,8 @@
 import axios from 'axios';
-import { config, rejectError } from '@/_helpers'
+//import axiosInstance from '@/_services/axios';
+import { config, rejectError } from '@/_helpers';
 
-import { AUTH_LOGIN, AUTH_LOGOUT } from '@/store/mutation-types/auth'
+import { AUTH_LOGIN, AUTH_LOGOUT } from '@/store/mutation-types/auth';
 
 const state = {
   authenticated: false
@@ -19,20 +20,22 @@ const mutations = {
 const actions = {
   login ({ dispatch, commit }, formData) {
     dispatch('shared/setLoading', null, { root: true });
-    return axios.post(`${config.apiUrl}/auth`, formData).then((res) => {
-      dispatch('shared/clearLoading', null, { root: true });
-      commit(AUTH_LOGIN);
-      console.log(res)
-    })
-    .catch(err => {
-      const errMessage = rejectError(err);
-      dispatch('shared/clearLoading', null, { root: true });
-      dispatch('shared/setError', errMessage, { root: true });
-      return errMessage;
-    })
+    return axios.post(`${config.apiUrl}/auth`, formData)
+      .then((res) => {
+        const data = res.data;
+        dispatch('shared/clearLoading', null, { root: true });
+        localStorage.setItem("oko-jwt", data.access_token);
+        commit(AUTH_LOGIN);
+      })
+      .catch(err => {
+        const errMessage = rejectError(err);
+        dispatch('shared/clearLoading', null, { root: true });
+        return errMessage;
+      })
   },
   logout ({ commit }) {
     return new Promise((resolve) => {
+      localStorage.removeItem("oko-jwt");
       commit(AUTH_LOGOUT);
       resolve();
     });

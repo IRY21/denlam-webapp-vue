@@ -1,10 +1,5 @@
 <template>
   <div>
-    <div class="MainSection-Row MainSection-Row_title-lvl2">
-        <h1 class="Heading_lvl2">
-            Продукты
-        </h1>
-    </div>
     <div class="MainSection-Row MainSection-Row_noTopPadding MainSection-Row_noBottomPadding">
         <div class="ProductWrap">
             <div class="Form-Row Flex">

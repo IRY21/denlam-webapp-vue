@@ -1,5 +1,6 @@
-// import axios from 'axios'
-//import { config, rejectError } from '@/_helpers'
+//import axios from 'axios'
+import { config, rejectError } from '@/_helpers'
+import axiosInstance from '@/_services/axios';
 
 import { SET_AUTH_USER, USER_LOGOUT } from '@/store/mutation-types/user'
 
@@ -8,11 +9,11 @@ const state = {
 }
 
 const mutations = {
-  [SET_AUTH_USER] (state, payload) {
-    state.profile = payload;
+  [SET_AUTH_USER] (state, user) {
+    state.profile = user;
   },
   [USER_LOGOUT] (state) {
-    state.profile = null
+    state.profile = null;
   }
 }
 
@@ -20,36 +21,31 @@ const actions = {
   getAuthUser({ commit, getters, dispatch }) {
     dispatch('shared/setLoading', null, { root: true });
     const authUser = getters['getProfile'];
+    const token = localStorage.getItem('oko-jwt');
 
-    if (authUser) { 
-      dispatch('shared/clearLoading', null, { root: true });
-      return Promise.resolve(authUser);
-    }
-    if (!authUser) {
-      const authUser = {
-        id: "1",
-        login: "denlam",
-        role_id: "1",
-        role_name: "admin"
-      }
-      commit(SET_AUTH_USER, authUser)
+    if (authUser && token) { 
       dispatch('shared/clearLoading', null, { root: true });
       return Promise.resolve(authUser);
     }
 
-    /* const config = {
-      headers: {
-        'Cache-Control': 'no-cache'
-      }
-    }
-
-    return axios.get('http://api2.denlam.ru', config) */
+    return axiosInstance.get(`${config.apiUrl}/user/me`)
+      .then((res) => {
+        const user = res.data;
+        dispatch('shared/clearLoading', null, { root: true });
+        commit(SET_AUTH_USER, user);
+        return user;
+      })
+      .catch((err) => {
+        dispatch('shared/clearLoading', null, { root: true });
+        commit(USER_LOGOUT);
+        return rejectError(err);
+      })
   },
   // addUser({ commit }) {
 
   // },
   userLogout ({ commit }) {
-    commit(USER_LOGOUT)
+    commit(USER_LOGOUT);
   }
 }
 

@@ -19,7 +19,7 @@
               :class="{'active': currentRoute === 'PageSettingsServices'}"
               :to="{name: 'PageSettingsServices'}"
             >
-                Наши услуги
+                Услуги
             </router-link>
         </div>
     </div>

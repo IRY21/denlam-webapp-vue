@@ -10,7 +10,7 @@ axiosInstance.interceptors.request.use(function(config) {
   if(token) {
     config.headers.Authorization = `${token}`
   }
-
+  
   return config
 }, function(err) {
   return Promise.reject(err)

@@ -13,6 +13,8 @@ export const rejectError = ({ response = null}) => {
 }
 
 export const Role = {
-  Admin: 'admin',
+  Admin: 'Администратор',
   Worker: 'worker',
 }
+
+export const programName = 'OKO';

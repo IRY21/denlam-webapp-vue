@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import store from '@/store'
-import { Role } from '@/_helpers'
+import { Role, programName } from '@/_helpers'
 
 import PageLogin from '@/pages/Auth/PageLogin'
 
@@ -61,7 +61,8 @@ const router = new Router({
       name: 'PageLogin',
       component: PageLogin,
       meta: {
-        layout: 'auth-layout'
+        layout: 'auth-layout',
+        title: `${programName} || Страница авторизации`
       }
     },
     {
@@ -72,7 +73,8 @@ const router = new Router({
         layout: 'default-layout',
         permissions: {
           role: [Role.Admin]
-        }
+        },
+        title: `${programName} || Проекты`
       }
     },
     {
@@ -83,7 +85,8 @@ const router = new Router({
         layout: 'default-layout',
         permissions: {
           role: [Role.Admin]
-        }
+        },
+        title: `${programName} || Проекты || Добавить`
       }
     },
     {
@@ -94,7 +97,8 @@ const router = new Router({
         layout: 'default-layout',
         permissions: {
           role: [Role.Admin]
-        }
+        },
+        title: `${programName} || Проект`
       },
       children: [
         {
@@ -105,7 +109,8 @@ const router = new Router({
             layout: 'default-layout',
             permissions: {
               role: [Role.Admin]
-            }
+            },
+            title: `${programName} || Проект || О проекте`
           }
         },
         {
@@ -116,7 +121,8 @@ const router = new Router({
             layout: 'default-layout',
             permissions: {
               role: [Role.Admin]
-            }
+            },
+            title: `${programName} || Проект || Документы`
           }
         },
         {
@@ -127,7 +133,8 @@ const router = new Router({
             layout: 'default-layout',
             permissions: {
               role: [Role.Admin]
-            }
+            },
+            title: `${programName} || Проект || Оплаты`
           }
         },
         {
@@ -138,7 +145,8 @@ const router = new Router({
             layout: 'default-layout',
             permissions: {
               role: [Role.Admin]
-            }
+            },
+            title: `${programName} || Проект || Исполнители`
           }
         }
       ]
@@ -151,7 +159,8 @@ const router = new Router({
         layout: 'default-layout',
         permissions: {
           role: [Role.Admin]
-        }
+        },
+        title: `${programName} || Поиск`
       }
     },
     {
@@ -162,7 +171,8 @@ const router = new Router({
         layout: 'default-layout',
         permissions: {
           role: [Role.Admin]
-        }
+        },
+        title: `${programName} || Планы`
       }
     },
     {
@@ -173,7 +183,8 @@ const router = new Router({
         layout: 'default-layout',
         permissions: {
           role: [Role.Admin]
-        }
+        },
+        title: `${programName} || Задачи`
       }
     },
     {
@@ -184,7 +195,8 @@ const router = new Router({
         layout: 'default-layout',
         permissions: {
           role: [Role.Admin]
-        }
+        },
+        title: `${programName} || Акты`
       },
       children: [
         {
@@ -195,7 +207,8 @@ const router = new Router({
             layout: 'default-layout',
             permissions: {
               role: [Role.Admin]
-            }
+            },
+            title: `${programName} || Акты || На подписании`
           }
         },
         {
@@ -206,7 +219,8 @@ const router = new Router({
             layout: 'default-layout',
             permissions: {
               role: [Role.Admin]
-            }
+            },
+            title: `${programName} || Акты || Подписанные акты`
           }
         }
       ]
@@ -219,7 +233,8 @@ const router = new Router({
         layout: 'default-layout',
         permissions: {
           role: [Role.Admin]
-        }
+        },
+        title: `${programName} || Оплаты`
       }
     },
     {
@@ -230,7 +245,8 @@ const router = new Router({
         layout: 'default-layout',
         permissions: {
           role: [Role.Admin]
-        }
+        },
+        title: `${programName} || Должники`
       }
     },
     {
@@ -241,7 +257,8 @@ const router = new Router({
         layout: 'default-layout',
         permissions: {
           role: [Role.Admin]
-        }
+        },
+        title: `${programName} || Контрагенты`
       }
     },
     {
@@ -252,7 +269,8 @@ const router = new Router({
         layout: 'default-layout',
         permissions: {
           role: [Role.Admin]
-        }
+        },
+        title: `${programName} || Контрагенты || Добавить`
       }
     },
     {
@@ -263,7 +281,8 @@ const router = new Router({
         layout: 'default-layout',
         permissions: {
           role: [Role.Admin]
-        }
+        },
+        title: `${programName} || Контрагент || `
       },
       children: [
         {
@@ -274,7 +293,8 @@ const router = new Router({
             layout: 'default-layout',
             permissions: {
               role: [Role.Admin]
-            }
+            },
+            title: `${programName} || Контрагент || Данные о контрагенте`
           }
         },
         {
@@ -285,7 +305,8 @@ const router = new Router({
             layout: 'default-layout',
             permissions: {
               role: [Role.Admin]
-            }
+            },
+            title: `${programName} || Контрагент || Связанные акты`
           }
         },
         {
@@ -296,7 +317,8 @@ const router = new Router({
             layout: 'default-layout',
             permissions: {
               role: [Role.Admin]
-            }
+            },
+            title: `${programName} || Контрагент || Поступившие оплаты`
           }
         },
       ]
@@ -309,7 +331,8 @@ const router = new Router({
         layout: 'default-layout',
         permissions: {
           role: [Role.Admin]
-        }
+        },
+        title: `${programName} || Контрагент || Редактировать`
       }
     },
     {
@@ -320,7 +343,8 @@ const router = new Router({
         layout: 'default-layout',
         permissions: {
           role: [Role.Admin]
-        }
+        },
+        title: `${programName} || Зарплаты`
       }
     },
     {
@@ -331,7 +355,8 @@ const router = new Router({
         layout: 'default-layout',
         permissions: {
           role: [Role.Admin]
-        }
+        },
+        title: `${programName} || Сотрудники`
       }
     },
     {
@@ -342,7 +367,8 @@ const router = new Router({
         layout: 'default-layout',
         permissions: {
           role: [Role.Admin]
-        }
+        },
+        title: `${programName} || Сотрудники || Добавить`
       }
     },
     {
@@ -353,7 +379,8 @@ const router = new Router({
         layout: 'default-layout',
         permissions: {
           role: [Role.Admin]
-        }
+        },
+        title: `${programName} || Сотрудник`
       }
     },
     {
@@ -364,7 +391,8 @@ const router = new Router({
         layout: 'default-layout',
         permissions: {
           role: [Role.Admin]
-        }
+        },
+        title: `${programName} || Сотрудник || Расчет`
       }
     },
     { 
@@ -375,7 +403,8 @@ const router = new Router({
         layout: 'default-layout',
         permissions: {
           role: [Role.Admin]
-        }
+        },
+        title: `${programName} || Настройки`
       },
       children: [
         {
@@ -386,7 +415,8 @@ const router = new Router({
             layout: 'default-layout',
             permissions: {
               role: [Role.Admin]
-            }
+            },
+            title: `${programName} || Настройки || Пользователи`
           }
         },
         {
@@ -397,7 +427,8 @@ const router = new Router({
             layout: 'default-layout',
             permissions: {
               role: [Role.Admin]
-            }
+            },
+            title: `${programName} || Настройки || Услуги`
           }
         },
       ]
@@ -408,12 +439,16 @@ const router = new Router({
       component: PageNotAuthenticated,
       meta: {
         layout: 'default-layout',
+        title: `${programName} || Ошибка авторизации`
       }
     },
     {
       path: '*',
       name: 'PageNotFound',
-      component: PageNotFound
+      component: PageNotFound,
+      meta: {
+        title: `${programName} || Страницы не существует`
+      }
     }
   ],
   mode: 'history'
@@ -423,6 +458,7 @@ export default router;
 
 
 router.beforeEach((to, from, next) => {
+  
   // redirect to login page if not logged in and trying to access a restricted page
   const { permissions } = to.meta;
 
@@ -447,5 +483,12 @@ router.beforeEach((to, from, next) => {
       })
   }
 
+  
   next();
+})
+
+router.afterEach((to) => {
+  if (to.meta.title) {
+    document.title = to.meta.title;
+  }
 })

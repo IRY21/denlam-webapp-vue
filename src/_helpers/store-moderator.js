@@ -4,9 +4,10 @@ import { SET_AUTH_USER } from '@/store/mutation-types/user'
 export default function configureModerator (store, router) {
   // listen to mutations
   //store.subscribe(({ type, payload }, state) => {
-  store.subscribe(({ type }) => {
+  store.subscribe(({ type, payload }) => {
     switch (type) {
       case `user/${SET_AUTH_USER}`: {
+        if(payload === null) return store.commit(`auth/${AUTH_LOGOUT}`)
         return store.commit(`auth/${AUTH_LOGIN}`)
       }
     }
