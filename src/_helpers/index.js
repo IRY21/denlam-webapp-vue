@@ -14,7 +14,9 @@ export const rejectError = ({ response = null}) => {
 
 export const Role = {
   Admin: 'Администратор',
-  Worker: 'worker',
+  Manager: 'Менеджер',
+  Buhgalter: 'Бухгалтер',
+  Worker: 'Сотрудник' 
 }
 
 export const programName = 'OKO';

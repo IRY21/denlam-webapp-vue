@@ -1,12 +1,17 @@
 <template>
-  <main class="Home PageLogin Flex Flex_align_center Flex_justify_center">
-    <slot /> 
-  </main>
+    <main
+      class="Home PageLogin Flex Flex_align_center Flex_justify_center">
+      <slot /> 
+    </main>
 </template>
 
 <script>
-export default {
+import { mapGetters } from 'vuex';
 
+export default {
+  computed: {
+    ...mapGetters('shared', ['loading']),
+  },
 }
 </script>
 

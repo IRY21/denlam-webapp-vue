@@ -20,7 +20,11 @@ const mutations = {
 const actions = {
   login ({ dispatch, commit }, formData) {
     dispatch('shared/setLoading', null, { root: true });
-    return axios.post(`${config.apiUrl}/auth`, formData)
+    let authData = { 
+      ...formData,
+      userDate: new Date()
+    }
+    return axios.post(`${config.apiUrl}/auth`, authData)
       .then((res) => {
         const data = res.data;
         dispatch('shared/clearLoading', null, { root: true });

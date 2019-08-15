@@ -89,9 +89,7 @@ export default {
         isFormInvalid() {
             return this.$v.form.$invalid
         },
-        loading() {
-            return this.$store.getters['shared/loading']
-        }
+        loading() { return this.$store.getters['shared/loading'] }
     },
     methods: {
         login() {

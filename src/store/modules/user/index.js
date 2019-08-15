@@ -2,7 +2,7 @@
 import { config, rejectError } from '@/_helpers'
 import axiosInstance from '@/_services/axios';
 
-import { SET_AUTH_USER, USER_LOGOUT } from '@/store/mutation-types/user'
+import { SET_AUTH_USER, AUTH_USER_LOGOUT } from '@/store/mutation-types/user'
 
 const state = {
   profile: null
@@ -12,7 +12,7 @@ const mutations = {
   [SET_AUTH_USER] (state, user) {
     state.profile = user;
   },
-  [USER_LOGOUT] (state) {
+  [AUTH_USER_LOGOUT] (state) {
     state.profile = null;
   }
 }
@@ -28,7 +28,7 @@ const actions = {
       return Promise.resolve(authUser);
     }
 
-    return axiosInstance.get(`${config.apiUrl}/user/me`)
+    return axiosInstance.get(`${config.apiUrl}/user/show`)
       .then((res) => {
         const user = res.data;
         dispatch('shared/clearLoading', null, { root: true });
@@ -37,15 +37,15 @@ const actions = {
       })
       .catch((err) => {
         dispatch('shared/clearLoading', null, { root: true });
-        commit(USER_LOGOUT);
+        commit(AUTH_USER_LOGOUT);
         return rejectError(err);
       })
   },
-  // addUser({ commit }) {
-
-  // },
   userLogout ({ commit }) {
-    commit(USER_LOGOUT);
+    return new Promise((resolve) => {
+      commit(AUTH_USER_LOGOUT);
+      resolve();
+    });
   }
 }
 

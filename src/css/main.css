@@ -533,10 +533,7 @@ a {
   -webkit-box-pack: center;
   -webkit-justify-content: center;
       -ms-flex-pack: center;
-          justify-content: center;
-  -webkit-transition: all ease-in-out 0.25s;
-  -o-transition: all ease-in-out 0.25s;
-  transition: all ease-in-out 0.25s; }
+          justify-content: center;}
 
 .Btn_theme_lightBlue {
   background-color: #c4e0f5;
@@ -562,17 +559,15 @@ a {
 
 .Btn_theme_wait {
   background: #c7c7c7 !important;
+  font-size: 0;
+  line-height: 0;
   position: relative;
   cursor: no-drop; }
   .Btn_theme_wait:after {
     content: 'Ждите...';
     font-size: 14px;
     line-height: 14px;
-    color: #808080;
-    position: absolute;
-    left: calc(100% + 13px);
-    top: calc(50% - 7px);
-    cursor: default; }
+    color: #000;}
 
 .Btn_theme_saved {
   position: relative; }

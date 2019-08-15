@@ -1,5 +1,7 @@
 <template>
-  <main class="Home">
+  <main 
+    class="Home"
+  >
     <Header />
     <div class="ContentSection Flex Container">
         <aside class="ContentSection-MainMenu">
@@ -22,7 +24,6 @@ export default {
     Header,
     MainMenu
   },
-
 }
 </script>
 
