@@ -140,7 +140,7 @@
                                 }"
                             >
                                 <div v-bind="rootProps">
-                                    <autocomplete-input
+                                    <AutocompleteInput
                                         v-bind="inputProps"
                                         v-on="inputListeners"
                                         :class="[
@@ -150,7 +150,7 @@
                                             ]"
                                         @focus="handleFocus"
                                         @blur="handleBlur"
-                                    ></autocomplete-input>
+                                    ></AutocompleteInput>
                                     <ul
                                         v-if="noResults"
                                         class="autocomplete-result-list"

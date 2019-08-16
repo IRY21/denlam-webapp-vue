@@ -15,12 +15,12 @@
                         @blur="$v.form.login.$touch()"
                     >
                 </label>
-                <oko-error
+                <OkoError
                     class="Login-Error"
                     v-show="$v.form.login.$error"
                 >
                     Поле логин обязательно
-                </oko-error>
+                </OkoError>
             </div>
             <div class="Form-Row">
                 <label class="Input">
@@ -33,12 +33,12 @@
                         @blur="$v.form.password.$touch()"
                     >
                 </label>
-                <oko-error
+                <OkoError
                     class="Login-Error"
                     v-show="$v.form.password.$error"
                 >
                     Поле пароль обязательно
-                </oko-error>
+                </OkoError>
             </div>
             <div class="Form-Row Form-Row_btnWrap">
                 <button 
@@ -51,11 +51,11 @@
                 </button>
             </div>
             <div v-show="formServerInvalid" class="Form-Row">
-                <oko-error 
+                <OkoError 
                     class="Login-Error"
                 >
                     Неверный логин или пароль.
-                </oko-error>
+                </OkoError>
             </div>
         </form>
     </div>

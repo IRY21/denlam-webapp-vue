@@ -12,6 +12,8 @@ import AppSpinner from './components/AppSpinner'
 import Autocomplete from '@trevoreyre/autocomplete-vue'
 import '@trevoreyre/autocomplete-vue/dist/style.css'
 
+import VModal from 'vue-js-modal'
+
 import DefaultLayout from '@/layouts/DefaultLayout.vue'
 import AuthLayout from '@/layouts/AuthLayout.vue'
 
@@ -26,6 +28,7 @@ commonComponents.forEach(component => {
 
 Vue.use(vuelidate)
 Vue.use(Autocomplete)
+Vue.use(VModal, { dynamic: true, injectModalsContainer: true })
 
 new Vue({
   router,

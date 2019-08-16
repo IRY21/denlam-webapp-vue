@@ -6,7 +6,7 @@
 
 <script>
 export default {
-  name: 'oko-error',
+  name: 'OkoError',
   computed: {
     
   },

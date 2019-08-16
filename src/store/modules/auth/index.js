@@ -1,5 +1,5 @@
 import axios from 'axios';
-//import axiosInstance from '@/_services/axios';
+import moment from 'moment';
 import { config, rejectError } from '@/_helpers';
 
 import { AUTH_LOGIN, AUTH_LOGOUT } from '@/store/mutation-types/auth';
@@ -22,7 +22,7 @@ const actions = {
     dispatch('shared/setLoading', null, { root: true });
     let authData = { 
       ...formData,
-      userDate: new Date()
+      user_datetime: moment(new Date()).format('YYYY-MM-DD h:mm:ss')
     }
     return axios.post(`${config.apiUrl}/auth`, authData)
       .then((res) => {

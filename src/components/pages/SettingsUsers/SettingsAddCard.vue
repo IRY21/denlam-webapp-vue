@@ -13,11 +13,11 @@
                     @blur="$v.form.login.$touch()"
                 >
             </label>
-            <oko-error
+            <OkoError
                 v-show="$v.form.login.$error"
             >
                 Поле логин обязательно
-            </oko-error>
+            </OkoError>
         </div>
         <div class="Form-Row">
             <label class="Input">
@@ -29,11 +29,11 @@
                     @blur="$v.form.password.$touch()"
                 >
             </label>
-            <oko-error
+            <OkoError
                 v-show="$v.form.password.$error"
             >
                 Поле пароль обязательно
-            </oko-error>
+            </OkoError>
         </div>
         <div class="Form-Row">
             <label class="Input">
@@ -45,11 +45,11 @@
                     @blur="$v.form.name.$touch()"
                 >
             </label>
-            <oko-error
+            <OkoError
                 v-show="$v.form.name.$error"
             >
                 Поле имя пользователя обязательно
-            </oko-error>
+            </OkoError>
         </div>
         <div class="Form-Row">
             <label class="Select Select_theme_arrow">
@@ -70,18 +70,19 @@
                     </option>
                 </select>
             </label>
-            <oko-error
+            <OkoError
                 v-show="$v.form.role_id.$error"
             >
                 Поле полномочия обязательно
-            </oko-error>
+            </OkoError>
         </div>
         <div class="Form-Row">
             <label class="Select Select_theme_arrow">
                 <span class="Label">Филиал</span>
                 <select 
                   class="Select-Control"
-                  v-model="form.filials"
+                  multiple
+                  v-model="form.filials_id"
                   @blur="$v.form.filials_id.$touch()"
                 >
                   <option 
@@ -93,11 +94,11 @@
                   </option>
                 </select>
             </label>
-            <oko-error
+            <OkoError
                 v-show="$v.form.filials_id.$error"
             >
                 Поле филиал обязательно
-            </oko-error>
+            </OkoError>
         </div>
         <div class="Form-Row Form-Row_btnWrap">
             <button 
@@ -133,7 +134,7 @@
           password: null,
           name: null,
           role_id: null,
-          filials_id: null
+          filials_id: []
         }
       }
     },
@@ -151,7 +152,14 @@
     },
     methods: {
       addUser() {
-        this.$store.dispatch('users/addUser', this.form);
+        this.$store.dispatch('users/addUser', this.form)
+            .then(() => {
+                this.form.login = null;
+                this.form.password = null;
+                this.form.name = null;
+                this.form.role_id = null;
+                this.form.filials_id = [];
+            })
       }
     }
   }
@@ -160,4 +168,7 @@
 <style scoped>
   .SettingCard {
     margin-right: 0 !important; }
+  .Select-Control[multiple] {
+    height: 50px;
+  }
 </style>

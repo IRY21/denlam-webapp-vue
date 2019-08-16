@@ -51,7 +51,7 @@
                       </div>
                   </div>
                   <div class="Form-Row">
-                      <oko-file 
+                      <OkoFile 
                         v-model="newAkt.file"
                         :size="'default'"
                         :label="'Подтверждающий документ'"
@@ -161,7 +161,7 @@
                       </p>
                   </div>
                   <div class="Table-Column">
-                      <oko-file 
+                      <OkoFile 
                         v-model="aktsArr.id1.file"
                         :btnText="'Прикрепить скан'"
                       />
@@ -199,7 +199,7 @@
                       </p>
                   </div>
                   <div class="Table-Column">
-                      <oko-file 
+                      <OkoFile 
                         v-model="aktsArr.id2.file"
                         :btnText="'Прикрепить скан'"
                       />
@@ -237,7 +237,7 @@
                       </p>
                   </div>
                   <div class="Table-Column">
-                      <oko-file 
+                      <OkoFile 
                         v-model="aktsArr.id3.file"
                         :btnText="'Прикрепить скан'"
                       />
@@ -275,7 +275,7 @@
                       </p>
                   </div>
                   <div class="Table-Column">
-                      <oko-file 
+                      <OkoFile 
                         v-model="aktsArr.id4.file"
                         :btnText="'Прикрепить скан'"
                       />

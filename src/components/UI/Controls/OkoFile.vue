@@ -16,7 +16,7 @@
 
 <script>
 export default {
-  name: 'oko-file',
+  name: 'OkoFile',
   props: {
     btnText: {
       required: true,

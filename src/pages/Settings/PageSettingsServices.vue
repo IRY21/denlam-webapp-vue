@@ -34,12 +34,19 @@
             </form>
         </div>
     </div>
+    
   </div>
 </template>
 
 <script>
 export default {
-
+    data() {
+        return {
+            popup: {
+                component: null
+            }
+        }
+    }
 }
 </script>
 

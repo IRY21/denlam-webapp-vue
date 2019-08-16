@@ -42,14 +42,13 @@ const actions = {
         return rejectError(err);
       })
   },
-  updateUser({ state, commit, dispatch }, filialToUpdate) {
+  updateUser({ state, commit, dispatch }, userToUpdate) {
     dispatch('shared/setLoading', null, { root: true });
-    return axiosInstance.post(`${config.apiUrl}/user/update`, filialToUpdate)
+    return axiosInstance.post(`${config.apiUrl}/user/update`, userToUpdate)
       .then((res) => {
         const user = res.data;
         const users = state.items;
         const index = state.items.findIndex(uUser => uUser.id === user.id);
-
         users[index] = user;
         
         commit(SET_ITEMS, { resource: 'users', items: users}, {root: true});
@@ -61,9 +60,9 @@ const actions = {
         return rejectError(err);
       })
   },
-  deleteUser({ state, commit, dispatch }, filialToDelete) {
+  deleteUser({ state, commit, dispatch }, userToDelete) {
     dispatch('shared/setLoading', null, { root: true });
-    return axiosInstance.post(`${config.apiUrl}/user/delete`, filialToDelete)
+    return axiosInstance.post(`${config.apiUrl}/user/delete`, userToDelete)
       .then((res) => {
         const user = res.data;
         const users = state.items;
