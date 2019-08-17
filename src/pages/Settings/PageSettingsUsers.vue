@@ -10,6 +10,7 @@
                 v-for="user of users"
                 :key="user.id"
                 :user="user"
+                :users="users"
                 :filials="filials"
                 :roles="roles"
             />

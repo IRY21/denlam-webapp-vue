@@ -3,10 +3,10 @@ export const config = {
 }
 
 export const rejectError = ({ response = null}) => {
-  let message = 'Ooops, something went wrong'
+  let message = 'Ошибка сервера';
 
   if(response && response.data && response.data.error) {
-    message = response.data.error.message
+    message = response.data.error.message;
   }
 
   return Promise.reject(message)

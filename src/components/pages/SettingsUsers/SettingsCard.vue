@@ -74,13 +74,13 @@
                 <select 
                   class="Select-Control"
                   multiple
-                  v-model="form.filials_id"
+                  v-model="form.user_filials_ids"
                 >
                   <option 
                     v-for="filial of filials"
                     :value="filial.id"
                     :key="filial.id"
-                    :selected="currentOption(filial.id, form.filials_id)"
+                    :selected="currentOption(filial.id, form.user_filials_ids)"
                   >
                     {{filial.title}}
                   </option>
@@ -100,7 +100,7 @@
 
                 <div 
                   class="Btn Btn_theme_delete"
-                  @click.prevent="deleteUser"
+                  @click.prevent="chooseNewResponsible"
                 >
                   Удалить
                 </div>
@@ -113,8 +113,8 @@
 </template>
 
 <script>
-  import { required } from 'vuelidate/lib/validators';
-  import { OkoModalError, OkoModalSuccess } from '@/components/UI/Controls/Modal';
+  import { OkoModalSearch } from '@/components/UI/Controls/Modal'
+  import { required, minLength, maxLength } from 'vuelidate/lib/validators';
 
   export default {
     props: {
@@ -129,27 +129,43 @@
       roles: {
         required,
         type: Array
+      },
+      users: {
+        required,
+        type: Array
       }
     },
     data() {
       return {
         form: {
-          user_id: this.user.id,
+          id: this.user.id,
           login: this.user.login,
           password: this.user.password || '',
           name: this.user.name,
           role_id: this.user.role_id,
-          filials_id: this.user.filials_id ?
-                        this.user.filials_id :
-                        []
+          user_filials_ids: this.user.user_filials_ids ?
+                              this.user.user_filials_ids :
+                              []
         },
         loading: false
       }
     },
     validations: {
       form: {
-        login: { required },
-        name: { required },
+        login: {
+            required,
+            minLength: minLength(3),
+            maxLength: maxLength(100),
+        },
+        password: {
+            minLength: minLength(3),
+            maxLength: maxLength(100),
+        },
+        name: {
+            required,
+            minLength: minLength(3),
+            maxLength: maxLength(100),
+        },
         role_id: { required }
       }
     },
@@ -162,25 +178,34 @@
         this.$store.dispatch('users/updateUser', this.form)
           .then(() => {
             this.loading = false;
-            this.$modal.show(OkoModalSuccess, {
-              message: 'Данные обновлены'
-            }, {
-              width: 300,
-              height: 'auto'
-            });
+            this.responseModal_show('success', 'Пользователь успешно сохранен');
           })
           .catch((err) => {
             this.loading = false;
-            this.$modal.show(OkoModalError, {
-              message: err 
-            }, {
-              width: 300,
-              height: 'auto'
-            });
+            this.responseModal_show('error', err);            
           })
       },
-      deleteUser() {
-        this.$store.dispatch('users/deleteUser', this.form);
+      chooseNewResponsible() {
+        this.$modal.show(OkoModalSearch, {
+          searchList: this.users,
+          searchParam: ['name'],
+          tableColumns: [
+            {
+              id: 1,
+              name: 'Имя',
+              fildsNames: ['name']
+            }
+          ],
+          placeholder: 'Найти пользователя',
+          callback: this.deleteUser
+        }, {
+          width: 500,
+          height: 'auto'
+        });
+      },
+      deleteUser(id) {        
+        this.$store.dispatch('users/deleteUser', {  id: this.form.id,
+                                                    new_responsible_user_id: id});
       },
       currentOption(optionId, formOptionId) {
         if (typeof(formOptionId) === Array) {

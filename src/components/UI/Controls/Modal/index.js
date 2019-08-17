@@ -1,7 +1,9 @@
-import OkoModalError from './OkoModalError';
-import OkoModalSuccess from './OkoModalSuccess';
+import OkoModalResponse from './OkoModalResponse';
+import OkoModalSearch from './OkoModalSearch';
+import OkoMadalConfirm from './OkoMadalConfirm';
 
 export {
-  OkoModalError,
-  OkoModalSuccess,
+  OkoModalResponse,
+  OkoModalSearch,
+  OkoMadalConfirm,
 };

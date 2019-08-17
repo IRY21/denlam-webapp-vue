@@ -24,7 +24,7 @@
         </svg>
         Поиск
     </router-link>
-    <router-link 
+    <!-- <router-link 
       class="MainMenu-Item MainMenu-Item_Icon MainMenu-Item_IconPlans"
       :class="{'active': currentRoute === 'PagePlan'}"
       :to="{name: 'PagePlan'}" 
@@ -35,7 +35,7 @@
                 href="/img/sprite.svg#plans"></use>
         </svg>
         Планы
-    </router-link>
+    </router-link> -->
     <router-link 
       class="MainMenu-Item MainMenu-Item_Icon MainMenu-Item_IconTasks"
       :class="{'active': currentRoute === 'PageTasks'}"
@@ -96,7 +96,7 @@
         </svg>
         Контрагенты
     </router-link>
-    <router-link 
+    <!-- <router-link 
       class="MainMenu-Item MainMenu-Item_Icon MainMenu-Item_IconSalary"
       :class="{'active': currentRoute === 'PageSalary'}"
       :to="{name: 'PageSalary'}" 
@@ -107,7 +107,7 @@
                 href="/img/sprite.svg#salaries"></use>
         </svg>
         Зарплаты
-    </router-link>
+    </router-link> -->
     <router-link
       class="MainMenu-Item MainMenu-Item_Icon MainMenu-Item_IconEmployees"
       :class="{'active': currentRoute === 'PageWorkers'}"

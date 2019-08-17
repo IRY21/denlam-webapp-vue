@@ -10,7 +10,6 @@
                     type="text" 
                     class="Input-Control"
                     v-model="form.login"
-                    @blur="$v.form.login.$touch()"
                 >
             </label>
             <OkoError
@@ -26,7 +25,6 @@
                     type="password" 
                     class="Input-Control"
                     v-model="form.password"
-                    @blur="$v.form.password.$touch()"
                 >
             </label>
             <OkoError
@@ -42,7 +40,6 @@
                     type="text" 
                     class="Input-Control"
                     v-model="form.name"
-                    @blur="$v.form.name.$touch()"
                 >
             </label>
             <OkoError
@@ -57,7 +54,6 @@
                 <select 
                   class="Select-Control"
                   v-model="form.role_id"
-                  @blur="$v.form.role_id.$touch()"
                 >
                     <option value="1">
                         Администратор
@@ -82,8 +78,7 @@
                 <select 
                   class="Select-Control"
                   multiple
-                  v-model="form.filials_id"
-                  @blur="$v.form.filials_id.$touch()"
+                  v-model="form.user_filials_ids"
                 >
                   <option 
                     v-for="filial of filials"
@@ -94,11 +89,6 @@
                   </option>
                 </select>
             </label>
-            <OkoError
-                v-show="$v.form.filials_id.$error"
-            >
-                Поле филиал обязательно
-            </OkoError>
         </div>
         <div class="Form-Row Form-Row_btnWrap">
             <button 
@@ -114,7 +104,7 @@
 </template>
 
 <script>
-  import { required } from 'vuelidate/lib/validators';
+  import { required, minLength, maxLength } from 'vuelidate/lib/validators';
 
   export default {
     props: {
@@ -134,17 +124,28 @@
           password: null,
           name: null,
           role_id: null,
-          filials_id: []
+          user_filials_ids: []
         }
       }
     },
     validations: {
       form: {
-        login: { required },
-        password: { required },
-        name: { required },
+        login: {
+            required,
+            minLength: minLength(3),
+            maxLength: maxLength(100),
+        },
+        password: {
+            required,
+            minLength: minLength(3),
+            maxLength: maxLength(100),
+        },
+        name: {
+            required,
+            minLength: minLength(3),
+            maxLength: maxLength(100),
+        },
         role_id: { required },
-        filials_id: { required }
       }
     },
     computed: {
@@ -158,7 +159,12 @@
                 this.form.password = null;
                 this.form.name = null;
                 this.form.role_id = null;
-                this.form.filials_id = [];
+                this.form.user_filials_ids = [];
+
+                this.responseModal_show('success', 'Пользователь успешно добавлен');
+            })
+            .catch((err) => {
+                this.responseModal_show('error', err);  
             })
       }
     }

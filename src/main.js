@@ -4,18 +4,25 @@ import router from './router'
 import store from './store'
 import vuelidate from 'vuelidate'
 
+// Vuex moderator
 import storeModerator from '@/_helpers/store-moderator'
 
+// My components
 import commonComponents from '@/components/UI';
 import AppSpinner from './components/AppSpinner'
 
+// External components
 import Autocomplete from '@trevoreyre/autocomplete-vue'
 import '@trevoreyre/autocomplete-vue/dist/style.css'
 
 import VModal from 'vue-js-modal'
 
+// Layouts
 import DefaultLayout from '@/layouts/DefaultLayout.vue'
 import AuthLayout from '@/layouts/AuthLayout.vue'
+
+// Mixins
+import responseModal from '@/_mixins/responseModal';
 
 Vue.config.productionTip = false
 Vue.component('default-layout', DefaultLayout)
@@ -29,6 +36,8 @@ commonComponents.forEach(component => {
 Vue.use(vuelidate)
 Vue.use(Autocomplete)
 Vue.use(VModal, { dynamic: true, injectModalsContainer: true })
+
+Vue.mixin(responseModal);
 
 new Vue({
   router,
