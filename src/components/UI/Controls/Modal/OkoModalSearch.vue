@@ -32,6 +32,7 @@
             class="Table-Column"
             v-for="column of tableColumns"
             :key="column.id"
+            :style="columnSizeHandler(column)"
           >
             <p class="Table-Text">{{ column.name }}</p>
           </div>
@@ -46,8 +47,9 @@
             class="Table-Column"
             v-for="column of tableColumns"
             :key="column.id"
+            :style="columnSizeHandler(column)"
           >
-            <p class="Table-Text">{{ item[column.fildsNames] }}</p>
+            <p class="Table-Text">{{ item[column.searchName] }}</p>
           </div>
         </div>
       </div>
@@ -56,7 +58,6 @@
 </template>
 
 <script>
-import { OkoMadalConfirm } from '@/components/UI/Controls/Modal'
 
 export default {
   name: 'OkoModalSearch',
@@ -73,11 +74,12 @@ export default {
       required: true,
       type: Array
     },
+    callback: {
+      required: true,
+      type: Function
+    },
     placeholder: {
       type: String
-    },
-    callback: {
-      type: Function
     }
   },
   data() {
@@ -91,7 +93,7 @@ export default {
       const params = this.searchParam;
       return this.searchList.filter(item => {
         for (let i = 0; i < params.length; i++) {
-          if (item[this.searchParam]
+          if (item[params[i]]
                 .toLowerCase()
                 .includes(this.search.toLowerCase())) {
             return true;
@@ -103,22 +105,20 @@ export default {
   },
   methods: {
     chooseHandler(id) {
-      new Promise((resolve, reject) => {
-        this.$modal.show(OkoMadalConfirm, {
-            resolve: resolve,
-            reject: reject
-          }, {
-            width: 300,
-            height: 'auto'
-          });
-      })
-      .then(() => {
-        this.callback(id);
-        this.$emit('close');
-      })
-      .catch(() => {
-        
-      })
+      this.okoModal_confirm()
+        .then(() => {
+          this.callback(id);
+          this.$emit('close');
+        })
+        .catch(() => {
+          
+        })
+    },
+    columnSizeHandler(column) {
+      const columnSize = column.size;
+      if (!columnSize) return { width: '100%'}
+
+      return { width: columnSize}
     }
   }
 };
@@ -139,8 +139,11 @@ export default {
   .Table {
     max-height: 400px;
     overflow-y: scroll;
-    &-Column {
-      width: auto;
+    &-Row {
+      justify-content: flex-start;
+    }
+    &-Text {
+      white-space: initial;
     }
   }
 </style>

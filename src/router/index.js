@@ -48,6 +48,7 @@ import PageWorkerSalary from '@/pages/Worker/PageWorkerSalary'
 import PageSettings from '@/pages/Settings/PageSettings'
 import PageSettingsUsers from '@/pages/Settings/PageSettingsUsers'
 import PageSettingsServices from '@/pages/Settings/PageSettingsServices'
+import PageSettingsFilials from '@/pages/Settings/PageSettingsFilials'
 
 import PageNotAuthenticated from '@/pages/PageNotAuthenticated'
 import PageNotFound from '@/pages/PageNotFound'
@@ -429,6 +430,18 @@ const router = new Router({
               role: [Role.Admin]
             },
             title: `Настройки || Услуги`
+          }
+        },
+        {
+          path: 'filials',
+          name: 'PageSettingsFilials',
+          component: PageSettingsFilials,
+          meta: {
+            layout: 'default-layout',
+            permissions: {
+              role: [Role.Admin]
+            },
+            title: `Настройки || Филиалы`
           }
         },
       ]

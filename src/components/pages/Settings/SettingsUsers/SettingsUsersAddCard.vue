@@ -54,16 +54,16 @@
                 <select 
                   class="Select-Control"
                   v-model="form.role_id"
+                  @blur="$v.form.role_id.$touch()"
                 >
-                    <option value="1">
-                        Администратор
-                    </option>
-                    <option value="2">
-                        Бухгалтерия
-                    </option>
-                    <option value="3">
-                        Юрист
-                    </option>
+                  <option 
+                    v-for="role of roles"
+                    :value="role.id"
+                    :key="role.id"
+                    :selected="currentOption(role.id, form.role_id)"
+                  >
+                    {{role.name}}
+                  </option>
                 </select>
             </label>
             <OkoError
@@ -161,11 +161,18 @@
                 this.form.role_id = null;
                 this.form.user_filials_ids = [];
 
-                this.responseModal_show('success', 'Пользователь успешно добавлен');
+                this.okoModal_response({ type: 'success', 
+                                              message: 'Пользователь успешно добавлен'});
             })
             .catch((err) => {
-                this.responseModal_show('error', err);  
+              this.okoModal_response({type:'error', message: err});  
             })
+      },
+      currentOption(optionId, formOptionId) {
+        if (typeof(formOptionId) === Array) {
+          return formOptionId.filter(id => optionId === id)
+        }
+        return optionId === this.form[formOptionId];
       }
     }
   }

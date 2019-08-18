@@ -6,7 +6,7 @@
     >
         <div class="Flex Flex_wrap CardsWrap">
 
-            <SettingsCard 
+            <SettingsUsersCard 
                 v-for="user of users"
                 :key="user.id"
                 :user="user"
@@ -15,7 +15,7 @@
                 :roles="roles"
             />
 
-            <SettingsAddCard 
+            <SettingsUsersAddCard 
                 :filials="filials"
                 :roles="roles"
             />
@@ -28,34 +28,31 @@
 </template>
 
 <script>
-    import pageLoader from "@/_mixins/pageLoader"
-    import SettingsCard from '@/components/pages/SettingsUsers/SettingsCard';
-    import SettingsAddCard from '@/components/pages/SettingsUsers/SettingsAddCard';
-    import { mapActions, mapState } from 'vuex';
+import { SettingsUsersCard, SettingsUsersAddCard } from '@/components/pages/Settings/SettingsUsers';
+import { mapActions, mapState } from 'vuex';
 
-    export default {
-        mixins: [pageLoader],
-        components: {
-            SettingsCard,
-            SettingsAddCard
-        },
-        created() {
-            Promise.all([this.fetchUsers(), this.fetchFilials(), this.fetchRoles()])
-                .then(() => this.pageLoader_resolveData())
-        },
-        computed: {
-            ...mapState({
-                users: state => state.users.items,
-                filials: state => state.filials.items,
-                roles: state => state.roles.items
-            })
-        },
-        methods: {
-            ...mapActions('users', ['fetchUsers']),
-            ...mapActions('filials', ['fetchFilials']),
-            ...mapActions('roles', ['fetchRoles'])
-        }
-  }
+export default {
+    components: {
+        SettingsUsersCard,
+        SettingsUsersAddCard
+    },
+    created() {
+        Promise.all([this.fetchUsers(), this.fetchFilials(), this.fetchRoles()])
+            .then(() => this.pageLoader_resolveData())
+    },
+    computed: {
+        ...mapState({
+            users: state => state.users.items,
+            filials: state => state.filials.items,
+            roles: state => state.roles.items
+        })
+    },
+    methods: {
+        ...mapActions('users', ['fetchUsers']),
+        ...mapActions('filials', ['fetchFilials']),
+        ...mapActions('roles', ['fetchRoles'])
+    }
+}
 </script>
 
 <style scoped>

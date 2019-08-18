@@ -21,6 +21,13 @@
             >
                 Услуги
             </router-link>
+            <router-link 
+              class="AddMenu-Item"
+              :class="{'active': currentRoute === 'PageSettingsFilials'}"
+              :to="{name: 'PageSettingsFilials'}"
+            >
+                Филиалы
+            </router-link>
         </div>
     </div>
 

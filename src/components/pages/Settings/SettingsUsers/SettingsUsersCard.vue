@@ -50,7 +50,6 @@
                 <select 
                   class="Select-Control"
                   v-model="form.role_id"
-                  @blur="$v.form.role_id.$touch()"
                 >
                   <option 
                     v-for="role of roles"
@@ -113,25 +112,24 @@
 </template>
 
 <script>
-  import { OkoModalSearch } from '@/components/UI/Controls/Modal'
   import { required, minLength, maxLength } from 'vuelidate/lib/validators';
 
   export default {
     props: {
       user: {
-        required,
+        required: true,
         type: Object
       },
       filials: {
-        required,
+        required: true,
         type: Array
       },
       roles: {
-        required,
+        required: true,
         type: Array
       },
       users: {
-        required,
+        required: true,
         type: Array
       }
     },
@@ -178,34 +176,50 @@
         this.$store.dispatch('users/updateUser', this.form)
           .then(() => {
             this.loading = false;
-            this.responseModal_show('success', 'Пользователь успешно сохранен');
+            this.okoModal_response({ type: 'success', 
+                                          message: 'Пользователь успешно сохранен'});
           })
           .catch((err) => {
             this.loading = false;
-            this.responseModal_show('error', err);            
+            this.okoModal_response({type:'error', message: err});            
           })
       },
       chooseNewResponsible() {
-        this.$modal.show(OkoModalSearch, {
-          searchList: this.users,
+        const searchUsersList = [...this.users];
+        const index = searchUsersList.findIndex(user => user.id === this.form.id);
+        searchUsersList.splice(index, 1);
+
+        const searchConfig = {
+          searchList: searchUsersList,
           searchParam: ['name'],
           tableColumns: [
             {
               id: 1,
-              name: 'Имя',
-              fildsNames: ['name']
+              name: 'Кто будет отвечать за проекты удаляемого пользователя?',
+              searchName: ['name'],
+              size: '50%'
             }
           ],
           placeholder: 'Найти пользователя',
-          callback: this.deleteUser
-        }, {
-          width: 500,
-          height: 'auto'
-        });
+          callback: this.deleteUser,
+          modalSettings: {
+            width: 500,
+            height: 'auto'
+          }
+        }
+
+        this.okoModal_search(searchConfig);
       },
       deleteUser(id) {        
         this.$store.dispatch('users/deleteUser', {  id: this.form.id,
-                                                    new_responsible_user_id: id});
+                                                    new_responsible_user_id: id})
+          .then(() => {
+            this.okoModal_response({ type: 'success', 
+                                    message: 'Пользователь успешно удален'});
+          })
+          .catch((err) => {
+            this.okoModal_response({type:'error', message: err});
+          })
       },
       currentOption(optionId, formOptionId) {
         if (typeof(formOptionId) === Array) {

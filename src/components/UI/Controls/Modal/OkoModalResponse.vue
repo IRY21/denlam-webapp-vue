@@ -23,7 +23,11 @@ export default {
   props: {
     type: {
       require: true,
-      type: String
+      type: String,
+      validator: function (value) {
+        // Значение должно соответствовать одной из этих строк
+        return ['error', 'success'].indexOf(value) !== -1
+      }
     },
     message: {
       require: true,
@@ -39,7 +43,7 @@ export default {
           btnClass: 'Btn_theme_red',
         },
         success: {
-          title: 'Ok!',
+          title: 'Успешно!',
           btnClass: 'Btn_theme_green',
         }
       }

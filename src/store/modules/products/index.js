@@ -13,66 +13,66 @@ const mutations = {
 }
 
 const actions = {
-  fetchUsers({ commit, dispatch }) {
+  fetchProducts({ commit, dispatch }) {
     dispatch('shared/setLoading', null, { root: true });
-    return axiosInstance.get(`${config.apiUrl}/user/show_all`)
+    return axiosInstance.get(`${config.apiUrl}/product/show_all`)
       .then((res) => {
-        const users = res.data;
-        commit(SET_ITEMS, { resource: 'users', items: users}, {root: true});
+        const products = res.data;
+        commit(SET_ITEMS, { resource: 'products', items: products}, {root: true});
         dispatch('shared/clearLoading', null, { root: true });
-        return users;
+        return products;
       })
       .catch((err) => {
         dispatch('shared/clearLoading', null, { root: true });
         return rejectError(err);
       })
   },
-  addUser({ state, commit, dispatch }, userToCreate) {
+  addProduct({ state, commit, dispatch }, productToCreate) {
     dispatch('shared/setLoading', null, { root: true });
-    return axiosInstance.post(`${config.apiUrl}/user/add`, userToCreate)
+    return axiosInstance.post(`${config.apiUrl}/product/add`, productToCreate)
       .then((res) => {
-        const user = res.data;
-        const users = state.items;
-        commit(SET_ITEMS, { resource: 'users', items: [ ...users, user]}, {root: true});
+        const product = res.data;
+        const products = state.items;
+        commit(SET_ITEMS, { resource: 'products', items: [ ...products, product]}, {root: true});
         dispatch('shared/clearLoading', null, { root: true });
-        return users;
+        return products;
       })
       .catch((err) => {
         dispatch('shared/clearLoading', null, { root: true });
         return rejectError(err);
       })
   },
-  updateUser({ state, commit, dispatch }, userToUpdate) {
+  updateProduct({ state, commit, dispatch }, productToUpdate) {
     dispatch('shared/setLoading', null, { root: true });
-    return axiosInstance.post(`${config.apiUrl}/user/update`, userToUpdate)
+    return axiosInstance.post(`${config.apiUrl}/product/update`, productToUpdate)
       .then((res) => {
-        const user = res.data;
-        const users = state.items;
-        const index = state.items.findIndex(uUser => uUser.id === user.id);
-        users[index] = user;
+        const product = res.data;
+        const products = state.items;
+        const index = state.items.findIndex(uProduct => uProduct.id === product.id);
+        products[index] = product;
         
-        commit(SET_ITEMS, { resource: 'users', items: users}, {root: true});
+        commit(SET_ITEMS, { resource: 'products', items: products}, {root: true});
         dispatch('shared/clearLoading', null, { root: true });
-        return user;
+        return product;
       })
       .catch((err) => {
         dispatch('shared/clearLoading', null, { root: true });
         return rejectError(err);
       })
   },
-  deleteUser({ state, commit, dispatch }, userToDelete) {
+  deleteProduct({ state, commit, dispatch }, productToDelete) {
     dispatch('shared/setLoading', null, { root: true });
-    return axiosInstance.post(`${config.apiUrl}/user/delete`, userToDelete)
+    return axiosInstance.post(`${config.apiUrl}/product/delete`, productToDelete)
       .then((res) => {
-        const user = res.data;
-        const users = state.items;
-        const index = state.items.findIndex(uUser => uUser.id === user.id);
+        const product = res.data;
+        const products = state.items;
+        const index = state.items.findIndex(uProduct => uProduct.id === product.id);
         
-        users.splice(index, 1);
+        products.splice(index, 1);
         
-        commit(SET_ITEMS, { resource: 'users', items: users}, {root: true});
+        commit(SET_ITEMS, { resource: 'products', items: products}, {root: true});
         dispatch('shared/clearLoading', null, { root: true });
-        return user;
+        return product;
       })
       .catch((err) => {
         dispatch('shared/clearLoading', null, { root: true });

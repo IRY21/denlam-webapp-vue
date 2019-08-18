@@ -22,7 +22,8 @@ import DefaultLayout from '@/layouts/DefaultLayout.vue'
 import AuthLayout from '@/layouts/AuthLayout.vue'
 
 // Mixins
-import responseModal from '@/_mixins/responseModal';
+import okoModal from '@/_mixins/okoModal';
+import pageLoader from "@/_mixins/pageLoader"
 
 Vue.config.productionTip = false
 Vue.component('default-layout', DefaultLayout)
@@ -37,7 +38,8 @@ Vue.use(vuelidate)
 Vue.use(Autocomplete)
 Vue.use(VModal, { dynamic: true, injectModalsContainer: true })
 
-Vue.mixin(responseModal);
+Vue.mixin(okoModal);
+Vue.mixin(pageLoader);
 
 new Vue({
   router,
