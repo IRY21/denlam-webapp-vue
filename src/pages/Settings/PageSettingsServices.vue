@@ -1,20 +1,24 @@
 <template>
-  <div>
-    <div class="MainSection-Row MainSection-Row_noTopPadding MainSection-Row_noBottomPadding">
-        <div class="ProductWrap">
-            <!-- TODO убрать [0] -->
-            <SettingsServicesCard 
-                v-for="product of products"
-                :key="product.id"
-                :product="product[0]"
-            />
+    <div 
+        v-if="pageLoader_isDataLoaded"
+        class="MainSection-Row"
+    >
+        <div class="MainSection-Row MainSection-Row_noTopPadding MainSection-Row_noBottomPadding">
+            <div class="ProductWrap">
+                <SettingsServicesCard 
+                    v-for="product of products"
+                    :key="product.id"
+                    :product="product"
+                />
+            </div>
+        </div>
+        <div class="MainSection-Row">
+            <SettingsServicesAddCard />
         </div>
     </div>
-    <div class="MainSection-Row">
-        <SettingsServicesAddCard />
+    <div v-else>
+        <AppSpinner />
     </div>
-    
-  </div>
 </template>
 
 <script>

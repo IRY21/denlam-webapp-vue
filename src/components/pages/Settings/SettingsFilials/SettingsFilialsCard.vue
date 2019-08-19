@@ -1,6 +1,6 @@
 <template>
   <div class="Form-Row Flex">
-      <span class="Text">{{ product.title }}</span>
+      <span class="Text">{{ filial.title }}</span>
       <div 
         class="Btn Btn_theme_delete"
         @click="deleteService"
@@ -13,7 +13,7 @@
 <script>
 export default {
   props: {
-    product: {
+    filial: {
       required: true,
       type: Object
     }
@@ -25,10 +25,10 @@ export default {
   },
   methods: {
     deleteService() {
-      this.$store.dispatch('products/deleteProduct', {id: this.product.id})
+      this.$store.dispatch('filials/deleteFilial', {id: this.filial.id})
         .then(() => {
           this.okoModal_response({ type: 'success', 
-                                   message: 'Услуга успешно удалена'});
+                                   message: 'Филиал успешно удален'});
         })
         .catch((err) => {
           this.okoModal_response({type:'error', message: err});  

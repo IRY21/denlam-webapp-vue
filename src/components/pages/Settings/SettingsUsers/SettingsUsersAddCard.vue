@@ -54,7 +54,6 @@
                 <select 
                   class="Select-Control"
                   v-model="form.role_id"
-                  @blur="$v.form.role_id.$touch()"
                 >
                   <option 
                     v-for="role of roles"

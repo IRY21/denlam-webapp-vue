@@ -2,15 +2,15 @@
   <div class="Card Card_bgGray Card_bd Card_bd_dashed Card_add-product">
     <form class="Form">
         <div class="Form-Row">
-            <h3 class="Heading_lvl3">Добавить услугу</h3>
+            <h3 class="Heading_lvl3">Добавить филиал</h3>
         </div>
         <div class="Form-Row">
             <label class="Input Input_bgWhite">
-                <span class="Label">Выберите услугу</span>
+                <span class="Label">Выберите филиал</span>
                 <input 
                   type="text" 
                   class="Input-Control" 
-                  placeholder="Название услуги"
+                  placeholder="Название филиала"
                   v-model="form.title"
                 >
             </label>
@@ -31,7 +31,7 @@
             <div 
               class="Btn Btn_theme_green Btn_size_m"
               :disabled="$v.$invalid"
-              @click.prevent="addService"
+              @click.prevent="addFilial"
             >
               Добавить
             </div>
@@ -61,13 +61,13 @@ export default {
     }
   },
   methods: {
-    addService() {
-      this.$store.dispatch('products/addProduct', this.form)
+    addFilial() {
+      this.$store.dispatch('filials/addFilial', this.form)
         .then(() => {
           this.form.title = '';
 
           this.okoModal_response({ type: 'success', 
-                                   message: 'Услуга успешно добавлена'});
+                                   message: 'Филиал успешно добавлен'});
         })
         .catch((err) => {
           this.okoModal_response({type:'error', message: err});  

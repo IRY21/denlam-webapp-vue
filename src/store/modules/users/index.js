@@ -43,11 +43,13 @@ const actions = {
       })
   },
   updateUser({ state, commit, dispatch }, userToUpdate) {
+    debugger
     dispatch('shared/setLoading', null, { root: true });
     return axiosInstance.post(`${config.apiUrl}/user/update`, userToUpdate)
       .then((res) => {
         const user = res.data;
         const users = state.items;
+        debugger
         const index = state.items.findIndex(uUser => uUser.id === user.id);
         users[index] = user;
         

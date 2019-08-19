@@ -17,6 +17,8 @@ import '@trevoreyre/autocomplete-vue/dist/style.css'
 
 import VModal from 'vue-js-modal'
 
+import Multiselect from 'vue-multiselect'
+
 // Layouts
 import DefaultLayout from '@/layouts/DefaultLayout.vue'
 import AuthLayout from '@/layouts/AuthLayout.vue'
@@ -29,6 +31,7 @@ Vue.config.productionTip = false
 Vue.component('default-layout', DefaultLayout)
 Vue.component('auth-layout', AuthLayout)
 Vue.component('AppSpinner', AppSpinner)
+Vue.component('multiselect', Multiselect)
 
 commonComponents.forEach(component => {
   Vue.component(component.name, component);

@@ -70,7 +70,19 @@
         <div class="Form-Row">
             <label class="Select Select_theme_arrow">
                 <span class="Label">Филиал</span>
-                <select 
+                <multiselect 
+                  v-model="user_filials" 
+                  :value="selectedFilialsToObject" 
+                  :options="filials"
+                  :multiple="true"
+                  track-by="id"
+                  :custom-label="customLabel"
+                  placeholder=""
+                  :selectLabel="''"
+                  :deselectLabel="''"
+                  :selectedLabel="'Выбрано'"
+                />
+                <!-- <select 
                   class="Select-Control"
                   multiple
                   v-model="form.user_filials_ids"
@@ -83,7 +95,7 @@
                   >
                     {{filial.title}}
                   </option>
-                </select>
+                </select> -->
             </label>
         </div>
         <div class="Form-Row Form-Row_btnWrap">
@@ -141,11 +153,9 @@
           password: this.user.password || '',
           name: this.user.name,
           role_id: this.user.role_id,
-          user_filials_ids: this.user.user_filials_ids ?
-                              this.user.user_filials_ids :
-                              []
         },
-        loading: false
+        loading: false,
+        user_filials: {},
       }
     },
     validations: {
@@ -167,13 +177,35 @@
         role_id: { required }
       }
     },
+    created() {
+      this.user_filials = this.selectedFilialsToObject();
+    },
     computed: {
-
+      selectedFilialsToIds() {
+        const filials= this.user_filials;
+        let selectedArr = [];
+        for (let i = 0; i < filials.length; i++) {
+          selectedArr[i] = filials[i].id;
+        }
+        return selectedArr;
+      },
     },
     methods: {
+      selectedFilialsToObject() {
+        const filialIds = this.user.user_filials_ids || [];
+        let selectedFilials;
+        selectedFilials = this.filials.filter(filial => {
+          return filialIds.includes(filial.id);
+        })
+        return selectedFilials;
+      },
+      customLabel (option) {
+        return `${option.title}`
+      },
       updateUser() {
         this.loading = true;
-        this.$store.dispatch('users/updateUser', this.form)
+        this.$store.dispatch('users/updateUser', { ...this.form, 
+                                                   user_filials_ids: this.selectedFilialsToIds })
           .then(() => {
             this.loading = false;
             this.okoModal_response({ type: 'success', 

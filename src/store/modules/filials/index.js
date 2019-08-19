@@ -27,9 +27,9 @@ const actions = {
         return rejectError(err);
       })
   },
-  addFilials({ state, commit, dispatch }, filialToCreate) {
+  addFilial({ state, commit, dispatch }, filialToCreate) {
     dispatch('shared/setLoading', null, { root: true });
-    return axiosInstance.post(`${config.apiUrl}/flial/add`, filialToCreate)
+    return axiosInstance.post(`${config.apiUrl}/filial/add`, filialToCreate)
       .then((res) => {
         const filial = res.data;
         const filials = state.items;
@@ -42,9 +42,9 @@ const actions = {
         return rejectError(err);
       })
   },
-  /* upadateFilials({ state, commit, dispatch }, filialToUpdate) {
+  upadateFilial({ state, commit, dispatch }, filialToUpdate) {
     dispatch('shared/setLoading', null, { root: true });
-    return axiosInstance.post(`${config.apiUrl}/flial/update`, filialToUpdate)
+    return axiosInstance.post(`${config.apiUrl}/filial/update`, filialToUpdate)
       .then((res) => {
         const filial = res.data;
         const filials = state.items;
@@ -56,7 +56,26 @@ const actions = {
         dispatch('shared/clearLoading', null, { root: true });
         return rejectError(err);
       })
-  } */
+  },
+  deleteFilial({ state, commit, dispatch }, filialToDelete) {
+    dispatch('shared/setLoading', null, { root: true });
+    return axiosInstance.post(`${config.apiUrl}/filial/delete`, filialToDelete)
+      .then((res) => {
+        const filial = res.data;
+        const filials = state.items;
+        const index = state.items.findIndex(uFilial => uFilial.id === filial.id);
+        
+        filials.splice(index, 1);
+        
+        commit(SET_ITEMS, { resource: 'filials', items: filials}, {root: true});
+        dispatch('shared/clearLoading', null, { root: true });
+        return filials;
+      })
+      .catch((err) => {
+        dispatch('shared/clearLoading', null, { root: true });
+        return rejectError(err);
+      })
+  }
 }
 
 const getters = {
