@@ -70,7 +70,7 @@
         <div class="Form-Row">
             <label class="Select Select_theme_arrow">
                 <span class="Label">Филиал</span>
-                <multiselect 
+                <multiselect
                   v-model="user_filials" 
                   :value="selectedFilialsToObject" 
                   :options="filials"

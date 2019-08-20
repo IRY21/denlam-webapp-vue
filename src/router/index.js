@@ -470,33 +470,45 @@ const router = new Router({
 export default router;
 
 
+let entryUrl = null;
 router.beforeEach((to, from, next) => {
   
   // redirect to login page if not logged in and trying to access a restricted page
   const { permissions } = to.meta;
-
+  
   if (permissions) {
     store.dispatch('user/getAuthUser')
       .then(() => {
         const pageRole = permissions.role;
         const currentUser = store.getters['user/getProfile'];
+        
+          if (entryUrl) {
+            const url = entryUrl;
+            entryUrl = null;
+            return next(url); // goto stored url
+          } 
+          // else {
+          //   return next(); // all is fine
+          // }
           if (!currentUser) {
               // not logged in so redirect to login page with the return url
+              entryUrl = to.path; // store entry url before redirect
               return next({ name: 'PageLogin' });
           }
-          
           // check if route is restricted by role
           if (pageRole.length && !pageRole.includes(currentUser.role_name)) {
+              
               // role not authorised so redirect to home page
+              entryUrl = to.path; // store entry url before redirect
               return next({ name: 'PageNotAuthenticated' });
           }
       })
       .catch(() => {
+        entryUrl = to.path; // store entry url before redirect
         return next({ name: 'PageLogin' });
       })
   }
-
-  
+ 
   next();
 })
 
