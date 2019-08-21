@@ -26,33 +26,11 @@
           </div>
         </div>
       </div>
-      <div class="Table">
-        <div class="Table-Row Table-Row_head">
-          <div 
-            class="Table-Column"
-            v-for="column of tableColumns"
-            :key="column.id"
-            :style="columnSizeHandler(column)"
-          >
-            <p class="Table-Text">{{ column.name }}</p>
-          </div>
-        </div>
-        <div 
-          class="Table-Row Table-Row_link"
-          v-for="item of filteredList"
-          :key="item.id"
-          @click="chooseHandler(item.id)"
-        >
-          <div 
-            class="Table-Column"
-            v-for="column of tableColumns"
-            :key="column.id"
-            :style="columnSizeHandler(column)"
-          >
-            <p class="Table-Text">{{ item[column.searchName] }}</p>
-          </div>
-        </div>
-      </div>
+      <OkoTable 
+        :columns="tableColumns"
+        :data="filteredList"
+        :callback="chooseHandler"
+      />
     </div>
   </div>
 </template>
@@ -113,12 +91,6 @@ export default {
         .catch(() => {
           
         })
-    },
-    columnSizeHandler(column) {
-      const columnSize = column.size;
-      if (!columnSize) return { width: '100%'}
-
-      return { width: columnSize}
     }
   }
 };
@@ -135,15 +107,5 @@ export default {
   }
   .chooseFromListPopup-Close {
     top: 0;
-  }
-  .Table {
-    max-height: 400px;
-    overflow-y: scroll;
-    &-Row {
-      justify-content: flex-start;
-    }
-    &-Text {
-      white-space: initial;
-    }
   }
 </style>

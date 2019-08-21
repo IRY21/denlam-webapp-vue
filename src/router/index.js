@@ -487,9 +487,7 @@ router.beforeEach((to, from, next) => {
             entryUrl = null;
             return next(url); // goto stored url
           } 
-          // else {
-          //   return next(); // all is fine
-          // }
+          
           if (!currentUser) {
               // not logged in so redirect to login page with the return url
               entryUrl = to.path; // store entry url before redirect

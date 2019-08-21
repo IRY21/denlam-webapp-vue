@@ -23,7 +23,7 @@
 
 <script>
 import { SettingsFilialsCard, SettingsFilialsAddCard } from '@/components/pages/Settings/SettingsFilials';
-import { mapState, mapActions } from 'vuex';
+import { mapGetters, mapActions } from 'vuex';
 
 export default {
     components: {
@@ -35,8 +35,8 @@ export default {
             .then(() => this.pageLoader_resolveData())
     },
     computed: {
-        ...mapState({
-            filials: state => state.filials.items
+        ...mapGetters({
+            filials: 'filials/getFilials'
         })
     },
     methods: {

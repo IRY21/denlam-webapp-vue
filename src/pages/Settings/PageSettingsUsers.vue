@@ -29,7 +29,7 @@
 
 <script>
 import { SettingsUsersCard, SettingsUsersAddCard } from '@/components/pages/Settings/SettingsUsers';
-import { mapActions, mapState } from 'vuex';
+import { mapGetters, mapActions } from 'vuex';
 
 export default {
     components: {
@@ -41,10 +41,10 @@ export default {
             .then(() => this.pageLoader_resolveData())
     },
     computed: {
-        ...mapState({
-            users: state => state.users.items,
-            filials: state => state.filials.items,
-            roles: state => state.roles.items
+        ...mapGetters({
+            users: 'users/getUsers',
+            filials: 'filials/getFilials',
+            roles: 'roles/getRoles'
         })
     },
     methods: {

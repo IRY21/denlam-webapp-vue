@@ -74,7 +74,19 @@
         <div class="Form-Row">
             <label class="Select Select_theme_arrow">
                 <span class="Label">Филиал</span>
-                <select 
+                <multiselect
+                  v-model="user_filials" 
+                  :value="selectedFilialsToObject" 
+                  :options="filials"
+                  :multiple="true"
+                  track-by="id"
+                  :custom-label="customLabel"
+                  placeholder=""
+                  :selectLabel="''"
+                  :deselectLabel="''"
+                  :selectedLabel="'Выбрано'"
+                />
+                <!-- <select 
                   class="Select-Control"
                   multiple
                   v-model="form.user_filials_ids"
@@ -86,7 +98,7 @@
                   >
                     {{filial.title}}
                   </option>
-                </select>
+                </select> -->
             </label>
         </div>
         <div class="Form-Row Form-Row_btnWrap">
@@ -123,8 +135,8 @@
           password: null,
           name: null,
           role_id: null,
-          user_filials_ids: []
-        }
+        },
+        user_filials: null,
       }
     },
     validations: {
@@ -147,21 +159,42 @@
         role_id: { required },
       }
     },
+    created() {
+      this.user_filials = this.selectedFilialsToObject();
+    },
     computed: {
-      
+      selectedFilialsToIds() {
+        const filials= this.user_filials;
+        let selectedArr = [];
+        for (let i = 0; i < filials.length; i++) {
+          selectedArr[i] = filials[i].id;
+        }
+        return selectedArr;
+      },
     },
     methods: {
+      selectedFilialsToObject() {
+        const filialIds = [];
+        let selectedFilials;
+        selectedFilials = this.filials.filter(filial => {
+          return filialIds.includes(filial.id);
+        })
+        return selectedFilials;
+      },
+      customLabel (option) {
+        return `${option.title}`
+      },
       addUser() {
-        this.$store.dispatch('users/addUser', this.form)
+        this.$store.dispatch('users/addUser', {...this.form, 
+                                               user_filials_ids: this.selectedFilialsToIds})
             .then(() => {
                 this.form.login = null;
                 this.form.password = null;
                 this.form.name = null;
                 this.form.role_id = null;
-                this.form.user_filials_ids = [];
 
                 this.okoModal_response({ type: 'success', 
-                                              message: 'Пользователь успешно добавлен'});
+                                          message: 'Пользователь успешно добавлен'});
             })
             .catch((err) => {
               this.okoModal_response({type:'error', message: err});  

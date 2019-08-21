@@ -13,7 +13,7 @@
     <div class="File-Link">{{ btnText }}</div>
   </label>
 </template>
-
+ 
 <script>
 export default {
   name: 'OkoFile',

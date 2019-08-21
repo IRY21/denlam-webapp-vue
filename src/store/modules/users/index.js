@@ -82,7 +82,8 @@ const actions = {
 }
 
 const getters = {
-  
+  getUsers: state => state.items,
+  getUser: state => state.item,
 }
 
 export default {

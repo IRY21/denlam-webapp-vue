@@ -79,7 +79,8 @@ const actions = {
 }
 
 const getters = {
-  
+  getFilials: state => state.items,
+  getFilial: state => state.item,
 }
 
 export default {

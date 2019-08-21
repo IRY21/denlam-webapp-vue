@@ -23,7 +23,7 @@
 
 <script>
 import { SettingsServicesCard, SettingsServicesAddCard } from '@/components/pages/Settings/SettingsServices';
-import { mapState, mapActions } from 'vuex';
+import { mapGetters, mapActions } from 'vuex';
 
 export default {
     components: {
@@ -35,8 +35,8 @@ export default {
             .then(() => this.pageLoader_resolveData())
     },
     computed: {
-        ...mapState({
-            products: state => state.products.items
+        ...mapGetters({
+            products: 'products/getProducts'
         })
     },
     methods: {

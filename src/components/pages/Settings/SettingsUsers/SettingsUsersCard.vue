@@ -82,20 +82,6 @@
                   :deselectLabel="''"
                   :selectedLabel="'Выбрано'"
                 />
-                <!-- <select 
-                  class="Select-Control"
-                  multiple
-                  v-model="form.user_filials_ids"
-                >
-                  <option 
-                    v-for="filial of filials"
-                    :value="filial.id"
-                    :key="filial.id"
-                    :selected="currentOption(filial.id, form.user_filials_ids)"
-                  >
-                    {{filial.title}}
-                  </option>
-                </select> -->
             </label>
         </div>
         <div class="Form-Row Form-Row_btnWrap">
@@ -209,7 +195,7 @@
           .then(() => {
             this.loading = false;
             this.okoModal_response({ type: 'success', 
-                                          message: 'Пользователь успешно сохранен'});
+                                     message: 'Пользователь успешно сохранен'});
           })
           .catch((err) => {
             this.loading = false;
