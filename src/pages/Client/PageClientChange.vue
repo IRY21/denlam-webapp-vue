@@ -2,8 +2,8 @@
   <div>
     <div class="MainSection-Row MainSection-Row_bgGrey MainSection-Row_title">
         <router-link
-          class="Link Link_back"
-          :to="{name: 'PageKontragents'}"
+            class="Link Link_back"
+            :to="{ name: 'PageClientAbout', params: {clientId: currentClientId}}"
         >
             Вернуться назад
         </router-link>
@@ -321,7 +321,11 @@
 
 <script>
 export default {
-
+    computed: {
+        currentClientId() {
+            return this.$route.params.clientId
+        }
+    }
 }
 </script>
 

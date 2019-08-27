@@ -48,7 +48,7 @@ const actions = {
 const getters = {
   getClients: state => state.items,
   getClient: state => state.item,
-  isClientsLoaded: state => !!state.items,
+  isClientsLoaded: state => !!state.items.length,
 }
 
 export default {

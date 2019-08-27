@@ -3,38 +3,34 @@
     <div class="MainSection-Row MainSection-Row_bgGrey MainSection-Row_title">
         <router-link
           class="Link Link_back"
-          :to="{name: 'PageKontragents'}"
+          :to="{name: 'PageClients'}"
         >
             Вернуться назад
         </router-link>
         <h1 class="Heading_lvl1">
-            Новый контрагент
+            Новый клиент
         </h1>
     </div>
-    <form enctype="multipart/form-data" method="POST" action="" class="Form" id="newproject_add">
+    <form class="Form">
         <div class="MainSection-Row MainSection-Row_size_add">
             <div class="Form-Row Form-Row_col2">
                 <div class="Form-Column">
-                    <div class="Input">
-                        <p class="Label">Наименование организации или ФИО</p>
-                        <input type="text"
-                                value=""
-                                class="Input-Control"
-                                placeholder="Введите наименование"
-                        />
-                    </div>
+                    <OkoInput 
+                        type="text"
+                        v-model="form.name"
+                        placeholder="Введите наименование"
+                        :label="'Наименование организации или ФИО'"
+                    />
                 </div>
             </div>
             <div class="Form-Row">
                 <div class="Form-Column">
-                    <div class="Input">
-                        <p class="Label">ИНН организации или физ. лица</p>
-                        <input type="text"
-                                value=""
-                                class="Input-Control"
-                                placeholder="Введите ИНН"
-                        />
-                    </div>
+                    <OkoInput 
+                        type="text"
+                        v-model="form.inn"
+                        placeholder="Введите наименование"
+                        :label="'Введите ИНН'"
+                    />
                 </div>
             </div>
             <div class="Form-Row">
@@ -53,44 +49,19 @@
                 <div class="Form-Row">
                     <div class="Flex Flex_justify_space-between">
                         <div class="Form-Column">
-                            <div class="Input">
-                                <input type="text"
-                                        value=""
-                                        class="Input-Control"
-                                        placeholder="8 (999) 999-99-99"
-                                />
-                            </div>
+                            <OkoInput 
+                                type="text"
+                                v-model="form.name"
+                                placeholder="8 (999) 999-99-99"
+                            />
                         </div>
                         <div class="Form-Column">
-                            <div class="Input Input_num_add">
-                                <input type="text"
-                                        value=""
-                                        class="Input-Control"
-                                        placeholder="доб. 11"
-                                />
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="Form-Row">
-                    <div class="Flex Flex_justify_space-between">
-                        <div class="Form-Column">
-                            <div class="Input">
-                                <input type="text"
-                                        value=""
-                                        class="Input-Control"
-                                        placeholder="8 (999) 999-99-99"
-                                />
-                            </div>
-                        </div>
-                        <div class="Form-Column">
-                            <div class="Input Input_num_add">
-                                <input type="text"
-                                        value=""
-                                        class="Input-Control"
-                                        placeholder="доб. 11"
-                                />
-                            </div>
+                            <OkoInput 
+                                :class="'Input_num_add'"
+                                type="text"
+                                v-model="form.name"
+                                placeholder="доб. 11"
+                            />
                         </div>
                     </div>
                 </div>
@@ -276,7 +247,14 @@
 
 <script>
 export default {
-
+    data() {
+        return {
+            form: {
+                name: '',
+                inn: '',
+            }
+        }
+    }
 }
 </script>
 

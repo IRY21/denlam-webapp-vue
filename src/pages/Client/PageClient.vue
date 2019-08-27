@@ -3,7 +3,7 @@
     <div class="MainSection-Row MainSection-Row_bgGrey MainSection-Row_title">
         <router-link
           class="Link Link_back"
-          :to="{name: 'PageKontragents'}"
+          :to="{name: 'PageClient'}"
         >
             Вернуться назад
         </router-link>
@@ -12,7 +12,7 @@
                 <div class="Flex Flex_align_center">
                     <p class="Input-Text Heading_lvl1">ЖК «Ясная поляна»</p>
                     <router-link 
-                      :to="'/kontragent/1/change'"
+                      :to="{ name: 'PageClientChange', params: {clientId: currentClientId}}"
                     >
                         <svg class="Input-ChangeBtn ChangeBtn ChangeBtn_type_edit">
                             <use
@@ -28,22 +28,22 @@
         <div class="AddMenu Projects-AddMenu">
             <router-link
               class="AddMenu-Item"
-              :class="{'active': currentRoute === 'PageKontragentAbout'}"
-              :to="{name: 'PageKontragentAbout'}"
+              :class="{'active': currentRoute === 'PageClientAbout'}"
+              :to="{name: 'PageClientAbout'}"
             >
-                Данные о контрагенте
+                Данные о клиенте
             </router-link>
             <router-link
               class="AddMenu-Item"
-              :class="{'active': currentRoute === 'PageKontragentAkts'}"
-              :to="{name: 'PageKontragentAkts'}"
+              :class="{'active': currentRoute === 'PageClientAkts'}"
+              :to="{name: 'PageClientAkts'}"
             >
                 Связанные акты
             </router-link>
             <router-link
               class="AddMenu-Item"
-              :class="{'active': currentRoute === 'PageKontragentPayments'}"
-              :to="{name: 'PageKontragentPayments'}"
+              :class="{'active': currentRoute === 'PageClientPayments'}"
+              :to="{name: 'PageClientPayments'}"
             >
                 Поступившие оплаты
             </router-link>
@@ -60,6 +60,9 @@ export default {
   computed: {
     currentRoute() {
       return this.$route.name
+    },
+    currentClientId() {
+      return this.$route.params.clientId
     }
   }
 }

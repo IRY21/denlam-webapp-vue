@@ -86,15 +86,15 @@
     </router-link>
     <router-link 
       class="MainMenu-Item MainMenu-Item_Icon MainMenu-Item_IconCounterparties"
-      :class="{'active': currentRoute === 'PageKontragents'}"
-      :to="{name: 'PageKontragents'}" 
+      :class="{'active': currentRoute === 'PageClients'}"
+      :to="{name: 'PageClients'}" 
     >
         <svg class="Icon">
             <use
                 xlink:href="/img/sprite.svg#counterparties"
                 href="/img/sprite.svg#counterparties"></use>
         </svg>
-        Контрагенты
+        Клиенты
     </router-link>
     <!-- <router-link 
       class="MainMenu-Item MainMenu-Item_Icon MainMenu-Item_IconSalary"

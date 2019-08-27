@@ -28,14 +28,14 @@ import PagePayments from '@/pages/Payments/PagePayments'
 
 import PageDebit from '@/pages/Debit/PageDebit'
 
-import PageKontragents from '@/pages/Kontragents/PageKontragents'
-import PageKontragentsAdd from '@/pages/Kontragents/PageKontragentsAdd'
+import PageClients from '@/pages/Clients/PageClients'
+import PageClientsAdd from '@/pages/Clients/PageClientsAdd'
 
-import PageKontragent from '@/pages/Kontragent/PageKontragent'
-import PageKontragentAbout from '@/pages/Kontragent/PageKontragentAbout'
-import PageKontragentAkts from '@/pages/Kontragent/PageKontragentAkts'
-import PageKontragentChange from '@/pages/Kontragent/PageKontragentChange'
-import PageKontragentPayments from '@/pages/Kontragent/PageKontragentPayments'
+import PageClient from '@/pages/Client/PageClient'
+import PageClientAbout from '@/pages/Client/PageClientAbout'
+import PageClientAkts from '@/pages/Client/PageClientAkts'
+import PageClientChange from '@/pages/Client/PageClientChange'
+import PageClientPayments from '@/pages/Client/PageClientPayments'
 
 //import PageSalary from '@/pages/Salary/PageSalary'
 
@@ -252,88 +252,88 @@ const router = new Router({
     },
     {
       path: '/clients',
-      name: 'PageKontragents',
-      component: PageKontragents,
+      name: 'PageClients',
+      component: PageClients,
       meta: {
         layout: 'default-layout',
         permissions: {
           role: [Role.Admin]
         },
-        title: `Контрагенты`
+        title: `Клиенты`
       }
     },
     {
       path: '/clients/add',
-      name: 'PageKontragentsAdd',
-      component: PageKontragentsAdd,
+      name: 'PageClientsAdd',
+      component: PageClientsAdd,
       meta: {
         layout: 'default-layout',
         permissions: {
           role: [Role.Admin]
         },
-        title: `Контрагенты || Добавить`
+        title: `Клиенты || Добавить`
       }
     },
     {
       path: '/clients/:clientId',
-      name: 'PageKontragent',
-      component: PageKontragent,
+      name: 'PageClient',
+      component: PageClient,
       meta: {
         layout: 'default-layout',
         permissions: {
           role: [Role.Admin]
         },
-        title: `Контрагент || `
+        title: `Клиент || `
       },
       children: [
         {
           path: 'about',
-          name: 'PageKontragentAbout',
-          component: PageKontragentAbout,
+          name: 'PageClientAbout',
+          component: PageClientAbout,
           meta: {
             layout: 'default-layout',
             permissions: {
               role: [Role.Admin]
             },
-            title: `Контрагент || Данные о контрагенте`
+            title: `Клиент || Данные о контрагенте`
           }
         },
         {
           path: 'akts',
-          name: 'PageKontragentAkts',
-          component: PageKontragentAkts,
+          name: 'PageClientAkts',
+          component: PageClientAkts,
           meta: {
             layout: 'default-layout',
             permissions: {
               role: [Role.Admin]
             },
-            title: `Контрагент || Связанные акты`
+            title: `Клиент || Связанные акты`
           }
         },
         {
           path: 'payments',
-          name: 'PageKontragentPayments',
-          component: PageKontragentPayments,
+          name: 'PageClientPayments',
+          component: PageClientPayments,
           meta: {
             layout: 'default-layout',
             permissions: {
               role: [Role.Admin]
             },
-            title: `Контрагент || Поступившие оплаты`
+            title: `Клиент || Поступившие оплаты`
           }
         },
       ]
     },
     {
       path: '/clients/:clientId/change',
-      name: 'PageKontragentChange',
-      component: PageKontragentChange,
+      name: 'PageClientChange',
+      component: PageClientChange,
       meta: {
         layout: 'default-layout',
         permissions: {
           role: [Role.Admin]
         },
-        title: `Контрагент || Редактировать`
+        title: `Клиент || Редактировать`
       }
     },
     // {
