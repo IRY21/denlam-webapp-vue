@@ -19,6 +19,8 @@ import VModal from 'vue-js-modal'
 
 import Multiselect from 'vue-multiselect'
 
+import InfiniteLoading from 'vue-infinite-loading';
+
 // Layouts
 import DefaultLayout from '@/layouts/DefaultLayout.vue'
 import AuthLayout from '@/layouts/AuthLayout.vue'
@@ -40,9 +42,11 @@ commonComponents.forEach(component => {
 Vue.use(vuelidate)
 Vue.use(Autocomplete)
 Vue.use(VModal, { dynamic: true, injectModalsContainer: true })
+Vue.use(InfiniteLoading);
 
 Vue.mixin(okoModal);
 Vue.mixin(pageLoader);
+
 
 new Vue({
   router,

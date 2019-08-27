@@ -16,14 +16,14 @@
 </template>
 
 <script>
-import Header from '@/components/Header'
-import MainMenu from '@/components/MainMenu'
+import Header from '@/components/Header';
+import MainMenu from '@/components/MainMenu';
 
 export default {
   components: {
     Header,
     MainMenu
-  },
+  }
 }
 </script>
 

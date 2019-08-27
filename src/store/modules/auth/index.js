@@ -29,7 +29,7 @@ const actions = {
       .then((res) => {
         const data = res.data;
         dispatch('shared/clearLoading', null, { root: true });
-        localStorage.setItem("oko-jwt", data.access_token);
+        sessionStorage.setItem("oko-jwt", data.access_token);
         commit(AUTH_LOGIN);
       })
       .catch(err => {
@@ -40,7 +40,7 @@ const actions = {
   },
   logout ({ commit }) {
     return new Promise((resolve) => {
-      localStorage.removeItem("oko-jwt");
+      sessionStorage.removeItem("oko-jwt");
       commit(AUTH_LOGOUT);
       resolve();
     });

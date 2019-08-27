@@ -251,7 +251,7 @@ const router = new Router({
       }
     },
     {
-      path: '/kontragents',
+      path: '/clients',
       name: 'PageKontragents',
       component: PageKontragents,
       meta: {
@@ -263,7 +263,7 @@ const router = new Router({
       }
     },
     {
-      path: '/kontragents/add',
+      path: '/clients/add',
       name: 'PageKontragentsAdd',
       component: PageKontragentsAdd,
       meta: {
@@ -275,7 +275,7 @@ const router = new Router({
       }
     },
     {
-      path: '/kontragent/:kontragentId',
+      path: '/clients/:clientId',
       name: 'PageKontragent',
       component: PageKontragent,
       meta: {
@@ -325,7 +325,7 @@ const router = new Router({
       ]
     },
     {
-      path: '/kontragent/:kontragentId/change',
+      path: '/clients/:clientId/change',
       name: 'PageKontragentChange',
       component: PageKontragentChange,
       meta: {

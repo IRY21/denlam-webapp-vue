@@ -4,14 +4,11 @@
   >
     <div class="Form addnewuserform">
         <div class="Form-Row">
-            <label class="Input">
-                <span class="Label">Логин</span>
-                <input 
-                    type="text" 
-                    class="Input-Control"
-                    v-model="form.login"
-                >
-            </label>
+            <OkoInput
+              type="text" 
+              :label="'Логин'"
+              v-model="form.login"
+            />
             <OkoError
                 v-show="$v.form.login.$error"
             >
@@ -19,14 +16,11 @@
             </OkoError>
         </div>
         <div class="Form-Row">
-            <label class="Input">
-                <span class="Label">Пароль</span>
-                <input 
-                    type="password" 
-                    class="Input-Control"
-                    v-model="form.password"
-                >
-            </label>
+            <OkoInput
+              type="text" 
+              :label="'Пароль'"
+              v-model="form.password"
+            />
             <OkoError
                 v-show="$v.form.password.$error"
             >
@@ -34,14 +28,11 @@
             </OkoError>
         </div>
         <div class="Form-Row">
-            <label class="Input">
-                <span class="Label">Имя пользователя</span>
-                <input 
-                    type="text" 
-                    class="Input-Control"
-                    v-model="form.name"
-                >
-            </label>
+            <OkoInput
+              type="text" 
+              :label="'Имя пользователя'"
+              v-model="form.name"
+            />
             <OkoError
                 v-show="$v.form.name.$error"
             >
@@ -86,19 +77,6 @@
                   :deselectLabel="''"
                   :selectedLabel="'Выбрано'"
                 />
-                <!-- <select 
-                  class="Select-Control"
-                  multiple
-                  v-model="form.user_filials_ids"
-                >
-                  <option 
-                    v-for="filial of filials"
-                    :value="filial.id"
-                    :key="filial.id"
-                  >
-                    {{filial.title}}
-                  </option>
-                </select> -->
             </label>
         </div>
         <div class="Form-Row Form-Row_btnWrap">

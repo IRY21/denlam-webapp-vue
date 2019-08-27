@@ -30,7 +30,9 @@ const actions = {
 }
 
 const getters = {
-  
+  getRoles: state => state.items,
+  getRole: state => state.item,
+  isRolesLoaded: state => !!state.items,
 }
 
 export default {

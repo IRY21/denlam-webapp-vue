@@ -14,13 +14,13 @@
       class="Table-Row Table-Row_link"
       v-for="item of data"
       :key="item.id"
-      @click="callback(item.id)"
+      @click="handleRowLink(item.id)"
     >
       <div 
         class="Table-Column"
         v-for="column of columns"
         :key="column.id"
-        :style="columnSizeHandler(column)"
+        :style="columnSizeHandler(column) || ''"
       >
         <p class="Table-Text">{{ item[column.searchName] }}</p>
       </div>
@@ -43,9 +43,9 @@
       id: 1
       ...
     ],
-    callback: [
-      function(id)
-    ]
+
+    // events:
+        @row-action-handler(rowId)
 */
 export default {
   name: 'OkoTable',
@@ -57,17 +57,17 @@ export default {
     data: {
       required: true,
       type: Array
-    },
-    callback: {
-      type: Function
     }
   },
   methods: {
     columnSizeHandler(column) {
       const columnSize = column.size;
-      if (!columnSize) return { width: '100%'}
+      if (!columnSize) return;
 
       return { width: columnSize}
+    },
+    handleRowLink(rowId) {
+      this.$emit('row-action-handler', rowId);
     }
   }
 }

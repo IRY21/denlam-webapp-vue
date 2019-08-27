@@ -16,20 +16,17 @@
       </div>
       <div class="chooseFromListPopup-Search">
         <div class="Search">
-          <div class="Input">
-            <input
-              type="text"
-              class="Input-Control"
+          <OkoInput
               :placeholder="placeholder || ''"
+              type="text" 
               v-model="search"
-            >
-          </div>
+          />
         </div>
       </div>
       <OkoTable 
         :columns="tableColumns"
         :data="filteredList"
-        :callback="chooseHandler"
+        @row-action-handler="chooseHandler"
       />
     </div>
   </div>

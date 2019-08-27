@@ -9,6 +9,7 @@ import users from './modules/users/';
 import filials from './modules/filials/';
 import roles from './modules/roles/';
 import products from './modules/products/';
+import clients from './modules/clients/';
 
 Vue.use(Vuex)
 
@@ -21,6 +22,7 @@ export default new Vuex.Store({
     filials,
     roles,
     products,
+    clients,
   },
   mutations: {
     [SET_ITEMS](state, { resource, items }) {

@@ -2,42 +2,33 @@
   <form class="Card Card_bgWhite Card_bd Card_bd_color_darkBlue SettingCard">
     <div class="Form">
         <div class="Form-Row">
-            <label class="Input">
-                <span class="Label">Логин</span>
-                <input 
-                    type="text"
-                    class="Input-Control"
-                    v-model="form.login"
-                    @blur="$v.form.login.$touch()"
-                >
-            </label>
+            <OkoInput
+              type="text" 
+              :label="'Логин'"
+              v-model="form.login"
+              @blur="$v.form.login.$touch()"
+            />
             <OkoError
-                v-show="$v.form.login.$error"
+              v-show="$v.form.login.$error"
             >
-                Поле логин обязательно
+              Поле логин обязательно
             </OkoError>
         </div>
         <div class="Form-Row">
-            <label class="Input">
-                <span class="Label">Пароль</span>
-                <input 
-                    type="password" 
-                    class="Input-Control" 
-                    placeholder="Введите для изменения"
-                    v-model="form.password"
-                >
-            </label>
+            <OkoInput
+              :placeholder="'Введите для изменения'"
+              type="password" 
+              :label="'Пароль'"
+              v-model="form.password"
+            />
         </div>
         <div class="Form-Row">
-            <label class="Input">
-                <span class="Label">Имя пользователя</span>
-                <input 
-                    type="text" 
-                    class="Input-Control"
-                    v-model="form.name"
-                    @blur="$v.form.name.$touch()"
-                >
-            </label>
+            <OkoInput
+              type="text" 
+              :label="'Имя пользователя'"
+              v-model="form.name"
+              @blur="$v.form.name.$touch()"
+            />
             <OkoError
                 v-show="$v.form.name.$error"
             >
@@ -47,7 +38,17 @@
         <div class="Form-Row">
             <label class="Select Select_theme_arrow">
                 <span class="Label">Полномочия</span>
-                <select 
+                <multiselect 
+                  v-model="form.user_role" 
+                  :value="selectedRoleToObject"
+                  :options="roles" 
+                  track-by="name"
+                  :custom-label="customRolesLabel"
+                  :searchable="false" 
+                  :show-labels="false"
+                  placeholder=""
+                />
+                <!-- <select 
                   class="Select-Control"
                   v-model="form.role_id"
                 >
@@ -59,10 +60,10 @@
                   >
                     {{role.name}}
                   </option>
-                </select>
+                </select> -->
             </label>
             <OkoError
-                v-show="$v.form.role_id.$error"
+                v-show="$v.form.user_role.$error"
             >
                 Поле полномочия обязательно
             </OkoError>
@@ -71,36 +72,34 @@
             <label class="Select Select_theme_arrow">
                 <span class="Label">Филиал</span>
                 <multiselect
-                  v-model="user_filials" 
+                  v-model="form.user_filials" 
                   :value="selectedFilialsToObject" 
                   :options="filials"
                   :multiple="true"
                   track-by="id"
-                  :custom-label="customLabel"
+                  :custom-label="customFilialsLabel"
                   placeholder=""
-                  :selectLabel="''"
-                  :deselectLabel="''"
-                  :selectedLabel="'Выбрано'"
+                  :show-labels="false"
                 />
             </label>
         </div>
         <div class="Form-Row Form-Row_btnWrap">
             <div class="Flex">
-                <button 
-                  class="Btn Btn_theme_green Btn_size_m"
-                  :class="{'Btn_theme_wait': loading}"
-                  :disabled="$v.$invalid || loading"
-                  @click.prevent="updateUser"
-                >
-                  Сохранить
-                </button>
+              <button 
+                class="Btn Btn_theme_green Btn_size_m"
+                :class="{'Btn_theme_wait': loading}"
+                :disabled="$v.$invalid || loading"
+                @click.prevent="updateUser"
+              >
+                Сохранить
+              </button>
 
-                <div 
-                  class="Btn Btn_theme_delete"
-                  @click.prevent="chooseNewResponsible"
-                >
-                  Удалить
-                </div>
+              <div 
+                class="Btn Btn_theme_delete"
+                @click.prevent="chooseNewResponsible"
+              >
+                Удалить
+              </div>
             </div>
         </div>
     </div>
@@ -134,14 +133,14 @@
     data() {
       return {
         form: {
-          id: this.user.id,
-          login: this.user.login,
+          id: this.user.id || '',
+          login: this.user.login || '',
           password: this.user.password || '',
-          name: this.user.name,
-          role_id: this.user.role_id,
+          name: this.user.name || '',
+          user_role: [],
+          user_filials: [],
         },
         loading: false,
-        user_filials: {},
       }
     },
     validations: {
@@ -160,38 +159,53 @@
             minLength: minLength(3),
             maxLength: maxLength(100),
         },
-        role_id: { required }
+        user_role: { required }
       }
     },
     created() {
-      this.user_filials = this.selectedFilialsToObject();
+      this.form.user_filials = this.selectedFilialsToObject();
+      this.form.user_role = this.selectedRoleToObject();
     },
     computed: {
-      selectedFilialsToIds() {
-        const filials= this.user_filials;
+      userFilialsIds() {
+        const filials= this.form.user_filials;
         let selectedArr = [];
         for (let i = 0; i < filials.length; i++) {
           selectedArr[i] = filials[i].id;
         }
         return selectedArr;
-      },
+      }
     },
     methods: {
       selectedFilialsToObject() {
         const filialIds = this.user.user_filials_ids || [];
-        let selectedFilials;
-        selectedFilials = this.filials.filter(filial => {
+        return this.filials.filter(filial => {
           return filialIds.includes(filial.id);
         })
-        return selectedFilials;
       },
-      customLabel (option) {
-        return `${option.title}`
+      selectedRoleToObject() {
+        const roleId = this.user.role_id || {};
+        return this.roles.find(role => {
+          return roleId === role.id;
+        })
+      },
+      customFilialsLabel (option) {
+        return `${option.title}`;
+      },
+      customRolesLabel (option) {
+        return `${option.name}`;
       },
       updateUser() {
         this.loading = true;
-        this.$store.dispatch('users/updateUser', { ...this.form, 
-                                                   user_filials_ids: this.selectedFilialsToIds })
+        let userToUpdate = { 
+          id: this.form.id,
+          login: this.form.login,
+          password: this.form.password,
+          name: this.form.name,
+          role_id: this.form.user_role.id,
+          user_filials_ids: this.userFilialsIds 
+        };
+        this.$store.dispatch('users/updateUser', userToUpdate)
           .then(() => {
             this.loading = false;
             this.okoModal_response({ type: 'success', 

@@ -5,16 +5,12 @@
         </div>
         <form class="Login-Form Form">
             <div class="Form-Row">
-                <label class="Input">
-                    <input 
-                        type="text" 
-                        class="Input-Control" 
-                        placeholder="Логин"
-                        value=""
-                        v-model="form.login"
-                        @blur="$v.form.login.$touch()"
-                    >
-                </label>
+                <OkoInput
+                    placeholder="Логин"
+                    type="text" 
+                    v-model="form.login"
+                    @blur="$v.form.login.$touch()"
+                />
                 <OkoError
                     class="Login-Error"
                     v-show="$v.form.login.$error"
@@ -23,16 +19,12 @@
                 </OkoError>
             </div>
             <div class="Form-Row">
-                <label class="Input">
-                    <input 
-                        type="password" 
-                        class="Input-Control" 
-                        placeholder="Пароль"
-                        value=""
-                        v-model="form.password"
-                        @blur="$v.form.password.$touch()"
-                    >
-                </label>
+                <OkoInput
+                    placeholder="Пароль"
+                    type="password" 
+                    v-model="form.password"
+                    @blur="$v.form.password.$touch()"
+                />
                 <OkoError
                     class="Login-Error"
                     v-show="$v.form.password.$error"
