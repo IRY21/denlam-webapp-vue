@@ -2,7 +2,10 @@
   <div class="MainMenu">
     <router-link 
       class="MainMenu-Item MainMenu-Item_Icon MainMenu-Item_IconProjects"
-      :class="{'active': currentRoute === 'PageProjects'}"
+      :class="{'active': (currentRoute === 'PageProjects') ||
+                         (currentRoute === 'PageProjectsAdd') ||
+                         (currentRoute === 'PageProject')
+                         }"
       :to="{name: 'PageProjects'}" 
     >
         <svg class="Icon">
@@ -86,7 +89,11 @@
     </router-link>
     <router-link 
       class="MainMenu-Item MainMenu-Item_Icon MainMenu-Item_IconCounterparties"
-      :class="{'active': currentRoute === 'PageClients'}"
+      :class="{'active': (currentRoute === 'PageClients') ||
+                         (currentRoute === 'PageClientsAdd') || 
+                         (currentRoute === 'PageClientChange') ||
+                         (currentRoute === 'PageClient')
+                         }"
       :to="{name: 'PageClients'}" 
     >
         <svg class="Icon">
@@ -110,7 +117,10 @@
     </router-link> -->
     <router-link
       class="MainMenu-Item MainMenu-Item_Icon MainMenu-Item_IconEmployees"
-      :class="{'active': currentRoute === 'PageWorkers'}"
+      :class="{'active': (currentRoute === 'PageWorkers') || 
+                         (currentRoute === 'PageWorkersAdd') || 
+                         (currentRoute === 'PageWorker') 
+                         }"
       :to="{name: 'PageWorkers'}" 
     >
         <svg class="Icon">
@@ -122,7 +132,7 @@
     </router-link>
     <router-link 
       class="MainMenu-Item MainMenu-Item_Icon MainMenu-Item_IconSetting"
-      :class="{'active': currentRoute === 'PageSettingsUsers'}"
+      :class="{'active': currentRoute === 'PageSettings'}"
       :to="{name: 'PageSettingsUsers'}" 
     >
         <svg class="Icon">

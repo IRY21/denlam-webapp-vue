@@ -20,3 +20,22 @@ export const Role = {
 }
 
 export const programName = 'OKO';
+
+export const sortAlphabet = (a, b) => {
+  if(a.title.toLowerCase() < b.title.toLowerCase()) { return -1; }
+  if(a.title.toLowerCase() > b.title.toLowerCase()) { return 1; }
+  return 0;
+}
+
+export function throttle (callback, limit) {
+  var wait = false;
+  return function () {
+      if (!wait) {
+          callback.call();
+          wait = true;
+          setTimeout(function () {
+              wait = false;
+          }, limit);
+      }
+  }
+}

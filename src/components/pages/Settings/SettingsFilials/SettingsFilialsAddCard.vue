@@ -1,6 +1,9 @@
 <template>
   <div class="Card Card_bgGray Card_bd Card_bd_dashed Card_add-product">
-    <form class="Form">
+    <form 
+      class="Form"
+      @submit.prevent="addFilial"
+    >
         <div class="Form-Row">
             <h3 class="Heading_lvl3">Добавить филиал</h3>
         </div>
@@ -28,13 +31,13 @@
             </div>
         </div>
         <div class="Form-Row Form-Row_btnWrap">
-            <div 
+            <button 
               class="Btn Btn_theme_green Btn_size_m"
               :disabled="$v.$invalid"
               @click.prevent="addFilial"
             >
               Добавить
-            </div>
+            </button>
         </div>
     </form>
   </div>

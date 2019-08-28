@@ -3,7 +3,7 @@
     <div class="MainSection-Row MainSection-Row_bgGrey MainSection-Row_title">
         <router-link
           class="Link Link_back"
-          :to="{name: 'PageClient'}"
+          :to="{name: 'PageClients'}"
         >
             Вернуться назад
         </router-link>

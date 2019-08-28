@@ -19,7 +19,7 @@
     <div class="MainSection-Row MainSection-Row_noTopPadding">
         <router-link
           class="Link Color_blue"
-          :to="'/worker/1/salary'"
+          :to="{name: 'PageWorkerSalary', params: { workerId: '1'}}"
         >
           Расчет зарплаты и авансирование
         </router-link>

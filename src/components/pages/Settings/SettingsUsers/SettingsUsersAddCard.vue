@@ -1,6 +1,7 @@
 <template>
   <form 
     class="Card Card_bgLightGreen Card_bd Card_bd_color_green SettingCard"
+    @submit.prevent="addUser"
   >
     <div class="Form addnewuserform">
         <div class="Form-Row">
@@ -8,6 +9,7 @@
               type="text" 
               :label="'Логин'"
               v-model="form.login"
+              @blur="$v.form.login.$touch()"
             />
             <OkoError
                 v-show="$v.form.login.$error"
@@ -17,9 +19,10 @@
         </div>
         <div class="Form-Row">
             <OkoInput
-              type="text" 
+              type="password" 
               :label="'Пароль'"
               v-model="form.password"
+              @blur="$v.form.password.$touch()"
             />
             <OkoError
                 v-show="$v.form.password.$error"
@@ -32,6 +35,7 @@
               type="text" 
               :label="'Имя пользователя'"
               v-model="form.name"
+              @blur="$v.form.name.$touch()"
             />
             <OkoError
                 v-show="$v.form.name.$error"
@@ -45,6 +49,7 @@
                 <select 
                   class="Select-Control"
                   v-model="form.role_id"
+                  @blur="$v.form.role_id.$touch()"
                 >
                   <option 
                     v-for="role of roles"
@@ -163,6 +168,11 @@
         return `${option.title}`
       },
       addUser() {
+        if (this.$v.form.$invalid) {
+          this.$v.form.$touch();
+          return;
+        }
+
         this.$store.dispatch('users/addUser', {...this.form, 
                                                user_filials_ids: this.selectedFilialsToIds})
             .then(() => {
@@ -170,6 +180,7 @@
                 this.form.password = null;
                 this.form.name = null;
                 this.form.role_id = null;
+                this.user_filials = null;
 
                 this.okoModal_response({ type: 'success', 
                                           message: 'Пользователь успешно добавлен'});

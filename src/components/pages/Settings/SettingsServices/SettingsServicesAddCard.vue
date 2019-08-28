@@ -28,13 +28,13 @@
             </div>
         </div>
         <div class="Form-Row Form-Row_btnWrap">
-            <div 
+            <button 
               class="Btn Btn_theme_green Btn_size_m"
               :disabled="$v.$invalid"
               @click.prevent="addService"
             >
               Добавить
-            </div>
+            </button>
         </div>
     </form>
   </div>

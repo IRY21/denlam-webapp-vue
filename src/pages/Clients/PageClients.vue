@@ -21,6 +21,8 @@
                     type="text"
                     v-model="searchParams.search"
                     placeholder="Введите название или ИНН для поиска.."
+                    @keyup.enter="searchHandler"
+                    @input="throttledSearch"
                 />
                 <div 
                     class="Btn Btn_theme_blue"
@@ -88,7 +90,7 @@
                                 v-for="contact of client.client_textinfo"
                                 :key="contact.id"
                             >
-                                {{ contact.value1 }}
+                                {{ contact.value1 | formatPhone }}
                             </p>
                         </div>
                         <div class="Table-Column">
@@ -102,7 +104,7 @@
                                 v-for="contact of firstContactInClient(client).client_contact_textinfo"
                                 :key="contact.id"
                             >
-                                {{ contact.value1 }}
+                                {{ contact.value1 | formatPhone }}
                             </p>
                         </div>
                     </div>
@@ -111,8 +113,8 @@
                         @infinite="infiniteHandler"
                         ref="infiniteLoading"
                     >
-                        <div class="Infinite-End" slot="no-more">Выведены все контрагенты</div>
-                        <div class="Infinite-End" slot="no-results">Выведены все контрагенты</div>
+                        <div class="Infinite-End" slot="no-more"></div>
+                        <div class="Infinite-End" slot="no-results"></div>
                     </infinite-loading>
                 </div>
             </div>
@@ -126,6 +128,7 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex';
+import { throttle } from '@/_helpers';
 
 export default {
     data() {
@@ -140,7 +143,11 @@ export default {
     computed: {
         ...mapGetters({
             clients: 'clients/getClients'
-        })
+        }),
+        throttledSearch() {
+            let DELAY = 1000;
+            return throttle(this.searchHandler, DELAY);
+        }
     },
     created() {
         Promise.all([this.fetchClients(this.searchParams)])

@@ -47,6 +47,17 @@ Vue.use(InfiniteLoading);
 Vue.mixin(okoModal);
 Vue.mixin(pageLoader);
 
+/**
+ * Formats a phone number.
+ * Example: 89999999999 => 8 (999) 999-99-99
+ *
+ * @param {String} phone
+ * @return {Void}
+ */
+Vue.filter('formatPhone', function (phone) {
+  return phone.replace(/[^0-9]/g, '')
+              .replace(/(\d{1})(\d{3})(\d{3})(\d{2})(\d{2})/, '$1 ($2) $3-$4-$5');
+});
 
 new Vue({
   router,

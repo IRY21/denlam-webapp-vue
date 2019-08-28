@@ -5,7 +5,7 @@ const axiosInstance = axios.create({
 })
 
 axiosInstance.interceptors.request.use(function(config) {
-  const token = sessionStorage.getItem('oko-jwt') || ''
+  const token = localStorage.getItem('oko-jwt') || ''
 
   if(token) {
     config.headers.Authorization = `${token}`

@@ -1,4 +1,4 @@
-import { config, rejectError } from '@/_helpers'
+import { config, rejectError, sortAlphabet } from '@/_helpers'
 import axiosInstance from '@/_services/axios';
 
 import { SET_ITEMS } from '@/store/mutation-types/setItems'
@@ -33,7 +33,10 @@ const actions = {
       .then((res) => {
         const filial = res.data;
         const filials = state.items;
-        commit(SET_ITEMS, { resource: 'filials', items: [ ...filials, filial]}, {root: true});
+
+        const filtered = [ ...filials, filial].sort(sortAlphabet);
+
+        commit(SET_ITEMS, { resource: 'filials', items: filtered}, {root: true});
         dispatch('shared/clearLoading', null, { root: true });
         return filials;
       })
