@@ -13,13 +13,70 @@
     </div>
     <form class="Form">
         <div class="MainSection-Row MainSection-Row_size_add">
+            <h2 class="Heading_lvl2">Тип клиента</h2>
             <div class="Form-Row Form-Row_col2">
+                <div class="Form-Column">
+                    <OkoRadio 
+                        v-model="client.client_type_id" 
+                        name="options"
+                        value="2"
+                    >
+                        Юр. лицо
+                    </OkoRadio>
+                </div>
+                <div class="Form-Column">
+                    <OkoRadio 
+                        v-model="client.client_type_id" 
+                        name="options"
+                        :value="'1'"
+                    >
+                        Физ. лицо
+                    </OkoRadio>
+                </div>
+            </div>
+        </div>
+        <div class="MainSection-Row MainSection-Row_size_add">
+            <div 
+                v-if="client.client_type_id === '1'"
+                class="Form-Row"
+            >
+                <div class="Form-Row Form-Row_col2">
+                    <div class="Form-Column">
+                        <OkoInput 
+                            type="text"
+                            v-model="client.name"
+                            :label="'Фамилия'"
+                        />
+                    </div>
+                </div>
+                <div class="Form-Row Form-Row_col2">
+                    <div class="Form-Column">
+                        <OkoInput 
+                            type="text"
+                            v-model="client.name"
+                            :label="'Имя'"
+                        />
+                    </div>
+                </div>
+                <div class="Form-Row Form-Row_col2">
+                    <div class="Form-Column">
+                        <OkoInput 
+                            type="text"
+                            v-model="client.name"
+                            :label="'Отчество'"
+                        />
+                    </div>
+                </div>
+            </div>
+            <div 
+                v-if="client.client_type_id === '2'"
+                class="Form-Row Form-Row_col2"
+            >
                 <div class="Form-Column">
                     <OkoInput 
                         type="text"
-                        v-model="form.name"
-                        placeholder="Введите наименование"
-                        :label="'Наименование организации или ФИО'"
+                        v-model="client.name"
+                        :label="'Наименование организации'"
                     />
                 </div>
             </div>
@@ -27,85 +84,94 @@
                 <div class="Form-Column">
                     <OkoInput 
                         type="text"
-                        v-model="form.inn"
-                        placeholder="Введите наименование"
+                        v-model="client.inn"
+                        @keypress="checkInputType_isNumber()"
                         :label="'Введите ИНН'"
                     />
                 </div>
             </div>
             <div class="Form-Row">
                 <div class="Form-Column">
-                    <div class="Select Select_theme_arrow">
-                        <p class="Label">Город</p>
-                        <select name="" id="" class="Select-Control">
-                            <option value="1">Уфа</option>
-                            <option value="2">Москва</option>
-                        </select>
-                    </div>
+                    <OkoInput 
+                        type="text"
+                        v-model="client.address"
+                        :label="'Полный адрес'"
+                    />
                 </div>
             </div>
             <div class="Form-Row">
                 <p class="Label">Телефоны</p>
-                <div class="Form-Row">
-                    <div class="Flex Flex_justify_space-between">
+                <div 
+                    class="Form-Row"
+                    v-for="(phone, index) in phoneFields"
+                    :key="index"
+                >
+                    <div class="Flex Flex_justify_flex-start Flex_align_center">
                         <div class="Form-Column">
                             <OkoInput 
                                 type="text"
-                                v-model="form.name"
+                                v-model="phone.value1"
                                 placeholder="8 (999) 999-99-99"
                             />
                         </div>
-                        <div class="Form-Column">
+                        <div class="Form-Column Form-Column_auto">
                             <OkoInput 
                                 :class="'Input_num_add'"
                                 type="text"
-                                v-model="form.name"
+                                v-model="phone.value2"
                                 placeholder="доб. 11"
                             />
                         </div>
+                        <svg 
+                            class="Input-ChangeBtn ChangeBtn ChangeBtn_type_cancel"
+                            @click="deleteField('phone', index)"
+                        >
+                            <use 
+                                xlink:href="/img/sprite.svg#cancel" 
+                                href="/img/sprite.svg#cancel"></use>
+                        </svg>
                     </div>
                 </div>
                 <div class="Form-Row">
-                    <div class="Link Link_dashed Link_line_add Link_js-add" data-type="phone">+  добавить еще</div>
+                    <div 
+                        class="Link Link_dashed Link_line_add"
+                        @click="addField('phone')"
+                    >
+                        +  добавить
+                    </div>
                 </div>
             </div>
             <div class="Form-Row">
                 <p class="Label">Email</p>
-                <div class="Form-Row">
-                    <div class="Form-Column">
-                        <div class="Input">
-                            <input type="email"
-                                    value=""
-                                    class="Input-Control"
-                                    placeholder="ivanov@mail.ru"
+                <div 
+                    class="Form-Row"
+                    v-for="(email, index) in emailFields"
+                    :key="index"
+                >
+                    <div class="Flex Flex_justify_flex-start Flex_align_center">
+                        <div class="Form-Column">
+                            <OkoInput 
+                                type="text"
+                                v-model="email.value1"
+                                placeholder="ivanov@mail.ru"
                             />
                         </div>
+                        <svg 
+                            class="Input-ChangeBtn ChangeBtn ChangeBtn_type_cancel"
+                            @click="deleteField('email', index)"
+                        >
+                            <use 
+                                xlink:href="/img/sprite.svg#cancel" 
+                                href="/img/sprite.svg#cancel"></use>
+                        </svg>
                     </div>
                 </div>
                 <div class="Form-Row">
-                    <div class="Form-Column">
-                        <div class="Input">
-                            <input type="email"
-                                    value=""
-                                    class="Input-Control"
-                                    placeholder="ivanov@mail.ru"
-                            />
-                        </div>
-                    </div>
-                </div>
-                <div class="Form-Row">
-                    <div class="Link Link_dashed Link_line_add Link_js-add" data-type="email">+  добавить еще</div>
-                </div>
-            </div>
-            <div class="Form-Row">
-                <div class="Form-Column">
-                    <div class="Input">
-                        <p class="Label">Полный адрес (если имеется)</p>
-                        <input type="text"
-                                value=""
-                                class="Input-Control"
-                                placeholder="Введите адрес"
-                        />
+                    <div 
+                        class="Link Link_dashed Link_line_add"
+                        @click="addField('email')"
+                    >
+                        +  добавить
                     </div>
                 </div>
             </div>
@@ -115,126 +181,21 @@
         </div>
         <div class="MainSection-Row">
             <div class="Flex Flex_wrap">
+
+                <ClientContactCard 
+                    v-for="(contact, index) in contacts"
+                    :key="index"
+                    :contact="contact"
+                    :deleteHandler="deleteCard"
+                />
+                
                 <div class="Card Card_bd Card_contact-face">
-                    <div class="Form-Row">
-                        <div class="Form-Column">
-                            <div class="Input">
-                                <p class="Label">ФИО</p>
-                                <input type="text"
-                                        value=""
-                                        class="Input-Control"
-                                        placeholder="Иванов Петр Семенович"
-                                />
-                            </div>
-                        </div>
+                    <div 
+                        class="Card_add"
+                        @click="addContactForm"
+                    >
+                        + добавить контактное лицо
                     </div>
-                    <div class="Form-Row">
-                        <div class="Form-Column">
-                            <div class="Input">
-                                <p class="Label">Должность</p>
-                                <input type="text"
-                                        value=""
-                                        class="Input-Control"
-                                        placeholder="Менеджер по продажам"
-                                />
-                            </div>
-                        </div>
-                    </div>
-                    <div class="Form-Row">
-                        <div class="Form-Column">
-                            <div class="Select Select_theme_arrow">
-                                <p class="Label">Город</p>
-                                <select name="" id="" class="Select-Control">
-                                    <option value="1">Уфа</option>
-                                    <option value="2">Москва</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="Form-Row">
-                        <p class="Label">Телефоны</p>
-                        <div class="Form-Row">
-                            <div class="Flex Flex_justify_space-between">
-                                <div class="Form-Column">
-                                    <div class="Input">
-                                        <input type="text"
-                                                value=""
-                                                class="Input-Control"
-                                                placeholder="8 (999) 999-99-99"
-                                        />
-                                    </div>
-                                </div>
-                                <div class="Form-Column">
-                                    <div class="Input Input_num_add">
-                                        <input type="text"
-                                                value=""
-                                                class="Input-Control"
-                                                placeholder="доб. 11"
-                                        />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="Form-Row">
-                            <div class="Flex Flex_justify_space-between">
-                                <div class="Form-Column">
-                                    <div class="Input">
-                                        <input type="text"
-                                                value=""
-                                                class="Input-Control"
-                                                placeholder="8 (999) 999-99-99"
-                                        />
-                                    </div>
-                                </div>
-                                <div class="Form-Column">
-                                    <div class="Input Input_num_add">
-                                        <input type="text"
-                                                value=""
-                                                class="Input-Control"
-                                                placeholder="доб. 11"
-                                        />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="Form-Row">
-                            <div class="Link Link_dashed Link_line_add Link_js-add" data-type="phone">+  добавить еще</div>
-                        </div>
-                    </div>
-                    <div class="Form-Row">
-                        <p class="Label">Email</p>
-                        <div class="Form-Row">
-                            <div class="Form-Column">
-                                <div class="Input">
-                                    <input type="email"
-                                            value=""
-                                            class="Input-Control"
-                                            placeholder="ivanov@mail.ru"
-                                    />
-                                </div>
-                            </div>
-                        </div>
-                        <div class="Form-Row">
-                            <div class="Form-Column">
-                                <div class="Input">
-                                    <input type="email"
-                                            value=""
-                                            class="Input-Control"
-                                            placeholder="ivanov@mail.ru"
-                                    />
-                                </div>
-                            </div>
-                        </div>
-                        <div class="Form-Row">
-                            <div class="Link Link_dashed Link_line_add Link_js-add" data-type="email">+  добавить еще</div>
-                        </div>
-                    </div>
-                    <div class="Form-Row">
-                        <div class="Btn Btn_theme_delete">Удалить</div>
-                    </div>
-                </div>
-                <div class="Card Card_bd Card_contact-face">
-                    <div class="Card_add Link_js-add" data-type="card">+ добавить контактное лицо</div>
                 </div>
             </div>
         </div>
@@ -246,14 +207,92 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
+
+import { ClientContactCard } from '@/components/pages/Clients/ClientsAdd'
+
 export default {
     data() {
         return {
-            form: {
+            client: {
+                client_type_id: '2',
                 name: '',
                 inn: '',
-            }
+                fizlico_firstname: '',
+                fizlico_name: '',
+                fizlico_lastname: '',
+                yurlico_name: '',
+                yurlico_ogrn: '',
+                yurlico_kpp: '',
+                address: '',
+            },
+            phoneFields: [],
+            emailFields: [],
+            
+            contacts: []
         }
+    },
+    components: {
+        ClientContactCard
+    },
+    created() {
+        
+    },
+    methods: {
+        ...mapActions('clients', ['addClient']),
+        ...mapActions('contacts', ['addContact']),
+        addContactForm() {
+            this.contacts.push({
+                client_id: "",
+                name: "",
+                position: "",
+                client_contacts_textinfo: []
+            })
+        },
+        deleteCard(index) {
+            this.contacts.splice(index, 1);
+        },
+        addField(type) {
+            switch (type) {
+                case 'phone': {
+                    this.phoneFields.push({
+                        textinfo_type_id: '1',
+                        value1: "",
+                        value2: ""
+                    })
+                    break;
+                }
+                case 'email': {
+                    this.emailFields.push({
+                        textinfo_type_id: '2',
+                        value1: "",
+                    })
+                    break;
+                }
+            }
+        },
+        deleteField(type, index) {
+            switch (type) {
+                case 'phone': {
+                    this.phoneFields.splice(index, 1);
+                    break;
+                }
+                case 'email': {
+                    this.emailFields.splice(index, 1);
+                    break;
+                }
+            }
+        },
+        addClient() {
+           this.$store.dispatch('clients/addClient', { ...this.client, 
+                                                       client_textinfo: [ ...this.phoneFields, ...this.emailFields]})
+            .then(() => {
+                
+            })
+            .catch((err) => {
+              this.okoModal_response({type:'error', message: err});  
+            })
+      },
     }
 }
 </script>
@@ -319,4 +358,8 @@ export default {
 
 .Btn.chooseFromList {
   height: 30px; }
+
+.Form-Column {
+    margin-right: 10px;
+}
 </style>

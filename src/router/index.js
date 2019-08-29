@@ -481,7 +481,6 @@ router.beforeEach((to, from, next) => {
       .then(() => {
         const pageRole = permissions.role;
         const currentUser = store.getters['user/getProfile'];
-        
           if (entryUrl) {
             const url = entryUrl;
             entryUrl = null;

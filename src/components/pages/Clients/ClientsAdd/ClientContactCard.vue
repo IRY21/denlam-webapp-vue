@@ -1,0 +1,188 @@
+<template>
+  <div class="Card Card_bd Card_contact-face">
+    <div class="Form-Row">
+        <div class="Form-Column">
+            <OkoInput 
+                type="text"
+                v-model="contact.name"
+                :label="'ФИО'"
+                placeholder="Иванов Петр Семенович"
+            />
+        </div>
+    </div>
+    <div class="Form-Row">
+        <div class="Form-Column">
+            <OkoInput 
+                type="text"
+                v-model="contact.position"
+                :label="'Должность'"
+                placeholder="Менеджер по продажам"
+            />
+        </div>
+    </div>
+    <div class="Form-Row">
+        <p class="Label">Телефоны</p>
+        <div 
+            class="Form-Row"
+            v-for="(phone, index) in phoneFields"
+            :key="index"
+        >
+            <div class="Flex Flex_justify_flex-start Flex_align_center">
+                <div class="Form-Column">
+                    <OkoInput 
+                        type="text"
+                        v-model="phone.value1"
+                        placeholder="8 (999) 999-99-99"
+                    />
+                </div>
+                <div class="Form-Column Form-Column_auto">
+                    <OkoInput 
+                        :class="'Input_num_add'"
+                        type="text"
+                        v-model="phone.value2"
+                        placeholder="доб. 11"
+                    />
+                </div>
+                <svg 
+                    class="Input-ChangeBtn ChangeBtn ChangeBtn_type_cancel"
+                    @click="deleteField('phone', index)"
+                >
+                    <use 
+                        xlink:href="/img/sprite.svg#cancel" 
+                        href="/img/sprite.svg#cancel"></use>
+                </svg>
+            </div>
+        </div>
+        <div class="Form-Row">
+            <div 
+                class="Link Link_dashed Link_line_add"
+                @click="addField('phone')"
+            >
+                +  добавить
+            </div>
+        </div>
+    </div>
+    <div class="Form-Row">
+        <p class="Label">Email</p>
+        <div 
+            class="Form-Row"
+            v-for="(email, index) in emailFields"
+            :key="index"
+        >
+            <div class="Flex Flex_justify_flex-start Flex_align_center">
+                <div class="Form-Column">
+                    <OkoInput 
+                        type="text"
+                        v-model="email.value1"
+                        placeholder="ivanov@mail.ru"
+                    />
+                </div>
+                <svg 
+                    class="Input-ChangeBtn ChangeBtn ChangeBtn_type_cancel"
+                    @click="deleteField('email', index)"
+                >
+                    <use 
+                        xlink:href="/img/sprite.svg#cancel" 
+                        href="/img/sprite.svg#cancel"></use>
+                </svg>
+            </div>
+        </div>
+        <div class="Form-Row">
+            <div 
+                class="Link Link_dashed Link_line_add"
+                @click="addField('email')"
+            >
+                +  добавить
+            </div>
+        </div>
+    </div>
+    <div class="Form-Row">
+      <div 
+        class="Btn Btn_theme_delete"
+        @click="deleteHandler"
+      >
+        Удалить
+      </div>
+    </div>
+</div>
+</template>
+
+<script>
+export default {
+  props: {
+    contact: {
+      required: true,
+      type: Object
+    },
+    deleteHandler: {
+      required: true,
+      type: Function
+    }
+  },
+  data() {
+    return {
+      contact: {
+        client_id: "",
+        name: "",
+        position: "",
+        client_contacts_textinfo: []
+      },
+      phoneFields: [],
+      emailFields: [],
+    }
+  },
+  methods: {
+    addField(type) {
+      switch (type) {
+        case 'phone': {
+          this.phoneFields.push({
+              textinfo_type_id: '1',
+              value1: "",
+              value2: ""
+          })
+          break;
+        }
+        case 'email': {
+          this.emailFields.push({
+              textinfo_type_id: '2',
+              value1: "",
+          })
+          break;
+        }
+      }
+    },
+    deleteField(type, index) {
+      switch (type) {
+        case 'phone': {
+          this.phoneFields.splice(index, 1);
+          break;
+        }
+        case 'email': {
+          this.emailFields.splice(index, 1);
+          break;
+        }
+      }
+    },
+  }
+}
+</script>
+
+<style scoped lang="scss">
+
+.Card_contact-face {
+  width: 400px;
+  margin-right: 20px;
+  margin-bottom: 20px; }
+  .Card_contact-face .Form-Column:nth-of-type(1) {
+    width: 260px; }
+  .Card_contact-face .Form-Column:nth-of-type(2) {
+    width: 69px; }
+
+.Link_line_add {
+  margin: 15px 0 20px;
+  color: #008acc; }
+
+.Form-Column {
+    margin-right: 10px;
+}
+</style>

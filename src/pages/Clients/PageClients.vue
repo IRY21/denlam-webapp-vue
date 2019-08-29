@@ -1,7 +1,5 @@
 <template>
-    <div
-        v-if="pageLoader_isDataLoaded"
-    >
+    <div>
         <div class="MainSection-Row MainSection-Row_bgGrey MainSection-Row_title">
             <div class="Flex Flex_align_center">
                 <h1 class="Heading_lvl1">
@@ -32,7 +30,10 @@
                 </div>
             </div>
         </div>
-        <div class="MainSection-Row MainSection-Row_noTopPadding">
+        <div 
+            v-if="pageLoader_isDataLoaded"
+            class="MainSection-Row MainSection-Row_noTopPadding"
+        >
             <div class="Card Card_bgGray">
                 <div class="Table Table_counterparties">
                     <div class="Table-Row Table-Row_head">
@@ -119,9 +120,9 @@
                 </div>
             </div>
         </div>
-    </div>
-    <div v-else>
-        <AppSpinner />
+        <div v-else>
+            <AppSpinner />
+        </div>
     </div>
     
 </template>

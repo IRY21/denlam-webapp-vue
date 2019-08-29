@@ -1169,6 +1169,9 @@ a {
 
 .Form-Column {
   width: calc(50% - 20px*1/2); }
+.Form-Column_auto {
+  width: auto;
+}
 
 .Form-Btn {
   width: 140px;

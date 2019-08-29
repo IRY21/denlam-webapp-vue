@@ -28,6 +28,7 @@ import AuthLayout from '@/layouts/AuthLayout.vue'
 // Mixins
 import okoModal from '@/_mixins/okoModal';
 import pageLoader from "@/_mixins/pageLoader"
+import checkInputType from "@/_mixins/checkInputType"
 
 Vue.config.productionTip = false
 Vue.component('default-layout', DefaultLayout)
@@ -46,6 +47,7 @@ Vue.use(InfiniteLoading);
 
 Vue.mixin(okoModal);
 Vue.mixin(pageLoader);
+Vue.mixin(checkInputType);
 
 /**
  * Formats a phone number.

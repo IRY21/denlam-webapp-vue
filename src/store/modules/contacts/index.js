@@ -7,7 +7,6 @@ import { SET_TYPES } from '@/store/mutation-types/clients'
 const state = {
   items: [],
   item: null,
-  types: null
 }
 
 const mutations = {
@@ -26,36 +25,6 @@ const actions = {
         commit(SET_ITEMS, { resource: 'clients', items: [ ...state.items, ...clients]}, {root: true});
         dispatch('shared/clearLoading', null, { root: true });
         return clients;
-      })
-      .catch((err) => {
-        dispatch('shared/clearLoading', null, { root: true });
-        return rejectError(err);
-      })
-  },
-  searchClients({ commit, dispatch }, searchClientsParam ) {
-    dispatch('shared/setLoading', null, { root: true });
-
-    return axiosInstance.post(`${config.apiUrl}/client/show_all`, searchClientsParam)
-      .then((res) => {
-        const clients = res.data;
-        commit(SET_ITEMS, { resource: 'clients', items: clients}, {root: true});
-        dispatch('shared/clearLoading', null, { root: true });
-        return clients;
-      })
-      .catch((err) => {
-        dispatch('shared/clearLoading', null, { root: true });
-        return rejectError(err);
-      })
-  },
-  fetchClientTypes({ commit, dispatch }) {
-    dispatch('shared/setLoading', null, { root: true });
-
-    return axiosInstance.post(`${config.apiUrl}/client_type/show_all`)
-      .then((res) => {
-        const clientTypes = res.data;
-        commit(SET_TYPES, clientTypes);
-        dispatch('shared/clearLoading', null, { root: true });
-        return clientTypes;
       })
       .catch((err) => {
         dispatch('shared/clearLoading', null, { root: true });
