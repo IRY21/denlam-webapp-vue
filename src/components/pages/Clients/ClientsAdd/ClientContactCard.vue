@@ -24,7 +24,7 @@
         <p class="Label">Телефоны</p>
         <div 
             class="Form-Row"
-            v-for="(phone, index) in phoneFields"
+            v-for="(phone, index) in contact.phoneFields"
             :key="index"
         >
             <div class="Flex Flex_justify_flex-start Flex_align_center">
@@ -66,7 +66,7 @@
         <p class="Label">Email</p>
         <div 
             class="Form-Row"
-            v-for="(email, index) in emailFields"
+            v-for="(email, index) in contact.emailFields"
             :key="index"
         >
             <div class="Flex Flex_justify_flex-start Flex_align_center">
@@ -97,12 +97,12 @@
         </div>
     </div>
     <div class="Form-Row">
-      <div 
+    <div 
         class="Btn Btn_theme_delete"
         @click="deleteHandler"
-      >
+    >
         Удалить
-      </div>
+    </div>
     </div>
 </div>
 </template>
@@ -119,55 +119,44 @@ export default {
       type: Function
     }
   },
-  data() {
-    return {
-      contact: {
-        client_id: "",
-        name: "",
-        position: "",
-        client_contacts_textinfo: []
-      },
-      phoneFields: [],
-      emailFields: [],
-    }
-  },
   methods: {
     addField(type) {
-      switch (type) {
-        case 'phone': {
-          this.phoneFields.push({
-              textinfo_type_id: '1',
-              value1: "",
-              value2: ""
-          })
-          break;
+        switch (type) {
+            case 'phone': {
+                this.contact.phoneFields.push({
+                    textinfo_type_id: '1',
+                    value1: "",
+                    value2: "",
+                })
+                break;
+            }
+            case 'email': {
+                this.contact.emailFields.push({
+                    textinfo_type_id: '2',
+                    value1: "",
+                    value2: "",
+                })
+                break;
+            }
         }
-        case 'email': {
-          this.emailFields.push({
-              textinfo_type_id: '2',
-              value1: "",
-          })
-          break;
-        }
-      }
     },
     deleteField(type, index) {
-      switch (type) {
-        case 'phone': {
-          this.phoneFields.splice(index, 1);
-          break;
+        switch (type) {
+            case 'phone': {
+                this.contact.phoneFields.splice(index, 1);
+                break;
+            }
+            case 'email': {
+                this.contact.emailFields.splice(index, 1);
+                break;
+            }
         }
-        case 'email': {
-          this.emailFields.splice(index, 1);
-          break;
-        }
-      }
     },
   }
 }
 </script>
 
-<style scoped lang="scss">
+<style scoped>
 
 .Card_contact-face {
   width: 400px;

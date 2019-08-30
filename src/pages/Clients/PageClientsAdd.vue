@@ -44,7 +44,7 @@
                     <div class="Form-Column">
                         <OkoInput 
                             type="text"
-                            v-model="client.name"
+                            v-model="client.fizlico_firstname"
                             :label="'Фамилия'"
                         />
                     </div>
@@ -53,7 +53,7 @@
                     <div class="Form-Column">
                         <OkoInput 
                             type="text"
-                            v-model="client.name"
+                            v-model="client.fizlico_name"
                             :label="'Имя'"
                         />
                     </div>
@@ -62,7 +62,7 @@
                     <div class="Form-Column">
                         <OkoInput 
                             type="text"
-                            v-model="client.name"
+                            v-model="client.fizlico_lastname"
                             :label="'Отчество'"
                         />
                     </div>
@@ -75,7 +75,7 @@
                 <div class="Form-Column">
                     <OkoInput 
                         type="text"
-                        v-model="client.name"
+                        v-model="client.yurlico_name"
                         :label="'Наименование организации'"
                     />
                 </div>
@@ -103,7 +103,7 @@
                 <p class="Label">Телефоны</p>
                 <div 
                     class="Form-Row"
-                    v-for="(phone, index) in phoneFields"
+                    v-for="(phone, index) in client.phoneFields"
                     :key="index"
                 >
                     <div class="Flex Flex_justify_flex-start Flex_align_center">
@@ -145,7 +145,7 @@
                 <p class="Label">Email</p>
                 <div 
                     class="Form-Row"
-                    v-for="(email, index) in emailFields"
+                    v-for="(email, index) in client.emailFields"
                     :key="index"
                 >
                     <div class="Flex Flex_justify_flex-start Flex_align_center">
@@ -200,7 +200,12 @@
             </div>
         </div>
         <div class="MainSection-Row MainSection-Row_noTopPadding">
-            <div class="Btn Btn_theme_green Btn_size_m">Добавить контрагента</div>
+            <div 
+                class="Btn Btn_theme_green Btn_size_m"
+                @click="addClient()"
+            >
+                Добавить контрагента
+            </div>
         </div>
     </form>
   </div>
@@ -216,18 +221,15 @@ export default {
         return {
             client: {
                 client_type_id: '2',
-                name: '',
                 inn: '',
                 fizlico_firstname: '',
                 fizlico_name: '',
                 fizlico_lastname: '',
                 yurlico_name: '',
-                yurlico_ogrn: '',
-                yurlico_kpp: '',
                 address: '',
+                phoneFields: [],
+                emailFields: [],
             },
-            phoneFields: [],
-            emailFields: [],
             
             contacts: []
         }
@@ -246,7 +248,8 @@ export default {
                 client_id: "",
                 name: "",
                 position: "",
-                client_contacts_textinfo: []
+                phoneFields: [],
+                emailFields: [],
             })
         },
         deleteCard(index) {
@@ -255,17 +258,18 @@ export default {
         addField(type) {
             switch (type) {
                 case 'phone': {
-                    this.phoneFields.push({
+                    this.client.phoneFields.push({
                         textinfo_type_id: '1',
                         value1: "",
-                        value2: ""
+                        value2: "",
                     })
                     break;
                 }
                 case 'email': {
-                    this.emailFields.push({
+                    this.client.emailFields.push({
                         textinfo_type_id: '2',
                         value1: "",
+                        value2: "",
                     })
                     break;
                 }
@@ -274,25 +278,62 @@ export default {
         deleteField(type, index) {
             switch (type) {
                 case 'phone': {
-                    this.phoneFields.splice(index, 1);
+                    this.client.phoneFields.splice(index, 1);
                     break;
                 }
                 case 'email': {
-                    this.emailFields.splice(index, 1);
+                    this.client.emailFields.splice(index, 1);
                     break;
                 }
             }
         },
         addClient() {
-           this.$store.dispatch('clients/addClient', { ...this.client, 
-                                                       client_textinfo: [ ...this.phoneFields, ...this.emailFields]})
-            .then(() => {
-                
+            const newClient = {
+                client_type_id: this.client.client_type_id,
+                inn: this.client.inn,
+                fizlico_firstname: this.client.fizlico_firstname,
+                fizlico_name: this.client.fizlico_name,
+                fizlico_lastname: this.client.fizlico_lastname,
+                yurlico_name: this.client.yurlico_name,
+                address: this.client.address,
+                client_textinfo: [ 
+                    ...this.client.phoneFields, 
+                    ...this.client.emailFields
+                ]  
+            }
+
+            this.$store.dispatch('clients/addClient', newClient)
+            .then((res) => {
+                const clientId = res.id;
+                let contactsToAdd = [];
+
+                for (let i = 0; i < this.contacts.length; ++i) {
+                    contactsToAdd.push(this.addContact(clientId, i));
+                }
+                Promise.all(contactsToAdd)
+                    .then(() => {
+                        this.$router.push({ name: 'PageClientAbout', 
+                                            params: {
+                                                clientId: clientId
+                                            }});
+                    })
             })
             .catch((err) => {
               this.okoModal_response({type:'error', message: err});  
             })
       },
+      addContact(clientId, contactIndex) {
+            const newContact = {
+                client_id: clientId,
+                name: this.contacts[contactIndex].name,
+                position: this.contacts[contactIndex].position,
+                client_contacts_textinfo: [ 
+                    ...this.contacts[contactIndex].phoneFields, 
+                    ...this.contacts[contactIndex].emailFields
+                ]
+            }
+           return this.$store.dispatch('contacts/addContact', newContact)
+      }
     }
 }
 </script>

@@ -11,7 +11,8 @@ export default function configureModerator (store, router) {
         return store.commit(`auth/${AUTH_LOGIN}`)
       }
       case `user/${AUTH_USER_LOGOUT}`: {
-        return store.commit(`auth/${AUTH_LOGOUT}`)
+        //return store.commit(`auth/${AUTH_LOGOUT}`)
+        return store.dispatch(`auth/logout`);
       }
     }
   })

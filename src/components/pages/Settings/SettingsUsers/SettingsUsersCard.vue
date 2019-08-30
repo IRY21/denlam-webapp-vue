@@ -252,12 +252,6 @@
           .catch((err) => {
             this.okoModal_response({type:'error', message: err});
           })
-      },
-      currentOption(optionId, formOptionId) {
-        if (typeof(formOptionId) === Array) {
-          return formOptionId.filter(id => optionId === id)
-        }
-        return optionId === this.form[formOptionId];
       }
     }
   }

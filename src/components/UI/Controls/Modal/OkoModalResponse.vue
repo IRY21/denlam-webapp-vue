@@ -49,8 +49,22 @@ export default {
       }
     }
   },
+  created() {
+    document.addEventListener('keyup', this.closeModal);
+  },
+
+  beforeDestroy() {
+    document.removeEventListener('keyup', this.closeModal)
+  },
   computed: {
 
+  },
+  methods: {
+    closeModal(e) {
+      if (e.keyCode === 13) {
+        this.$emit('close');
+      }
+    }
   }
 }
 </script>
