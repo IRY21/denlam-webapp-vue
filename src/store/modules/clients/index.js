@@ -1,7 +1,7 @@
 import { config, rejectError } from '@/_helpers'
 import axiosInstance from '@/_services/axios';
 
-import { SET_ITEMS } from '@/store/mutation-types/setItems'
+import { SET_ITEMS, SET_ITEM } from '@/store/mutation-types/setItems'
 import { SET_TYPES } from '@/store/mutation-types/clients'
 
 const state = {
@@ -55,6 +55,20 @@ const actions = {
         commit(SET_TYPES, clientTypes);
         dispatch('shared/clearLoading', null, { root: true });
         return clientTypes;
+      })
+      .catch((err) => {
+        dispatch('shared/clearLoading', null, { root: true });
+        return rejectError(err);
+      })
+  },
+  fetchClient({ commit, dispatch }, clientId) {
+    dispatch('shared/setLoading', null, { root: true });
+    return axiosInstance.post(`${config.apiUrl}/client/show`, {id: clientId})
+      .then((res) => {
+        const client = res.data;
+        commit(SET_ITEM, { resource: 'clients', item: client}, {root: true});
+        dispatch('shared/clearLoading', null, { root: true });
+        return client;
       })
       .catch((err) => {
         dispatch('shared/clearLoading', null, { root: true });

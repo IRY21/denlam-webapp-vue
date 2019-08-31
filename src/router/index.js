@@ -33,6 +33,7 @@ import PageClientsAdd from '@/pages/Clients/PageClientsAdd'
 
 import PageClient from '@/pages/Client/PageClient'
 import PageClientAbout from '@/pages/Client/PageClientAbout'
+import PageClientProjects from '@/pages/Client/PageClientProjects'
 import PageClientAkts from '@/pages/Client/PageClientAkts'
 import PageClientChange from '@/pages/Client/PageClientChange'
 import PageClientPayments from '@/pages/Client/PageClientPayments'
@@ -296,6 +297,18 @@ const router = new Router({
               role: [Role.Admin]
             },
             title: `Клиент || Данные о контрагенте`
+          }
+        },
+        {
+          path: 'akts',
+          name: 'PageClientProjects',
+          component: PageClientProjects,
+          meta: {
+            layout: 'default-layout',
+            permissions: {
+              role: [Role.Admin]
+            },
+            title: `Клиент || Проекты`
           }
         },
         {

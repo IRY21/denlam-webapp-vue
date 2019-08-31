@@ -10,7 +10,12 @@
         <div class="Input Input_type_changeable">
             <div class="Input-Changeable Input-Changeable_static">
                 <div class="Flex Flex_align_center">
-                    <p class="Input-Text Heading_lvl1">ЖК «Ясная поляна»</p>
+                    <p 
+                      v-if="pageLoader_isDataLoaded"
+                      class="Input-Text Heading_lvl1"
+                    >
+                      {{ clientName }}
+                    </p>
                     <router-link 
                       :to="{ name: 'PageClientChange', params: {clientId: currentClientId}}"
                     >
@@ -35,10 +40,10 @@
             </router-link>
             <router-link
               class="AddMenu-Item"
-              :class="{'active': currentRoute === 'PageClientAkts'}"
-              :to="{name: 'PageClientAkts'}"
+              :class="{'active': currentRoute === 'PageClientProjects'}"
+              :to="{name: 'PageClientProjects'}"
             >
-                Связанные акты
+                Проекты
             </router-link>
             <router-link
               class="AddMenu-Item"
@@ -47,23 +52,67 @@
             >
                 Поступившие оплаты
             </router-link>
+            <router-link
+              class="AddMenu-Item"
+              :class="{'active': currentRoute === 'PageClientAkts'}"
+              :to="{name: 'PageClientAkts'}"
+            >
+                Акты выполненных работ
+            </router-link>
         </div>
     </div>
     
-    <router-view></router-view>
+    <router-view
+      v-if="pageLoader_isDataLoaded"
+    >
+    </router-view>
+    
+    <div v-else>
+      <AppSpinner />
+    </div>
 
   </div>
 </template>
 
 <script>
+import { mapGetters, mapActions } from 'vuex';
+
 export default {
   computed: {
+    ...mapGetters({
+      client: ['clients/getClient']
+    }),
     currentRoute() {
       return this.$route.name
     },
     currentClientId() {
       return this.$route.params.clientId
+    },
+    clientName() {
+      const currentClient = this.client;
+      let clientName = '';
+      switch (currentClient.client_type) {
+        case 'yurlico': {
+          clientName = currentClient.yurlico_name;
+          break;
+        }
+        case 'fizlico': {
+          clientName =  `${currentClient.fizlico_firstname} ${currentClient.fizlico_name} ${currentClient.fizlico_lastname}`;
+          break;
+        }
+      }
+      return clientName;
     }
+  },
+  created() {
+      const clientId = this.currentClientId;
+
+      Promise.all([this.fetchClient(clientId)])
+        .then(() => this.pageLoader_resolveData())
+
+  },
+  methods: {
+    ...mapActions('clients', ['fetchClient']),
   }
 }
 </script>
