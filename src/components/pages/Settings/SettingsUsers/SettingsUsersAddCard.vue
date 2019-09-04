@@ -9,7 +9,7 @@
               type="text" 
               :label="'Логин'"
               v-model="form.login"
-              @blur="formCheck($event, 'login')"
+              @blur="vuelidateCheck_input($event, 'login')"
             />
         </div>
         <div class="Form-Row">
@@ -17,7 +17,7 @@
               type="password" 
               :label="'Пароль'"
               v-model="form.password"
-              @blur="formCheck($event, 'password')"
+              @blur="vuelidateCheck_input($event, 'password')"
             />
         </div>
         <div class="Form-Row">
@@ -25,7 +25,7 @@
               type="text" 
               :label="'Имя пользователя'"
               v-model="form.name"
-              @blur="formCheck($event, 'name')"
+              @blur="vuelidateCheck_input($event, 'name')"
             />
         </div>
         <div class="Form-Row">
@@ -83,7 +83,7 @@
               :disabled="$v.$invalid"
               @click.prevent="addUser"
             >
-              Добавить
+              Добавить 
             </button>
         </div>
     </div>

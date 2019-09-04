@@ -14,23 +14,23 @@
     <form class="Form">
         <div class="MainSection-Row MainSection-Row_size_add">
             <h2 class="Heading_lvl2">Тип клиента</h2>
-            <div class="Form-Row Form-Row_col2">
-                <div class="Form-Column">
-                    <OkoRadio 
-                        v-model="client.client_type_id" 
-                        name="options"
-                        value="2"
-                    >
-                        Юр. лицо
-                    </OkoRadio>
-                </div>
-                <div class="Form-Column">
+            <div class="Form-Row Flex Flex_justify_start">
+                <div class="Form-Column Form-Column_auto" style="margin-right: 40px;">
                     <OkoRadio 
                         v-model="client.client_type_id" 
                         name="options"
                         :value="'1'"
                     >
                         Физ. лицо
+                    </OkoRadio>
+                </div>
+                <div class="Form-Column Form-Column_auto">
+                    <OkoRadio 
+                        v-model="client.client_type_id" 
+                        name="options"
+                        value="2"
+                    >
+                        Юр. лицо
                     </OkoRadio>
                 </div>
             </div>
@@ -46,6 +46,7 @@
                             type="text"
                             v-model="client.fizlico_firstname"
                             :label="'Фамилия'"
+                            @blur="vuelidateCheck_input($event, 'fizlico_firstname', 'client')"
                         />
                     </div>
                 </div>
@@ -55,6 +56,7 @@
                             type="text"
                             v-model="client.fizlico_name"
                             :label="'Имя'"
+                            @blur="vuelidateCheck_input($event, 'fizlico_name', 'client')"
                         />
                     </div>
                 </div>
@@ -64,6 +66,7 @@
                             type="text"
                             v-model="client.fizlico_lastname"
                             :label="'Отчество'"
+                            @blur="vuelidateCheck_input($event, 'fizlico_lastname', 'client')"
                         />
                     </div>
                 </div>
@@ -77,6 +80,7 @@
                         type="text"
                         v-model="client.yurlico_name"
                         :label="'Наименование организации'"
+                        @blur="vuelidateCheck_input($event, 'yurlico_name', 'client')"
                     />
                 </div>
             </div>
@@ -87,6 +91,7 @@
                         v-model="client.inn"
                         @keypress="checkInputType_isNumber()"
                         :label="'Введите ИНН'"
+                        @blur="vuelidateCheck_input($event, 'inn', 'client')"
                     />
                 </div>
             </div>
@@ -108,7 +113,7 @@
                 >
                     <div class="Flex Flex_justify_flex-start Flex_align_center">
                         <div class="Form-Column">
-                            <OkoInput 
+                            <OkoInputPhone
                                 type="text"
                                 v-model="phone.value1"
                                 placeholder="8 (999) 999-99-99"
@@ -119,6 +124,7 @@
                                 :class="'Input_num_add'"
                                 type="text"
                                 v-model="phone.value2"
+                                @keypress="checkInputType_isNumber()"
                                 placeholder="доб. 11"
                             />
                         </div>
@@ -135,7 +141,7 @@
                 <div class="Form-Row">
                     <div 
                         class="Link Link_dashed Link_line_add"
-                        @click="addField('phone')"
+                        @click="addField('phone', $event)"
                     >
                         +  добавить
                     </div>
@@ -154,6 +160,7 @@
                                 type="text"
                                 v-model="email.value1"
                                 placeholder="ivanov@mail.ru"
+                                @blur="vuelidateCheck_input($event, 'emailFields', 'client')"
                             />
                         </div>
                         <svg 
@@ -169,7 +176,7 @@
                 <div class="Form-Row">
                     <div 
                         class="Link Link_dashed Link_line_add"
-                        @click="addField('email')"
+                        @click="addField('email', $event)"
                     >
                         +  добавить
                     </div>
@@ -200,12 +207,14 @@
             </div>
         </div>
         <div class="MainSection-Row MainSection-Row_noTopPadding">
-            <div 
+            <button 
                 class="Btn Btn_theme_green Btn_size_m"
+                :class="{'Btn_theme_wait': loading}"
+                :disabled="$v.$invalid || loading"
                 @click="addClient()"
             >
                 Добавить контрагента
-            </div>
+            </button>
         </div>
     </form>
   </div>
@@ -214,25 +223,98 @@
 <script>
 import { mapActions } from 'vuex';
 
+import { required, email } from 'vuelidate/lib/validators';
+
 import { ClientContactCard } from '@/components/pages/Clients/ClientsAdd'
 
 export default {
     data() {
         return {
             client: {
-                client_type_id: '2',
+                client_type_id: '1',
                 inn: '',
                 fizlico_firstname: '',
                 fizlico_name: '',
                 fizlico_lastname: '',
                 yurlico_name: '',
                 address: '',
-                phoneFields: [],
-                emailFields: [],
+                phoneFields: [{
+                        textinfo_type_id: '1',
+                        value1: "",
+                        value2: "",
+                    }],
+                emailFields: [{
+                        textinfo_type_id: '2',
+                        value1: "",
+                        value2: "",
+                    }],
             },
             
-            contacts: []
+            contacts: [{
+                client_id: "",
+                name: "",
+                position: "",
+                phoneFields: [{
+                        textinfo_type_id: '1',
+                        value1: "",
+                        value2: "",
+                    }],
+                emailFields: [{
+                        textinfo_type_id: '2',
+                        value1: "",
+                        value2: "",
+                    }],
+            }],
+
+            loading: false,
         }
+    },
+    validations() {
+        if (this.client.client_type_id === '1') {
+            return {
+                client: {
+                    inn: {
+                        required
+                    },
+                    fizlico_firstname: {
+                        required
+                    },
+                    fizlico_name: {
+                        required
+                    },
+                    fizlico_lastname: {
+                        required
+                    },
+                    emailFields: {
+                        $each: {
+                            value1: {
+                                email
+                            }
+                        }
+                    },
+                    
+                }
+            }
+        } else if (this.client.client_type_id === '2') {
+            return {
+                client: {
+                    inn: {
+                        required
+                    },
+                    yurlico_name: {
+                        required
+                    },
+                    emailFields: {
+                        $each: {
+                            value1: {
+                                email
+                            }
+                        }
+                    },
+                }
+            }
+        }
+        
     },
     components: {
         ClientContactCard
@@ -248,14 +330,22 @@ export default {
                 client_id: "",
                 name: "",
                 position: "",
-                phoneFields: [],
-                emailFields: [],
+                phoneFields: [{
+                        textinfo_type_id: '1',
+                        value1: "",
+                        value2: "",
+                    }],
+                emailFields: [{
+                        textinfo_type_id: '2',
+                        value1: "",
+                        value2: "",
+                    }],
             })
         },
         deleteCard(index) {
             this.contacts.splice(index, 1);
         },
-        addField(type) {
+        addField(type, evt) {
             switch (type) {
                 case 'phone': {
                     this.client.phoneFields.push({
@@ -274,6 +364,9 @@ export default {
                     break;
                 }
             }
+            setTimeout(() => {
+                evt.target.parentElement.previousElementSibling.querySelector('input').focus();
+            }, 0)
         },
         deleteField(type, index) {
             switch (type) {
@@ -287,7 +380,25 @@ export default {
                 }
             }
         },
+        checkTextinfoField(fields) {
+            const valuesArr = fields.map(x => x.value1);
+            const result = fields.reduce((acc, field, index) => {
+                const indexInArr = valuesArr.indexOf(field.value1);
+                if(field.value1 &&  indexInArr === index) { 
+                    acc.push(field);
+                }
+                return acc;
+            }, [])
+            return result;
+        },
         addClient() {
+            this.loading = true;
+
+            const textinfoFields = this.checkTextinfoField([ 
+                    ...this.client.phoneFields, 
+                    ...this.client.emailFields
+                ]);
+
             const newClient = {
                 client_type_id: this.client.client_type_id,
                 inn: this.client.inn,
@@ -296,10 +407,7 @@ export default {
                 fizlico_lastname: this.client.fizlico_lastname,
                 yurlico_name: this.client.yurlico_name,
                 address: this.client.address,
-                client_textinfo: [ 
-                    ...this.client.phoneFields, 
-                    ...this.client.emailFields
-                ]  
+                client_textinfo: textinfoFields
             }
 
             this.$store.dispatch('clients/addClient', newClient)
@@ -312,6 +420,7 @@ export default {
                 }
                 Promise.all(contactsToAdd)
                     .then(() => {
+                        this.loading = false;
                         this.$router.push({ name: 'PageClientAbout', 
                                             params: {
                                                 clientId: clientId
@@ -319,20 +428,24 @@ export default {
                     })
             })
             .catch((err) => {
-              this.okoModal_response({type:'error', message: err});  
+                this.loading = false;
+                this.okoModal_response({type:'error', message: err});  
             })
       },
       addContact(clientId, contactIndex) {
-            const newContact = {
-                client_id: clientId,
-                name: this.contacts[contactIndex].name,
-                position: this.contacts[contactIndex].position,
-                client_contacts_textinfo: [ 
+            if (this.contacts[contactIndex].name) {
+                const textinfoFields = this.checkTextinfoField([ 
                     ...this.contacts[contactIndex].phoneFields, 
                     ...this.contacts[contactIndex].emailFields
-                ]
+                ]);
+                const newContact = {
+                    client_id: clientId,
+                    name: this.contacts[contactIndex].name,
+                    position: this.contacts[contactIndex].position,
+                    client_contacts_textinfo: textinfoFields
+                }
+                return this.$store.dispatch('contacts/addContact', newContact)
             }
-           return this.$store.dispatch('contacts/addContact', newContact)
       }
     }
 }
@@ -365,7 +478,7 @@ export default {
     width: 69px; }
 
 .Link_line_add {
-  margin: 15px 0 20px;
+  margin: 5px 0 20px;
   color: #008acc; }
 
 .File_theme_link {

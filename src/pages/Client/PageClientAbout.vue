@@ -1,5 +1,8 @@
 <template>
   <div>
+    <OkoTitle 
+      :title="`${clientName} || Данные о клиенте`" />
+
     <div class="MainSection-Row MainSection-Row_size_add">
         <div class="Form-Row Form-Row_col2">
             <div class="Form-Column">
@@ -70,6 +73,12 @@ import { mapState } from 'vuex';
 import { ClientAboutContact } from '@/components/pages/Client/ClientAbout'
 
 export default {
+    props: {
+        clientName: {
+            required: true,
+            type: String
+        }
+    },
     components: {
         ClientAboutContact
     },

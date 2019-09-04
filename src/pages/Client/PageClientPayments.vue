@@ -1,5 +1,8 @@
 <template>
   <div>
+    <OkoTitle 
+      :title="`${clientName} || Поступившие оплаты`" />
+
     <div class="MainSection-Row MainSection-Row_title-lvl2">
         <h2 class="Heading_lvl2 Color_black">Оплаты</h2>
     </div>
@@ -227,7 +230,12 @@
 
 <script>
 export default {
-
+    props: {
+        clientName: {
+            required: true,
+            type: String
+        }
+    },
 }
 </script>
 

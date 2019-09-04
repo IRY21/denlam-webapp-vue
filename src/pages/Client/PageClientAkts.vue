@@ -1,5 +1,8 @@
 <template>
   <div>
+    <OkoTitle 
+      :title="`${clientName} || Акты выполненных работ`" />
+
     <div class="MainSection-Row MainSection-Row_title-lvl2">
         <h2 class="Heading_lvl2 Color_black">Акты на подписании</h2>
     </div>
@@ -354,7 +357,12 @@
 
 <script>
 export default {
-
+    props: {
+        clientName: {
+            required: true,
+            type: String
+        }
+    },
 }
 </script>
 

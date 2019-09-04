@@ -1,5 +1,8 @@
 <template>
   <div>
+    <OkoTitle 
+      :title="`${clientName} || Редактирование`" />
+
     <div class="MainSection-Row MainSection-Row_bgGrey MainSection-Row_title">
         <router-link
             class="Link Link_back"
@@ -321,6 +324,12 @@
 
 <script>
 export default {
+    props: {
+        clientName: {
+            required: true,
+            type: String
+        }
+    },
     computed: {
         currentClientId() {
             return this.$route.params.clientId

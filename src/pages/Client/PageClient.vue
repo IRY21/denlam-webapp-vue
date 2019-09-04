@@ -64,6 +64,7 @@
     
     <router-view
       v-if="pageLoader_isDataLoaded"
+      :clientName="clientName"
     >
     </router-view>
     
@@ -106,10 +107,11 @@ export default {
   },
   created() {
       const clientId = this.currentClientId;
-
+    
       Promise.all([this.fetchClient(clientId)])
-        .then(() => this.pageLoader_resolveData())
-
+        .then(() => {
+          this.pageLoader_resolveData()
+        })
   },
   methods: {
     ...mapActions('clients', ['fetchClient']),

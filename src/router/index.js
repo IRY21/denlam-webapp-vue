@@ -296,7 +296,7 @@ const router = new Router({
             permissions: {
               role: [Role.Admin]
             },
-            title: `Клиент || Данные о контрагенте`
+            title: `Клиент || Данные о клиенте`
           }
         },
         {
@@ -320,7 +320,7 @@ const router = new Router({
             permissions: {
               role: [Role.Admin]
             },
-            title: `Клиент || Связанные акты`
+            title: `Клиент || Акты выполненных работ`
           }
         },
         {

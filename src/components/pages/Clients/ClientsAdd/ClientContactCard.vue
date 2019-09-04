@@ -29,7 +29,7 @@
         >
             <div class="Flex Flex_justify_flex-start Flex_align_center">
                 <div class="Form-Column">
-                    <OkoInput 
+                    <OkoInputPhone
                         type="text"
                         v-model="phone.value1"
                         placeholder="8 (999) 999-99-99"
@@ -40,6 +40,7 @@
                         :class="'Input_num_add'"
                         type="text"
                         v-model="phone.value2"
+                        @keypress="checkInputType_isNumber()"
                         placeholder="доб. 11"
                     />
                 </div>
@@ -56,7 +57,7 @@
         <div class="Form-Row">
             <div 
                 class="Link Link_dashed Link_line_add"
-                @click="addField('phone')"
+                @click="addField('phone', $event)"
             >
                 +  добавить
             </div>
@@ -75,6 +76,7 @@
                         type="text"
                         v-model="email.value1"
                         placeholder="ivanov@mail.ru"
+                        @blur="vuelidateCheck_input($event, 'emailFields', 'contact')"
                     />
                 </div>
                 <svg 
@@ -90,7 +92,7 @@
         <div class="Form-Row">
             <div 
                 class="Link Link_dashed Link_line_add"
-                @click="addField('email')"
+                @click="addField('email', $event)"
             >
                 +  добавить
             </div>
@@ -108,6 +110,8 @@
 </template>
 
 <script>
+import { email } from 'vuelidate/lib/validators';
+
 export default {
   props: {
     contact: {
@@ -119,40 +123,58 @@ export default {
       type: Function
     }
   },
-  methods: {
-    addField(type) {
-        switch (type) {
-            case 'phone': {
-                this.contact.phoneFields.push({
-                    textinfo_type_id: '1',
-                    value1: "",
-                    value2: "",
-                })
-                break;
-            }
-            case 'email': {
-                this.contact.emailFields.push({
-                    textinfo_type_id: '2',
-                    value1: "",
-                    value2: "",
-                })
-                break;
+  validations() {
+        return {
+            contact: {
+                emailFields: {
+                    $each: {
+                        value1: {
+                            email
+                        }
+                    }
+                },
+                
             }
         }
     },
-    deleteField(type, index) {
-        switch (type) {
-            case 'phone': {
-                this.contact.phoneFields.splice(index, 1);
-                break;
+    methods: {
+        addField(type, evt) {
+            switch (type) {
+                case 'phone': {
+                    this.contact.phoneFields.push({
+                        textinfo_type_id: '1',
+                        value1: "",
+                        value2: "",
+                    })
+                    break;
+                }
+                case 'email': {
+                    this.contact.emailFields.push({
+                        textinfo_type_id: '2',
+                        value1: "",
+                        value2: "",
+                    })
+                    break;
+                }
             }
-            case 'email': {
-                this.contact.emailFields.splice(index, 1);
-                break;
+        
+            setTimeout(() => {
+                evt.target.parentElement.previousElementSibling.querySelector('input').focus();
+            }, 0)
+        },
+        deleteField(type, index) {
+            switch (type) {
+                case 'phone': {
+                    this.contact.phoneFields.splice(index, 1);
+                    break;
+                }
+                case 'email': {
+                    this.contact.emailFields.splice(index, 1);
+                    break;
+                }
             }
-        }
-    },
-  }
+        },
+    }
 }
 </script>
 
@@ -168,7 +190,7 @@ export default {
     width: 69px; }
 
 .Link_line_add {
-  margin: 15px 0 20px;
+  margin: 5px 0 20px;
   color: #008acc; }
 
 .Form-Column {

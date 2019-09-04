@@ -29,6 +29,7 @@ import AuthLayout from '@/layouts/AuthLayout.vue'
 import okoModal from '@/_mixins/okoModal';
 import pageLoader from "@/_mixins/pageLoader"
 import checkInputType from "@/_mixins/checkInputType"
+import vuelidateCheck from "@/_mixins/vuelidateCheck"
 
 Vue.config.productionTip = false
 Vue.component('default-layout', DefaultLayout)
@@ -48,6 +49,7 @@ Vue.use(InfiniteLoading);
 Vue.mixin(okoModal);
 Vue.mixin(pageLoader);
 Vue.mixin(checkInputType);
+Vue.mixin(vuelidateCheck);
 
 /**
  * Formats a phone number.
