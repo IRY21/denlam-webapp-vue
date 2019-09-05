@@ -20,7 +20,7 @@
                     v-model="searchParams.search"
                     placeholder="Введите название или ИНН для поиска.."
                     @keyup.enter="searchHandler"
-                    @input="throttledSearch"
+                    @input="debouncedSearch"
                 />
                 <div 
                     class="Btn Btn_theme_blue"
@@ -129,7 +129,7 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex';
-import { throttle } from '@/_helpers';
+import { debounce } from '@/_helpers';
 
 export default {
     data() {
@@ -145,14 +145,18 @@ export default {
         ...mapGetters({
             clients: 'clients/getClients'
         }),
-        throttledSearch() {
-            let DELAY = 1000;
-            return throttle(this.searchHandler, DELAY);
+        debouncedSearch() {
+            let DELAY = 300;
+            return debounce(this.searchHandler, DELAY);
         }
     },
     created() {
-        Promise.all([this.fetchClients(this.searchParams)])
-            .then(() => this.pageLoader_resolveData())
+
+        Promise.all([this.fetchClients()])
+            .then((res) => {
+                this.searchParams.qskipstep = res[0].length;
+                this.pageLoader_resolveData();
+            })
     },
     methods: {
         ...mapActions('clients', ['fetchClients', 'searchClients']),
@@ -174,7 +178,7 @@ export default {
             this.searchParams.qskipstep = 0;
             this.searchClients(this.searchParams)
                 .then((res) => {
-                    this.searchParams.qskipstep += res.length;
+                    this.searchParams.qskipstep = res.length;
                 })
         },
         clientName(client) {

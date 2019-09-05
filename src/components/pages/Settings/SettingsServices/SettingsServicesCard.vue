@@ -25,14 +25,17 @@ export default {
   },
   methods: {
     deleteService() {
-      this.$store.dispatch('products/deleteProduct', {id: this.product.id})
+      this.okoModal_confirm()
         .then(() => {
-          this.okoModal_response({ type: 'success', 
-                                   message: 'Услуга успешно удалена'});
-        })
-        .catch((err) => {
-          this.okoModal_response({type:'error', message: err});  
-        })
+          this.$store.dispatch('products/deleteProduct', {id: this.product.id})
+            .then(() => {
+              this.okoModal_response({ type: 'success', 
+                                      message: 'Услуга успешно удалена'});
+            })
+            .catch((err) => {
+              this.okoModal_response({type:'error', message: err});  
+            })
+        })      
     }
   }
 }

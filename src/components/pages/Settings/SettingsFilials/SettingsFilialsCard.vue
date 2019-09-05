@@ -25,13 +25,16 @@ export default {
   },
   methods: {
     deleteService() {
-      this.$store.dispatch('filials/deleteFilial', {id: this.filial.id})
+      this.okoModal_confirm()
         .then(() => {
-          this.okoModal_response({ type: 'success', 
-                                   message: 'Филиал успешно удален'});
-        })
-        .catch((err) => {
-          this.okoModal_response({type:'error', message: err});  
+          this.$store.dispatch('filials/deleteFilial', {id: this.filial.id})
+            .then(() => {
+              this.okoModal_response({ type: 'success', 
+                                      message: 'Филиал успешно удален'});
+            })
+            .catch((err) => {
+              this.okoModal_response({type:'error', message: err});  
+            }) 
         })
     }
   }

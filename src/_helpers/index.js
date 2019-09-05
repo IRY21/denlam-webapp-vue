@@ -27,15 +27,35 @@ export const sortAlphabet = (a, b) => {
   return 0;
 }
 
-export function throttle (callback, limit) {
-  var wait = false;
-  return function () {
-      if (!wait) {
-          callback.call();
-          wait = true;
-          setTimeout(function () {
-              wait = false;
-          }, limit);
-      }
+export function throttle (func, limit) {
+  let lastFunc
+  let lastRan
+  return function() {
+    const context = this
+    const args = arguments
+    if (!lastRan) {
+      func.apply(context, args)
+      lastRan = Date.now()
+    } else {
+      clearTimeout(lastFunc)
+      lastFunc = setTimeout(function() {
+        if ((Date.now() - lastRan) >= limit) {
+          func.apply(context, args)
+          lastRan = Date.now()
+        }
+      }, limit - (Date.now() - lastRan))
+    }
+  }
+}
+
+export function debounce(func, delay) {
+  let inDebounce
+  return function() {
+    const context = this
+    const args = arguments
+    clearTimeout(inDebounce)
+    inDebounce = setTimeout(() =>
+      func.apply(context, args)
+    , delay)
   }
 }

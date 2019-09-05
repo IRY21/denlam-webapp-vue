@@ -36,7 +36,7 @@ export default {
     },
   },
   mounted () {
-    var im = new Inputmask("9 (999) 999-99-99");
+    var im = new Inputmask("+9 (999) 999-99-99");
     im.mask(this.$refs.field);
   },
   methods: {

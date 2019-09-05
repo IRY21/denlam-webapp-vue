@@ -117,6 +117,7 @@
                                 type="text"
                                 v-model="phone.value1"
                                 placeholder="8 (999) 999-99-99"
+                                @blur="vuelidateCheck_input($event, 'phoneFields', 'client')"
                             />
                         </div>
                         <div class="Form-Column Form-Column_auto">
@@ -223,7 +224,7 @@
 <script>
 import { mapActions } from 'vuex';
 
-import { required, email } from 'vuelidate/lib/validators';
+import { required, email, minLength } from 'vuelidate/lib/validators';
 
 import { ClientContactCard } from '@/components/pages/Clients/ClientsAdd'
 
@@ -285,6 +286,13 @@ export default {
                     fizlico_lastname: {
                         required
                     },
+                    phoneFields: {
+                        $each: {
+                            value1: {
+                                minLength: minLength(11)
+                            }
+                        }
+                    },
                     emailFields: {
                         $each: {
                             value1: {
@@ -303,6 +311,13 @@ export default {
                     },
                     yurlico_name: {
                         required
+                    },
+                    phoneFields: {
+                        $each: {
+                            value1: {
+                                minLength: minLength(11)
+                            }
+                        },
                     },
                     emailFields: {
                         $each: {
@@ -385,10 +400,15 @@ export default {
             const result = fields.reduce((acc, field, index) => {
                 const indexInArr = valuesArr.indexOf(field.value1);
                 if(field.value1 &&  indexInArr === index) { 
+                    if (field.textinfo_type_id === '1') {
+                        field.value1 = field.value1.replace(/[^0-9]/g, '');
+                    }
                     acc.push(field);
                 }
+
                 return acc;
-            }, [])
+            }, []);
+
             return result;
         },
         addClient() {

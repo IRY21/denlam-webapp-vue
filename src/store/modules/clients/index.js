@@ -23,7 +23,23 @@ const actions = {
     return axiosInstance.post(`${config.apiUrl}/client/show_all`, newClientsParam)
       .then((res) => {
         const clients = res.data;
-        commit(SET_ITEMS, { resource: 'clients', items: [ ...state.items, ...clients]}, {root: true});
+        const uniqueClients = state.items;
+        
+        if (uniqueClients.length !== 0) {
+          // concatenate state.items and clients without duplicates
+          for(var i = 0, l = uniqueClients.length; i < l; i++) {
+            for(var j = 0, ll = clients.length; j < ll; j++) {
+                if(uniqueClients[i].id === clients[j].id) {
+                  uniqueClients.splice(i, 1, clients[j]);
+                  break;
+                }
+            }
+          }
+          commit(SET_ITEMS, { resource: 'clients', items: uniqueClients}, {root: true});
+        } else {
+          commit(SET_ITEMS, { resource: 'clients', items: clients}, {root: true});
+        }
+
         dispatch('shared/clearLoading', null, { root: true });
         return clients;
       })
