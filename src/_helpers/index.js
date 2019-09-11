@@ -21,6 +21,10 @@ export const Role = {
 
 export const programName = 'OKO';
 
+export function axiosDataWrap(data) {
+  return {['oko-data']: data};
+}
+
 export const sortAlphabet = (a, b) => {
   if(a.title.toLowerCase() < b.title.toLowerCase()) { return -1; }
   if(a.title.toLowerCase() > b.title.toLowerCase()) { return 1; }

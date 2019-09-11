@@ -1,7 +1,7 @@
 import axios from 'axios';
 //import moment from 'moment';
 import momentTimezone from 'moment-timezone';
-import { config, rejectError } from '@/_helpers';
+import { config, rejectError, axiosDataWrap } from '@/_helpers';
 
 import { AUTH_LOGIN, AUTH_LOGOUT } from '@/store/mutation-types/auth';
 
@@ -25,7 +25,7 @@ const actions = {
       ...formData,
       device_datetime: momentTimezone.tz.guess(),
     }
-    return axios.post(`${config.apiUrl}/auth`, authData)
+    return axios.post(`${config.apiUrl}/auth`, axiosDataWrap(authData))
       .then((res) => {
         const data = res.data;
         dispatch('shared/clearLoading', null, { root: true });

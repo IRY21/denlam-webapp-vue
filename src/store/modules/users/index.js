@@ -1,4 +1,4 @@
-import { config, rejectError } from '@/_helpers'
+import { config, rejectError, axiosDataWrap } from '@/_helpers'
 import axiosInstance from '@/_services/axios';
 
 import { SET_ITEMS } from '@/store/mutation-types/setItems'
@@ -29,7 +29,7 @@ const actions = {
   },
   addUser({ state, commit, dispatch }, userToCreate) {
     dispatch('shared/setLoading', null, { root: true });
-    return axiosInstance.post(`${config.apiUrl}/user/add`, userToCreate)
+    return axiosInstance.post(`${config.apiUrl}/user/add`, axiosDataWrap(userToCreate))
       .then((res) => {
         const user = res.data;
         const users = state.items;
@@ -44,7 +44,7 @@ const actions = {
   },
   updateUser({ state, commit, dispatch }, userToUpdate) {
     dispatch('shared/setLoading', null, { root: true });
-    return axiosInstance.post(`${config.apiUrl}/user/update`, userToUpdate)
+    return axiosInstance.post(`${config.apiUrl}/user/update`, axiosDataWrap(userToUpdate))
       .then((res) => {
         const user = res.data;
         const users = state.items;
@@ -62,7 +62,7 @@ const actions = {
   },
   deleteUser({ state, commit, dispatch }, userToDelete) {
     dispatch('shared/setLoading', null, { root: true });
-    return axiosInstance.post(`${config.apiUrl}/user/delete`, userToDelete)
+    return axiosInstance.post(`${config.apiUrl}/user/delete`, axiosDataWrap(userToDelete))
       .then((res) => {
         const user = res.data;
         const users = state.items;

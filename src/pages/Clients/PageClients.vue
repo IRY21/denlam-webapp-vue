@@ -19,7 +19,7 @@
                     type="text"
                     v-model="searchParams.search"
                     placeholder="Введите название или ИНН для поиска.."
-                    @keyup.enter="searchHandler"
+                    @keyup.enter="debouncedSearch"
                     @input="debouncedSearch"
                 />
                 <div 
@@ -111,7 +111,7 @@
                     </div>
                     <infinite-loading 
                         spinner="bubbles" 
-                        @infinite="infiniteHandler"
+                        @infinite="debounceInfiniteHandler"
                         ref="infiniteLoading"
                     >
                         <div class="Infinite-End" slot="no-more"></div>
@@ -148,11 +148,15 @@ export default {
         debouncedSearch() {
             let DELAY = 300;
             return debounce(this.searchHandler, DELAY);
+        },
+        debounceInfiniteHandler() {
+            let DELAY = 300;
+            return debounce(this.infiniteHandler, DELAY);
         }
     },
     created() {
 
-        Promise.all([this.fetchClients()])
+        Promise.all([this.fetchClients(this.searchParams)])
             .then((res) => {
                 this.searchParams.qskipstep = res[0].length;
                 this.pageLoader_resolveData();

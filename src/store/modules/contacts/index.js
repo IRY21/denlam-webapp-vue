@@ -1,4 +1,4 @@
-import { config, rejectError } from '@/_helpers'
+import { config, rejectError, axiosDataWrap } from '@/_helpers'
 import axiosInstance from '@/_services/axios';
 
 import { SET_ITEMS } from '@/store/mutation-types/setItems'
@@ -16,7 +16,7 @@ const actions = {
   fetchContacts({ commit, dispatch }, clientId ) {
     dispatch('shared/setLoading', null, { root: true });
 
-    return axiosInstance.post(`${config.apiUrl}/client_contact/show_all`, clientId)
+    return axiosInstance.post(`${config.apiUrl}/client_contact/show_all`, axiosDataWrap(clientId))
       .then((res) => {
         const contacts = res.data;
         commit(SET_ITEMS, { resource: 'contacts', items: contacts}, {root: true});
@@ -30,7 +30,7 @@ const actions = {
   },
   addContact({ commit, dispatch }, contactToAdd) {
     dispatch('shared/setLoading', null, { root: true });
-    return axiosInstance.post(`${config.apiUrl}/client_contact/add`, contactToAdd)
+    return axiosInstance.post(`${config.apiUrl}/client_contact/add`, axiosDataWrap(contactToAdd))
       .then((res) => {
         const contact = res.data;
         commit(SET_ITEMS, { resource: 'contacts', item: contact}, {root: true});

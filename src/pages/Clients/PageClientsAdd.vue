@@ -431,26 +431,26 @@ export default {
             }
 
             this.$store.dispatch('clients/addClient', newClient)
-            .then((res) => {
-                const clientId = res.id;
-                let contactsToAdd = [];
+                .then((res) => {
+                    const clientId = res.id;
+                    let contactsToAdd = [];
 
-                for (let i = 0; i < this.contacts.length; ++i) {
-                    contactsToAdd.push(this.addContact(clientId, i));
-                }
-                Promise.all(contactsToAdd)
-                    .then(() => {
-                        this.loading = false;
-                        this.$router.push({ name: 'PageClientAbout', 
-                                            params: {
-                                                clientId: clientId
-                                            }});
-                    })
-            })
-            .catch((err) => {
-                this.loading = false;
-                this.okoModal_response({type:'error', message: err});  
-            })
+                    for (let i = 0; i < this.contacts.length; ++i) {
+                        contactsToAdd.push(this.addContact(clientId, i));
+                    }
+                    Promise.all(contactsToAdd)
+                        .then(() => {
+                            this.loading = false;
+                            this.$router.push({ name: 'PageClientAbout', 
+                                                params: {
+                                                    clientId: clientId
+                                                }});
+                        })
+                })
+                .catch((err) => {
+                    this.loading = false;
+                    this.okoModal_response({type:'error', message: err});  
+                })
       },
       addContact(clientId, contactIndex) {
             if (this.contacts[contactIndex].name) {

@@ -258,6 +258,14 @@
         <div class="MainSection-Row MainSection-Row_noTopPadding">
             <div class="Btn Btn_theme_green Btn_size_m">Сохранить</div>
         </div>
+        <div class="MainSection-Row MainSection-Row_noTopPadding">
+            <div 
+                class="Btn Btn_theme_red Btn_size_m"
+                @click="clientDelete"
+            >
+                Удалить
+            </div>
+        </div>
     </form>
 
     <div class="chooseFromListPopup-Overlay" style="display: none;">
@@ -333,6 +341,20 @@ export default {
     computed: {
         currentClientId() {
             return this.$route.params.clientId
+        }
+    },
+    methods: {
+        clientDelete() {
+            this.$store.dispatch('clients/deleteClient', {  id: this.currentClientId})
+                .then(() => {
+                    // this.okoModal_response({ type: 'success', 
+                    //                         message: 'Пользователь успешно удален'});
+                    
+                    this.$router.push({ name: 'PageClients' });
+                })
+                .catch((err) => {
+                    this.okoModal_response({type:'error', message: err});
+                })
         }
     }
 }

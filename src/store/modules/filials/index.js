@@ -1,4 +1,4 @@
-import { config, rejectError, sortAlphabet } from '@/_helpers'
+import { config, rejectError, sortAlphabet, axiosDataWrap } from '@/_helpers'
 import axiosInstance from '@/_services/axios';
 
 import { SET_ITEMS } from '@/store/mutation-types/setItems'
@@ -29,7 +29,7 @@ const actions = {
   },
   addFilial({ state, commit, dispatch }, filialToCreate) {
     dispatch('shared/setLoading', null, { root: true });
-    return axiosInstance.post(`${config.apiUrl}/filial/add`, filialToCreate)
+    return axiosInstance.post(`${config.apiUrl}/filial/add`, axiosDataWrap(filialToCreate))
       .then((res) => {
         const filial = res.data;
         const filials = state.items;
@@ -47,7 +47,7 @@ const actions = {
   },
   upadateFilial({ state, commit, dispatch }, filialToUpdate) {
     dispatch('shared/setLoading', null, { root: true });
-    return axiosInstance.post(`${config.apiUrl}/filial/update`, filialToUpdate)
+    return axiosInstance.post(`${config.apiUrl}/filial/update`, axiosDataWrap(filialToUpdate))
       .then((res) => {
         const filial = res.data;
         const filials = state.items;
@@ -62,7 +62,7 @@ const actions = {
   },
   deleteFilial({ state, commit, dispatch }, filialToDelete) {
     dispatch('shared/setLoading', null, { root: true });
-    return axiosInstance.post(`${config.apiUrl}/filial/delete`, filialToDelete)
+    return axiosInstance.post(`${config.apiUrl}/filial/delete`, axiosDataWrap(filialToDelete))
       .then((res) => {
         const filial = res.data;
         const filials = state.items;

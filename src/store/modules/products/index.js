@@ -1,4 +1,4 @@
-import { config, rejectError, sortAlphabet } from '@/_helpers'
+import { config, rejectError, sortAlphabet, axiosDataWrap } from '@/_helpers'
 import axiosInstance from '@/_services/axios';
 
 import { SET_ITEMS } from '@/store/mutation-types/setItems'
@@ -29,7 +29,7 @@ const actions = {
   },
   addProduct({ state, commit, dispatch }, productToCreate) {
     dispatch('shared/setLoading', null, { root: true });
-    return axiosInstance.post(`${config.apiUrl}/product/add`, productToCreate)
+    return axiosInstance.post(`${config.apiUrl}/product/add`, axiosDataWrap(productToCreate))
       .then((res) => {
         const product = res.data;
         const products = state.items;
@@ -47,7 +47,7 @@ const actions = {
   },
   updateProduct({ state, commit, dispatch }, productToUpdate) {
     dispatch('shared/setLoading', null, { root: true });
-    return axiosInstance.post(`${config.apiUrl}/product/update`, productToUpdate)
+    return axiosInstance.post(`${config.apiUrl}/product/update`, axiosDataWrap(productToUpdate))
       .then((res) => {
         const product = res.data;
         const products = state.items;
@@ -65,7 +65,7 @@ const actions = {
   },
   deleteProduct({ state, commit, dispatch }, productToDelete) {
     dispatch('shared/setLoading', null, { root: true });
-    return axiosInstance.post(`${config.apiUrl}/product/delete`, productToDelete)
+    return axiosInstance.post(`${config.apiUrl}/product/delete`, axiosDataWrap(productToDelete))
       .then((res) => {
         const product = res.data;
         const products = state.items;
