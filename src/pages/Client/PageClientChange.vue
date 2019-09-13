@@ -3,366 +3,579 @@
     <OkoTitle 
       :title="`${clientName} || Редактирование`" />
 
-    <div class="MainSection-Row MainSection-Row_bgGrey MainSection-Row_title">
-        <router-link
-            class="Link Link_back"
-            :to="{ name: 'PageClientAbout', params: {clientId: currentClientId}}"
-        >
-            Вернуться назад
-        </router-link>
-        <h1 class="Heading_lvl1">ЖК «Ясная поляна»</h1>
-    </div>
-    <form enctype="multipart/form-data" method="POST" action="" class="Form" id="newproject_add">
-        <div class="MainSection-Row MainSection-Row_size_add">
-            <div class="Form-Row Form-Row_col2">
-                <div class="Form-Column">
-                    <div class="Input">
-                        <p class="Label">Наименование организации или ФИО</p>
-                        <input type="text"
-                                value="ЖК Ясная поляна»"
-                                class="Input-Control"
-                                placeholder="Введите наименование"
-                        />
-                    </div>
-                </div>
-            </div>
-            <div class="Form-Row">
-                <div class="Form-Column">
-                    <div class="Input">
-                        <p class="Label">ИНН организации или физ. лица</p>
-                        <input type="text"
-                                value="024203222908"
-                                class="Input-Control"
-                                placeholder="Введите ИНН"
-                        />
-                    </div>
-                </div>
-            </div>
-            <div class="Form-Row">
-                <div class="Form-Column">
-                    <div class="Select Select_theme_arrow">
-                        <p class="Label">Город</p>
-                        <select name="" id="" class="Select-Control">
-                            <option value="1">Уфа</option>
-                            <option value="2">Москва</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-            <div class="Form-Row">
-                <p class="Label">Телефоны</p>
-                <div class="Form-Row">
-                    <div class="Flex Flex_justify_space-between">
-                        <div class="Form-Column">
-                            <div class="Input">
-                                <input type="text"
-                                        value="8 (999) 999-99-99"
-                                        class="Input-Control"
-                                        placeholder="8 (999) 999-99-99"
-                                />
-                            </div>
-                        </div>
-                        <div class="Form-Column">
-                            <div class="Input Input_num_add">
-                                <input type="text"
-                                        value="доб. 11"
-                                        class="Input-Control"
-                                        placeholder="доб. 11"
-                                />
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="Form-Row">
-                    <div class="Flex Flex_justify_space-between">
-                        <div class="Form-Column">
-                            <div class="Input">
-                                <input type="text"
-                                        value="8 (999) 999-99-99"
-                                        class="Input-Control"
-                                        placeholder="8 (999) 999-99-99"
-                                />
-                            </div>
-                        </div>
-                        <div class="Form-Column">
-                            <div class="Input Input_num_add">
-                                <input type="text"
-                                        value="доб. 11"
-                                        class="Input-Control"
-                                        placeholder="доб. 11"
-                                />
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="Form-Row">
-                    <div class="Link Link_dashed Link_line_add Link_js-add" data-type="phone">+  добавить еще</div>
-                </div>
-            </div>
-            <div class="Form-Row">
-                <p class="Label">Email</p>
-                <div class="Form-Row">
-                    <div class="Form-Column">
-                        <div class="Input">
-                            <input type="email"
-                                    value="ivanov@mail.ru"
-                                    class="Input-Control"
-                                    placeholder="ivanov@mail.ru"
-                            />
-                        </div>
-                    </div>
-                </div>
-                <div class="Form-Row">
-                    <div class="Form-Column">
-                        <div class="Input">
-                            <input type="email"
-                                    value="ivanov@mail.ru"
-                                    class="Input-Control"
-                                    placeholder="ivanov@mail.ru"
-                            />
-                        </div>
-                    </div>
-                </div>
-                <div class="Form-Row">
-                    <div class="Link Link_dashed Link_line_add Link_js-add" data-type="email">+  добавить еще</div>
-                </div>
-            </div>
-            <div class="Form-Row">
-                <div class="Form-Column">
-                    <div class="Input">
-                        <p class="Label">Полный адрес (если имеется)</p>
-                        <input type="text"
-                                value="г. Уфа, ул. Ленина, д. 14"
-                                class="Input-Control"
-                                placeholder="Введите адрес"
-                        />
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="MainSection-Row MainSection-Row_title-lvl2 MainSection-Row_noBottomPadding">
-            <h2 class="Heading_lvl2">Контактные лица</h2>
-        </div>
-        <div class="MainSection-Row">
-            <div class="Flex Flex_wrap">
-                <div class="Card Card_bd Card_contact-face">
-                    <div class="Form-Row">
-                        <div class="Form-Column">
-                            <div class="Input">
-                                <p class="Label">ФИО</p>
-                                <input type="text"
-                                        value="Иванов Петр Семенович"
-                                        class="Input-Control"
-                                />
-                            </div>
-                        </div>
-                    </div>
-                    <div class="Form-Row">
-                        <div class="Form-Column">
-                            <div class="Input">
-                                <p class="Label">Должность</p>
-                                <input type="text"
-                                        value="Менеджер по продажам"
-                                        class="Input-Control"
-                                />
-                            </div>
-                        </div>
-                    </div>
-                    <div class="Form-Row">
-                        <p class="Label">Телефоны</p>
-                        <div class="Form-Row">
-                            <div class="Flex Flex_justify_space-between">
-                                <div class="Form-Column">
-                                    <div class="Input">
-                                        <input type="text"
-                                                class="Input-Control"
-                                                value="8 (999) 999-99-99"
-                                                placeholder="8 (999) 999-99-99"
-                                        />
-                                    </div>
-                                </div>
-                                <div class="Form-Column">
-                                    <div class="Input Input_num_add">
-                                        <input type="text"
-                                                class="Input-Control"
-                                                value="доб. 11"
-                                                placeholder="доб. 11"
-                                        />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="Form-Row">
-                            <div class="Flex Flex_justify_space-between">
-                                <div class="Form-Column">
-                                    <div class="Input">
-                                        <input type="text"
-                                                class="Input-Control"
-                                                value="8 (999) 999-99-99"
-                                                placeholder="8 (999) 999-99-99"
-                                        />
-                                    </div>
-                                </div>
-                                <div class="Form-Column">
-                                    <div class="Input Input_num_add">
-                                        <input type="text"
-                                                class="Input-Control"
-                                                value="доб. 11"
-                                                placeholder="доб. 11"
-                                        />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="Form-Row">
-                            <div class="Link Link_dashed Link_line_add Link_js-add" data-type="phone">+  добавить еще</div>
-                        </div>
-                    </div>
-                    <div class="Form-Row">
-                        <p class="Label">Email</p>
-                        <div class="Form-Row">
-                            <div class="Form-Column">
-                                <div class="Input">
-                                    <input type="email"
-                                            class="Input-Control"
-                                            value="ivanov@mail.ru"
-                                            placeholder="ivanov@mail.ru"
-                                    />
-                                </div>
-                            </div>
-                        </div>
-                        <div class="Form-Row">
-                            <div class="Form-Column">
-                                <div class="Input">
-                                    <input type="email"
-                                            class="Input-Control"
-                                            value="ivanov@mail.ru"
-                                            placeholder="ivanov@mail.ru"
-                                    />
-                                </div>
-                            </div>
-                        </div>
-                        <div class="Form-Row">
-                            <div class="Link Link_dashed Link_line_add Link_js-add" data-type="email">+  добавить еще</div>
-                        </div>
-                    </div>
-                    <div class="Form-Row">
-                        <div class="Btn Btn_theme_delete">Удалить</div>
-                    </div>
-                </div>
-                <div class="Card Card_bd Card_contact-face">
-                    <div class="Card_add Link_js-add" data-type="card">+ добавить контактное лицо</div>
-                </div>
-            </div>
-        </div>
-        <div class="MainSection-Row MainSection-Row_noTopPadding">
-            <div class="Btn Btn_theme_green Btn_size_m">Сохранить</div>
-        </div>
-        <div class="MainSection-Row MainSection-Row_noTopPadding">
-            <div 
-                class="Btn Btn_theme_red Btn_size_m"
-                @click="clientDelete"
+    <div
+        v-if="pageLoader_isDataLoaded"
+    >
+        <div class="MainSection-Row MainSection-Row_bgGrey MainSection-Row_title">
+            <router-link
+                class="Link Link_back"
+                :to="{ name: 'PageClientAbout', params: {clientId: currentClientId}}"
             >
-                Удалить
-            </div>
+                Вернуться назад
+            </router-link>
+            <h1 class="Heading_lvl1">{{ clientName }}</h1>
         </div>
-    </form>
-
-    <div class="chooseFromListPopup-Overlay" style="display: none;">
-        <div class="chooseFromListPopup">
-            <div class="chooseFromListPopup-Close">
-                <svg class="Icon">
-                    <use
-                        xlink:href="/img/sprite.svg#cancel"
-                        href="/img/sprite.svg#cancel"></use>
-                </svg>
+        <form 
+            class="Form"
+        >
+            <div class="MainSection-Row MainSection-Row_size_add">
+                <h2 class="Heading_lvl2">Тип клиента</h2>
+                <div class="Form-Row Flex Flex_justify_start">
+                    <div class="Form-Column Form-Column_auto" style="margin-right: 40px;">
+                        <OkoRadio 
+                            v-model="client.client_type_id" 
+                            name="options"
+                            :value="'1'"
+                        >
+                            Физ. лицо
+                        </OkoRadio>
+                    </div>
+                    <div class="Form-Column Form-Column_auto">
+                        <OkoRadio 
+                            v-model="client.client_type_id" 
+                            name="options"
+                            value="2"
+                        >
+                            Юр. лицо
+                        </OkoRadio>
+                    </div>
+                </div>
             </div>
-            <div class="chooseFromListPopup-Search">
-                <div class="Search">
-                    <div class="Input">
-                        <input type="text"
-                                value=""
-                                class="Input-Control"
-                                placeholder="Введите название или ИНН для поиска.."
+            <div class="MainSection-Row MainSection-Row_size_add">
+                <div 
+                    v-if="client.client_type_id === '1'"
+                    class="Form-Row"
+                >
+                    <div class="Form-Row Form-Row_col2">
+                        <div class="Form-Column">
+                            <OkoInput 
+                                type="text"
+                                v-model="client.fizlico_firstname"
+                                :label="'Фамилия'"
+                                @blur="vuelidateCheck_input($event, 'fizlico_firstname', 'client')"
+                            />
+                        </div>
+                    </div>
+                    <div class="Form-Row Form-Row_col2">
+                        <div class="Form-Column">
+                            <OkoInput 
+                                type="text"
+                                v-model="client.fizlico_name"
+                                :label="'Имя'"
+                                @blur="vuelidateCheck_input($event, 'fizlico_name', 'client')"
+                            />
+                        </div>
+                    </div>
+                    <div class="Form-Row Form-Row_col2">
+                        <div class="Form-Column">
+                            <OkoInput 
+                                type="text"
+                                v-model="client.fizlico_lastname"
+                                :label="'Отчество'"
+                                @blur="vuelidateCheck_input($event, 'fizlico_lastname', 'client')"
+                            />
+                        </div>
+                    </div>
+                </div>
+                <div 
+                    v-if="client.client_type_id === '2'"
+                    class="Form-Row Form-Row_col2"
+                >
+                    <div class="Form-Column">
+                        <OkoInput 
+                            type="text"
+                            v-model="client.yurlico_name"
+                            :label="'Наименование организации'"
+                            @blur="vuelidateCheck_input($event, 'yurlico_name', 'client')"
                         />
                     </div>
-                    <div class="Btn Btn_theme_blue">Найти</div>
+                </div>
+                <div class="Form-Row">
+                    <div class="Form-Column">
+                        <OkoInput 
+                            type="text"
+                            v-model="client.inn"
+                            @keypress="checkInputType_isNumber()"
+                            :label="'Введите ИНН'"
+                            @blur="vuelidateCheck_input($event, 'inn', 'client')"
+                        />
+                    </div>
+                </div>
+                <div class="Form-Row">
+                    <div class="Form-Column">
+                        <OkoInput 
+                            type="text"
+                            v-model="client.address"
+                            :label="'Полный адрес'"
+                        />
+                    </div>
+                </div>
+                <div class="Form-Row">
+                    <p class="Label">Телефоны</p>
+                    <div 
+                        class="Form-Row"
+                        v-for="(phone, index) in client.phoneFields"
+                        :key="index"
+                    >
+                        <div class="Flex Flex_justify_flex-start Flex_align_center">
+                            <div class="Form-Column">
+                                <OkoInputPhone
+                                    type="text"
+                                    v-model="phone.value1"
+                                    placeholder="8 (999) 999-99-99"
+                                    @blur="vuelidateCheck_input($event, 'phoneFields', 'client')"
+                                />
+                            </div>
+                            <div class="Form-Column Form-Column_auto">
+                                <OkoInput 
+                                    :class="'Input_num_add'"
+                                    type="text"
+                                    v-model="phone.value2"
+                                    @keypress="checkInputType_isNumber()"
+                                    placeholder="доб. 11"
+                                />
+                            </div>
+                            <svg 
+                                class="Input-ChangeBtn ChangeBtn ChangeBtn_type_cancel"
+                                @click="deleteField('phone', index)"
+                            >
+                                <use 
+                                    xlink:href="/img/sprite.svg#cancel" 
+                                    href="/img/sprite.svg#cancel"></use>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="Form-Row">
+                        <div 
+                            class="Link Link_dashed Link_line_add"
+                            @click="addField('phone', $event)"
+                        >
+                            +  добавить
+                        </div>
+                    </div>
+                </div>
+                <div class="Form-Row">
+                    <p class="Label">Email</p>
+                    <div 
+                        class="Form-Row"
+                        v-for="(email, index) in client.emailFields"
+                        :key="index"
+                    >
+                        <div class="Flex Flex_justify_flex-start Flex_align_center">
+                            <div class="Form-Column">
+                                <OkoInput 
+                                    type="text"
+                                    v-model="email.value1"
+                                    placeholder="ivanov@mail.ru"
+                                    @blur="vuelidateCheck_input($event, 'emailFields', 'client')"
+                                />
+                            </div>
+                            <svg 
+                                class="Input-ChangeBtn ChangeBtn ChangeBtn_type_cancel"
+                                @click="deleteField('email', index)"
+                            >
+                                <use 
+                                    xlink:href="/img/sprite.svg#cancel" 
+                                    href="/img/sprite.svg#cancel"></use>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="Form-Row">
+                        <div 
+                            class="Link Link_dashed Link_line_add"
+                            @click="addField('email', $event)"
+                        >
+                            +  добавить
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="Table">
-                <div class="Table-Row Table-Row_head">
-                    <div class="Table-Column">
-                        <p class="Table-Text">
-                            Контрагент
-                        </p>
-                    </div>
-                    <div class="Table-Column">
-                        <p class="Table-Text">
-                            Город
-                        </p>
-                    </div>
-                    <div class="Table-Column">
-                        <p class="Table-Text">
-                            ИНН
-                        </p>
-                    </div>
-                </div>
-                <div class="Table-Row Table-Row_link" data-counterparties-id="1">
-                    <div class="Table-Column">
-                        <p class="Table-Text">
-                            ЖК «Новоселов»
-                        </p>
-                    </div>
-                    <div class="Table-Column">
-                        <p class="Table-Text">
-                            Уфа
-                        </p>
-                    </div>
-                    <div class="Table-Column">
-                        <p class="Table-Text">
-                            024203222908
-                        </p>
+            <div class="MainSection-Row MainSection-Row_title-lvl2 MainSection-Row_noBottomPadding">
+                <h2 class="Heading_lvl2">Контактные лица</h2>
+            </div>
+            <div class="MainSection-Row">
+                <div class="Flex Flex_wrap">
+
+                    <ClientContactCard 
+                        v-for="(contact, index) in contacts"
+                        :key="index"
+                        :contact="contact"
+                        :deleteHandler="deleteCard"
+                    />
+                    
+                    <div class="Card Card_bd Card_contact-face">
+                        <div 
+                            class="Card_add"
+                            @click="addContactForm"
+                        >
+                            + добавить контактное лицо
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+            <div class="MainSection-Row MainSection-Row_noTopPadding">
+                <div 
+                class="Btn Btn_theme_green Btn_size_m"
+                    :class="{'Btn_theme_wait': loading}"
+                    :disabled="$v.$invalid || loading"
+                    @click="updateClientHandler"
+                >
+                    Сохранить
+                </div>
+            </div>
+            <div class="MainSection-Row MainSection-Row_noTopPadding">
+                <div 
+                    class="Btn Btn_theme_red Btn_size_m"
+                    @click="clientDelete"
+                >
+                    Удалить
+                </div>
+            </div>
+        </form>
+    </div>
+    <div v-else>
+        <AppSpinner />
     </div>
   </div>
 </template>
 
 <script>
+import { mapActions, mapGetters } from 'vuex';
+
+import { required, email, minLength } from 'vuelidate/lib/validators';
+
+import { ClientContactCard } from '@/components/pages/Clients/ClientsAdd';
+
 export default {
-    props: {
-        clientName: {
-            required: true,
-            type: String
+    data() {
+        return {
+            client: {
+                client_type_id: '',
+                inn: '',
+                fizlico_firstname: '',
+                fizlico_name: '',
+                fizlico_lastname: '',
+                yurlico_name: '',
+                address: '',
+                phoneFields: [],
+                emailFields: [],
+            },
+            
+            contacts: [],
+
+            loading: false,
         }
+    },
+    validations() {
+        if (this.client.client_type_id === '1') {
+            return {
+                client: {
+                    inn: {
+                        required
+                    },
+                    fizlico_firstname: {
+                        required
+                    },
+                    fizlico_name: {
+                        required
+                    },
+                    fizlico_lastname: {
+                        required
+                    },
+                    phoneFields: {
+                        $each: {
+                            value1: {
+                                minLength: minLength(11)
+                            }
+                        }
+                    },
+                    emailFields: {
+                        $each: {
+                            value1: {
+                                email
+                            }
+                        }
+                    },
+                    
+                }
+            }
+        } else if (this.client.client_type_id === '2') {
+            return {
+                client: {
+                    inn: {
+                        required
+                    },
+                    yurlico_name: {
+                        required
+                    },
+                    phoneFields: {
+                        $each: {
+                            value1: {
+                                minLength: minLength(11)
+                            }
+                        },
+                    },
+                    emailFields: {
+                        $each: {
+                            value1: {
+                                email
+                            }
+                        }
+                    },
+                }
+            }
+        }
+        
+    },
+    components: {
+        ClientContactCard
     },
     computed: {
+        ...mapGetters({
+            clientData: 'clients/getClient'
+        }),
         currentClientId() {
             return this.$route.params.clientId
+        },
+        clientName() {
+            const currentClient = this.client;
+            let clientName = '';
+            switch (currentClient.client_type) {
+                case 'yurlico': {
+                    clientName = currentClient.yurlico_name;
+                break;
+                }
+                case 'fizlico': {
+                    clientName =  `${currentClient.fizlico_firstname} ${currentClient.fizlico_name} ${currentClient.fizlico_lastname}`;
+                break;
+                }
+            }
+            return clientName;
         }
     },
+    created() {
+        Promise.all([this.fetchClient(this.currentClientId)])
+            .then((res) => {
+                const resClient = res[0];
+                const textInfoFields = resClient.client_textinfo;
+                const contactsFields = resClient.client_contacts;
+                const self = this;
+
+                this.client = {
+                    id: resClient.id,
+                    client_type_id: resClient.client_type_id,
+                    inn: resClient.inn,
+                    fizlico_firstname: resClient.fizlico_firstname,
+                    fizlico_name: resClient.fizlico_name,
+                    fizlico_lastname: resClient.fizlico_lastname,
+                    yurlico_name: resClient.yurlico_name,
+                    address: resClient.address,
+                    phoneFields: [],
+                    emailFields: [],
+                },
+
+                textInfoFields.forEach(function (item) {
+                    switch (item.textinfo_type_id) {
+                        case '1': {
+                            self.client.phoneFields.push({
+                                textinfo_type_id: '1',
+                                value1: item.value1,
+                                value2: item.value2,
+                            })
+                            break;
+                        }
+                        case '2': {
+                            self.client.emailFields.push({
+                                textinfo_type_id: '2',
+                                value1: item.value1,
+                            })
+                            break;
+                        }
+                    }
+                }),
+
+                contactsFields.forEach(function (item) {
+                    const textInfoFields = item.client_contact_textinfo;
+
+                    self.contacts.push({
+                        client_id: item.id,
+                        name: item.name,
+                        position: item.position,
+                        phoneFields: [],
+                        emailFields: [],
+                    });
+
+                    textInfoFields.forEach(function (item) {
+                        switch (item.textinfo_type_id) {
+                            case '1': {
+                                self.contacts.phoneFields.push({
+                                    textinfo_type_id: '1',
+                                    value1: item.value1,
+                                    value2: item.value2,
+                                })
+                                break;
+                            }
+                            case '2': {
+                                self.contacts.emailFields.push({
+                                    textinfo_type_id: '2',
+                                    value1: item.value1,
+                                })
+                                break;
+                            }
+                        }
+                    })
+                });
+
+                this.pageLoader_resolveData()
+            });
+    },
     methods: {
+        ...mapActions('clients', ['deleteClient', 'fetchClient', 'updateClient']),
         clientDelete() {
-            this.$store.dispatch('clients/deleteClient', {  id: this.currentClientId})
+            this.deleteClient({  id: this.currentClientId })
                 .then(() => {
-                    // this.okoModal_response({ type: 'success', 
-                    //                         message: 'Пользователь успешно удален'});
+                    this.okoModal_response({ type: 'success', 
+                                            message: 'Клиент успешно изменен'});
                     
                     this.$router.push({ name: 'PageClients' });
                 })
                 .catch((err) => {
                     this.okoModal_response({type:'error', message: err});
                 })
-        }
+        },
+        addContactForm() {
+            this.contacts.push({
+                client_id: "",
+                name: "",
+                position: "",
+                phoneFields: [{
+                        textinfo_type_id: '1',
+                        value1: "",
+                        value2: "",
+                    }],
+                emailFields: [{
+                        textinfo_type_id: '2',
+                        value1: "",
+                    }],
+            })
+        },
+        deleteCard(index) {
+            this.contacts.splice(index, 1);
+        },
+        addField(type, evt) {
+            switch (type) {
+                case 'phone': {
+                    this.client.phoneFields.push({
+                        textinfo_type_id: '1',
+                        value1: "",
+                        value2: "",
+                    })
+                    break;
+                }
+                case 'email': {
+                    this.client.emailFields.push({
+                        textinfo_type_id: '2',
+                        value1: "",
+                    })
+                    break;
+                }
+            }
+            setTimeout(() => {
+                evt.target.parentElement.previousElementSibling.querySelector('input').focus();
+            }, 0)
+        },
+        deleteField(type, index) {
+            switch (type) {
+                case 'phone': {
+                    this.client.phoneFields.splice(index, 1);
+                    break;
+                }
+                case 'email': {
+                    this.client.emailFields.splice(index, 1);
+                    break;
+                }
+            }
+        },
+        checkTextinfoField(fields) {
+            const valuesArr = fields.map(x => x.value1);
+            const result = fields.reduce((acc, field, index) => {
+                const indexInArr = valuesArr.indexOf(field.value1);
+                if(field.value1 &&  indexInArr === index) { 
+                    if (field.textinfo_type_id === '1') {
+                        field.value1 = field.value1.replace(/[^0-9]/g, '');
+                    }
+                    acc.push(field);
+                }
+
+                return acc;
+            }, []);
+
+            return result;
+        },
+        updateClientHandler() {
+            this.loading = true;
+
+            const textinfoFields = this.checkTextinfoField([ 
+                    ...this.client.phoneFields, 
+                    ...this.client.emailFields
+                ]);
+
+            const newClient = {
+                id: this.client.id,
+                client_type_id: this.client.client_type_id,
+                inn: this.client.inn,
+                fizlico_firstname: this.client.fizlico_firstname,
+                fizlico_name: this.client.fizlico_name,
+                fizlico_lastname: this.client.fizlico_lastname,
+                yurlico_name: this.client.yurlico_name,
+                address: this.client.address,
+                client_textinfo: textinfoFields
+            }
+
+            this.updateClient(newClient)
+                .then((res) => {
+                    const clientId = res.id;
+                    let contactsToAdd = [];
+
+                    for (let i = 0; i < this.contacts.length; ++i) {
+                        contactsToAdd.push(this.addContact(clientId, i));
+                    }
+                    Promise.all(contactsToAdd)
+                        .then(() => {
+                            this.loading = false;
+                            this.$router.push({ name: 'PageClientAbout', 
+                                                params: {
+                                                    clientId: clientId
+                                                }});
+                        })
+                })
+                .catch((err) => {
+                    this.loading = false;
+                    this.okoModal_response({type:'error', message: err});  
+                })
+      },
+      addContact(clientId, contactIndex) {
+            if (this.contacts[contactIndex].name) {
+                const textinfoFields = this.checkTextinfoField([ 
+                    ...this.contacts[contactIndex].phoneFields, 
+                    ...this.contacts[contactIndex].emailFields
+                ]);
+                const newContact = {
+                    client_id: clientId,
+                    name: this.contacts[contactIndex].name,
+                    position: this.contacts[contactIndex].position,
+                    client_contacts_textinfo: textinfoFields
+                }
+                return this.addContact(newContact)
+            }
+      }
     }
 }
 </script>
 
 <style scoped>
 .MainSection-Row_title {
-  margin-bottom: 10px;
+  margin-bottom: 20px;
   padding-top: 20px;
   padding-bottom: 20px; }
 
@@ -387,7 +600,7 @@ export default {
     width: 69px; }
 
 .Link_line_add {
-  margin: 15px 0 20px;
+  margin: 5px 0 20px;
   color: #008acc; }
 
 .File_theme_link {
@@ -421,4 +634,8 @@ export default {
 
 .Btn.chooseFromList {
   height: 30px; }
+
+.Form-Column {
+    margin-right: 10px;
+}
 </style>

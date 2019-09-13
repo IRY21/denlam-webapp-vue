@@ -105,10 +105,8 @@ export default {
       return clientName;
     }
   },
-  created() {
-      const clientId = this.currentClientId;
-    
-      Promise.all([this.fetchClient(clientId)])
+  created() {    
+      Promise.all([this.fetchClient(this.currentClientId)])
         .then(() => {
           this.pageLoader_resolveData()
         })

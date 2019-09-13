@@ -110,6 +110,20 @@ const actions = {
         return rejectError(err);
       })
   },
+  updateClient({ dispatch }, clientToUpdate) {
+    dispatch('shared/setLoading', null, { root: true });
+    return axiosInstance.post(`${config.apiUrl}/client/update`, axiosDataWrap(clientToUpdate))
+      .then((res) => {
+        const client = res.data;
+        commit(SET_ITEM, { resource: 'clients', item: client}, {root: true});
+        dispatch('shared/clearLoading', null, { root: true });
+        return client;
+      })
+      .catch((err) => {
+        dispatch('shared/clearLoading', null, { root: true });
+        return rejectError(err);
+      })
+  },
   deleteClient({ dispatch, commit }, clientId) {
     dispatch('shared/setLoading', null, { root: true });
     return axiosInstance.post(`${config.apiUrl}/client/delete`, axiosDataWrap(clientId))

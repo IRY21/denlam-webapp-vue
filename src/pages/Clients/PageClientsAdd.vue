@@ -1,5 +1,8 @@
 <template>
   <div>
+    <OkoTitle 
+      :title="`${clientName} ||  Новый клиент`" />
+
     <div class="MainSection-Row MainSection-Row_bgGrey MainSection-Row_title">
         <router-link
           class="Link Link_back"
@@ -212,7 +215,7 @@
                 class="Btn Btn_theme_green Btn_size_m"
                 :class="{'Btn_theme_wait': loading}"
                 :disabled="$v.$invalid || loading"
-                @click="addClient()"
+                @click="addClientHandler()"
             >
                 Добавить контрагента
             </button>
@@ -340,6 +343,20 @@ export default {
     methods: {
         ...mapActions('clients', ['addClient']),
         ...mapActions('contacts', ['addContact']),
+        clientName(client) {
+            let name = '';
+            switch (client.client_type_id) {
+                case '1': {
+                    name = `${client.fizlico_firstname} ${client.fizlico_name} ${client.fizlico_lastname}`;
+                    break;
+                }
+                case '2': {
+                    name = `${client.yurlico_name}`;
+                    break;
+                }
+            }
+            return name;
+        },
         addContactForm() {
             this.contacts.push({
                 client_id: "",
@@ -353,7 +370,6 @@ export default {
                 emailFields: [{
                         textinfo_type_id: '2',
                         value1: "",
-                        value2: "",
                     }],
             })
         },
@@ -374,7 +390,6 @@ export default {
                     this.client.emailFields.push({
                         textinfo_type_id: '2',
                         value1: "",
-                        value2: "",
                     })
                     break;
                 }
@@ -411,7 +426,7 @@ export default {
 
             return result;
         },
-        addClient() {
+        addClientHandler() {
             this.loading = true;
 
             const textinfoFields = this.checkTextinfoField([ 
@@ -430,13 +445,13 @@ export default {
                 client_textinfo: textinfoFields
             }
 
-            this.$store.dispatch('clients/addClient', newClient)
+            this.addClient(newClient)
                 .then((res) => {
                     const clientId = res.id;
                     let contactsToAdd = [];
 
                     for (let i = 0; i < this.contacts.length; ++i) {
-                        contactsToAdd.push(this.addContact(clientId, i));
+                        contactsToAdd.push(this.addContactHandler(clientId, i));
                     }
                     Promise.all(contactsToAdd)
                         .then(() => {
@@ -446,13 +461,17 @@ export default {
                                                     clientId: clientId
                                                 }});
                         })
+                        .catch((err) => {
+                            this.loading = false;
+                            this.okoModal_response({type:'error', message: err}); 
+                        })
                 })
                 .catch((err) => {
                     this.loading = false;
                     this.okoModal_response({type:'error', message: err});  
                 })
       },
-      addContact(clientId, contactIndex) {
+      addContactHandler(clientId, contactIndex) {
             if (this.contacts[contactIndex].name) {
                 const textinfoFields = this.checkTextinfoField([ 
                     ...this.contacts[contactIndex].phoneFields, 
@@ -464,7 +483,7 @@ export default {
                     position: this.contacts[contactIndex].position,
                     client_contacts_textinfo: textinfoFields
                 }
-                return this.$store.dispatch('contacts/addContact', newContact)
+                return this.addContact(newContact)
             }
       }
     }

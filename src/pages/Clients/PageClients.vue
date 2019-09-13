@@ -34,90 +34,76 @@
             v-if="pageLoader_isDataLoaded"
             class="MainSection-Row MainSection-Row_noTopPadding"
         >
-            <div class="Card Card_bgGray">
-                <div class="Table Table_counterparties">
-                    <div class="Table-Row Table-Row_head">
-                        <div class="Table-Column">
-                            <p class="Table-Text">
-                                Наименование
-                            </p>
-                        </div>
-                        <div class="Table-Column">
-                            <p class="Table-Text">
-                                Адрес
-                            </p>
-                        </div>
-                        <div class="Table-Column">
-                            <p class="Table-Text">
-                                Даные для связи
-                            </p>
-                        </div>
-                        <div class="Table-Column">
-                            <p class="Table-Text">
-                                Контактное лицо
-                            </p>
-                        </div>
+            <div class="Table Table_counterparties">
+                <div class="Table-Row Table-Row_head">
+                    <div class="Table-Column">
+                        <p class="Table-Text">
+                            Наименование
+                        </p>
                     </div>
-                    <div 
-                        class="Table-Row"
-                        v-for="client of clients"
-                        :key="client.id"
-                    >
-                        <div class="Table-Column">
-                            <p class="Table-Text Table-Text_counterparties">
-                                <router-link
-                                    class="Link Link_no-decoration"
-                                    :to="{name: 'PageClientAbout', params: { clientId: client.id }}"    
-                                >
-                                    {{ clientName(client) }}
-                                </router-link>
-                                <br>
-                                <span 
-                                    v-if="client.inn"
-                                    class="inn"
-                                >
-                                    ИНН {{ client.inn }}
-                                </span>
-                            </p>
-                        </div>
-                        <div class="Table-Column">
-                            <p class="Table-Text">
-                                {{ client.address }}
-                            </p>
-                        </div>
-                        <div class="Table-Column">
-                            <p 
-                                class="Table-Text"
-                                v-for="contact of client.client_textinfo"
-                                :key="contact.id"
-                            >
-                                {{ contact.value1 | formatPhone }}
-                            </p>
-                        </div>
-                        <div class="Table-Column">
-                            <p 
-                                class="Table-Text"
-                            >
-                                {{ firstContactInClient(client).name }}
-                            </p>
-                            <p 
-                                class="Table-Text"
-                                v-for="contact of firstContactInClient(client).client_contact_textinfo"
-                                :key="contact.id"
-                            >
-                                {{ contact.value1 | formatPhone }}
-                            </p>
-                        </div>
+                    <div class="Table-Column">
+                        <p class="Table-Text">
+                            Даные для связи
+                        </p>
                     </div>
-                    <infinite-loading 
-                        spinner="bubbles" 
-                        @infinite="debounceInfiniteHandler"
-                        ref="infiniteLoading"
-                    >
-                        <div class="Infinite-End" slot="no-more"></div>
-                        <div class="Infinite-End" slot="no-results"></div>
-                    </infinite-loading>
+                    <div class="Table-Column">
+                        <p class="Table-Text">
+                            Контактное лицо
+                        </p>
+                    </div>
                 </div>
+                <router-link
+                    class="Table-Row Link"
+                    v-for="client of clients"
+                    :key="client.id"
+                    :to="{name: 'PageClientAbout', params: { clientId: client.id }}" 
+                >
+                    <div class="Table-Column">
+                        <p class="Table-Text Table-Text_counterparties">
+                            <span>
+                                {{ clientName(client) }}
+                            </span>
+                            <br>
+                            <span 
+                                v-if="client.inn"
+                                class="inn"
+                            >
+                                ИНН {{ client.inn }}
+                            </span>
+                        </p>
+                    </div>
+                    <div class="Table-Column">
+                        <p 
+                            class="Table-Text"
+                            v-for="contact of client.client_textinfo"
+                            :key="contact.id"
+                        >
+                            {{ contact.value1 | formatPhone }}
+                        </p>
+                    </div>
+                    <div class="Table-Column">
+                        <p 
+                            class="Table-Text"
+                        >
+                            {{ firstContactInClient(client).name }}
+                        </p>
+                        <p 
+                            class="Table-Text"
+                            v-for="contact of firstContactInClient(client).client_contact_textinfo"
+                            :key="contact.id"
+                        >
+                            {{ contact.value1 | formatPhone }}
+                        </p>
+                    </div>
+                </router-link>
+                <infinite-loading 
+                    spinner="bubbles" 
+                    @infinite="debounceInfiniteHandler"
+                    ref="infiniteLoading"
+                >
+                    <div class="Infinite-End" slot="no-more"></div>
+                    <div class="Infinite-End" slot="no-results"></div>
+                </infinite-loading>
             </div>
         </div>
         <div v-else>
@@ -223,7 +209,11 @@ export default {
     overflow-y: initial !important;
 }
 .Table_counterparties .Table-Row {
-  padding: 9px 0; }
+  padding: 9px 10px; }
+.Table_counterparties .Table-Row.Link {
+  text-decoration: none; }
+  .Table_counterparties .Table-Row.Link:hover {
+    background-color: #f6f6f6; }
 
 .Table_counterparties .Table-Column:nth-of-type(1) {
   width: 30%; }
