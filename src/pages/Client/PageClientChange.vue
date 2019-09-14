@@ -3,9 +3,7 @@
     <OkoTitle 
       :title="`${clientName} || Редактирование`" />
 
-    <div
-        v-if="pageLoader_isDataLoaded"
-    >
+    <div>
         <div class="MainSection-Row MainSection-Row_bgGrey MainSection-Row_title">
             <router-link
                 class="Link Link_back"
@@ -17,6 +15,7 @@
         </div>
         <form 
             class="Form"
+            v-if="pageLoader_isDataLoaded"
         >
             <div class="MainSection-Row MainSection-Row_size_add">
                 <h2 class="Heading_lvl2">Тип клиента</h2>
@@ -200,7 +199,8 @@
                         v-for="(contact, index) in contacts"
                         :key="index"
                         :contact="contact"
-                        :deleteHandler="deleteCard"
+                        :arrIndex="index"
+                        :deleteHandler="deleteContactHandler"
                     />
                     
                     <div class="Card Card_bd Card_contact-face">
@@ -215,7 +215,7 @@
             </div>
             <div class="MainSection-Row MainSection-Row_noTopPadding">
                 <div 
-                class="Btn Btn_theme_green Btn_size_m"
+                    class="Btn Btn_theme_green Btn_size_m"
                     :class="{'Btn_theme_wait': loading}"
                     :disabled="$v.$invalid || loading"
                     @click="updateClientHandler"
@@ -232,9 +232,9 @@
                 </div>
             </div>
         </form>
-    </div>
-    <div v-else>
-        <AppSpinner />
+        <div v-else>
+            <AppSpinner />
+        </div>
     </div>
   </div>
 </template>
@@ -340,12 +340,13 @@ export default {
         clientName() {
             const currentClient = this.client;
             let clientName = '';
-            switch (currentClient.client_type) {
-                case 'yurlico': {
+            
+            switch (currentClient.client_type_id) {
+                case '2': {
                     clientName = currentClient.yurlico_name;
                 break;
                 }
-                case 'fizlico': {
+                case '1': {
                     clientName =  `${currentClient.fizlico_firstname} ${currentClient.fizlico_name} ${currentClient.fizlico_lastname}`;
                 break;
                 }
@@ -357,8 +358,8 @@ export default {
         Promise.all([this.fetchClient(this.currentClientId)])
             .then((res) => {
                 const resClient = res[0];
-                const textInfoFields = resClient.client_textinfo;
-                const contactsFields = resClient.client_contacts;
+                const textInfoFields = resClient.client_textinfo || [];
+                const contactsFields = resClient.client_contacts || [];
                 const self = this;
 
                 this.client = {
@@ -372,7 +373,7 @@ export default {
                     address: resClient.address,
                     phoneFields: [],
                     emailFields: [],
-                },
+                };
 
                 textInfoFields.forEach(function (item) {
                     switch (item.textinfo_type_id) {
@@ -392,13 +393,13 @@ export default {
                             break;
                         }
                     }
-                }),
+                });
 
-                contactsFields.forEach(function (item) {
-                    const textInfoFields = item.client_contact_textinfo;
-
+                contactsFields.forEach(function (item, index) {
+                    const textInfoFields = item.client_contact_textinfo || [];
                     self.contacts.push({
-                        client_id: item.id,
+                        client_id: resClient.id,
+                        id: item.id,
                         name: item.name,
                         position: item.position,
                         phoneFields: [],
@@ -408,7 +409,7 @@ export default {
                     textInfoFields.forEach(function (item) {
                         switch (item.textinfo_type_id) {
                             case '1': {
-                                self.contacts.phoneFields.push({
+                                self.contacts[index].phoneFields.push({
                                     textinfo_type_id: '1',
                                     value1: item.value1,
                                     value2: item.value2,
@@ -416,7 +417,7 @@ export default {
                                 break;
                             }
                             case '2': {
-                                self.contacts.emailFields.push({
+                                self.contacts[index].emailFields.push({
                                     textinfo_type_id: '2',
                                     value1: item.value1,
                                 })
@@ -430,7 +431,8 @@ export default {
             });
     },
     methods: {
-        ...mapActions('clients', ['deleteClient', 'fetchClient', 'updateClient']),
+        ...mapActions('clients', ['fetchClient', 'updateClient', 'deleteClient']),
+        ...mapActions('contacts', ['addContact', 'updateContact', 'deleteContact']),
         clientDelete() {
             this.deleteClient({  id: this.currentClientId })
                 .then(() => {
@@ -459,7 +461,7 @@ export default {
                     }],
             })
         },
-        deleteCard(index) {
+        deleteContactCard(index) {
             this.contacts.splice(index, 1);
         },
         addField(type, evt) {
@@ -538,7 +540,7 @@ export default {
                     let contactsToAdd = [];
 
                     for (let i = 0; i < this.contacts.length; ++i) {
-                        contactsToAdd.push(this.addContact(clientId, i));
+                        contactsToAdd.push(this.addContactHandler(clientId, i));
                     }
                     Promise.all(contactsToAdd)
                         .then(() => {
@@ -548,27 +550,59 @@ export default {
                                                     clientId: clientId
                                                 }});
                         })
+                        .catch((err) => {
+                            this.loading = false;
+                            this.okoModal_response({type:'error', message: err}); 
+                        })
                 })
                 .catch((err) => {
                     this.loading = false;
                     this.okoModal_response({type:'error', message: err});  
                 })
-      },
-      addContact(clientId, contactIndex) {
-            if (this.contacts[contactIndex].name) {
+        },
+        addContactHandler(clientId, contactIndex) {
+            const currentContact = this.contacts[contactIndex];
+
+
+            if (currentContact.name) {
                 const textinfoFields = this.checkTextinfoField([ 
-                    ...this.contacts[contactIndex].phoneFields, 
-                    ...this.contacts[contactIndex].emailFields
+                    ...currentContact.phoneFields, 
+                    ...currentContact.emailFields
                 ]);
                 const newContact = {
                     client_id: clientId,
-                    name: this.contacts[contactIndex].name,
-                    position: this.contacts[contactIndex].position,
+                    name: currentContact.name,
+                    position: currentContact.position,
                     client_contacts_textinfo: textinfoFields
                 }
-                return this.addContact(newContact)
+                
+                if(currentContact.id) {
+                    return this.updateContact({id: currentContact.id, ...newContact});
+                }
+                return this.addContact(newContact);
             }
-      }
+        },
+        deleteContactHandler(index) {
+            const contactId = this.contacts[index].id;
+            if(!contactId) {
+                return this.deleteContactCard(index);
+            }
+
+            this.okoModal_confirm()
+                .then(() => {
+                    return this.deleteContact(contactId)
+                        .then(() => {
+                            this.deleteContactCard(index);
+                            this.okoModal_response({ type: 'success', 
+                                                message: 'Контакт успешно удален'});
+                        })
+                        .catch(err => {
+                            this.okoModal_response({type:'error', message: err});  
+                        })
+                })
+                .catch(() => {})
+                
+        }
     }
 }
 </script>

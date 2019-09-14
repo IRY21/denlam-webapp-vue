@@ -101,7 +101,7 @@
     <div class="Form-Row">
     <div 
         class="Btn Btn_theme_delete"
-        @click="deleteHandler"
+        @click="deleteHandler(arrIndex)"
     >
         Удалить
     </div>
@@ -114,6 +114,10 @@ import { email } from 'vuelidate/lib/validators';
 
 export default {
   props: {
+    arrIndex: {
+        required: true,
+        type: Number
+    },
     contact: {
       required: true,
       type: Object

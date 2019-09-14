@@ -28,12 +28,37 @@ const actions = {
         return rejectError(err);
       })
   },
-  addContact({ commit, dispatch }, contactToAdd) {
+  addContact({ dispatch }, contactToAdd) {
     dispatch('shared/setLoading', null, { root: true });
     return axiosInstance.post(`${config.apiUrl}/client_contact/add`, axiosDataWrap(contactToAdd))
       .then((res) => {
         const contact = res.data;
-        commit(SET_ITEMS, { resource: 'contacts', item: contact}, {root: true});
+        dispatch('shared/clearLoading', null, { root: true });
+        return contact;
+      })
+      .catch((err) => {
+        dispatch('shared/clearLoading', null, { root: true });
+        return rejectError(err);
+      })
+  },
+  updateContact({ dispatch }, contactToUpdate) {
+    dispatch('shared/setLoading', null, { root: true });
+    return axiosInstance.post(`${config.apiUrl}/client_contact/update`, axiosDataWrap(contactToUpdate))
+      .then((res) => {
+        const contact = res.data;
+        dispatch('shared/clearLoading', null, { root: true });
+        return contact;
+      })
+      .catch((err) => {
+        dispatch('shared/clearLoading', null, { root: true });
+        return rejectError(err);
+      })
+  },
+  deleteContact({ dispatch }, contactId) {
+    dispatch('shared/setLoading', null, { root: true });
+    return axiosInstance.post(`${config.apiUrl}/client_contact/delete`, axiosDataWrap({ id: contactId }))
+      .then((res) => {
+        const contact = res.data;
         dispatch('shared/clearLoading', null, { root: true });
         return contact;
       })

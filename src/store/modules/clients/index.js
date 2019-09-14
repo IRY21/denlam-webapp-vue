@@ -110,7 +110,7 @@ const actions = {
         return rejectError(err);
       })
   },
-  updateClient({ dispatch }, clientToUpdate) {
+  updateClient({ dispatch, commit }, clientToUpdate) {
     dispatch('shared/setLoading', null, { root: true });
     return axiosInstance.post(`${config.apiUrl}/client/update`, axiosDataWrap(clientToUpdate))
       .then((res) => {

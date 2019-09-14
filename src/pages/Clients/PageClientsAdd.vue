@@ -197,7 +197,7 @@
                     v-for="(contact, index) in contacts"
                     :key="index"
                     :contact="contact"
-                    :deleteHandler="deleteCard"
+                    :deleteHandler="deleteContactCard"
                 />
                 
                 <div class="Card Card_bd Card_contact-face">
@@ -373,7 +373,7 @@ export default {
                     }],
             })
         },
-        deleteCard(index) {
+        deleteContactCard(index) {
             this.contacts.splice(index, 1);
         },
         addField(type, evt) {
@@ -470,17 +470,19 @@ export default {
                     this.loading = false;
                     this.okoModal_response({type:'error', message: err});  
                 })
-      },
-      addContactHandler(clientId, contactIndex) {
-            if (this.contacts[contactIndex].name) {
+        },
+        addContactHandler(clientId, contactIndex) {
+            const currentContact = this.contacts[contactIndex];
+
+            if (currentContact.name) {
                 const textinfoFields = this.checkTextinfoField([ 
-                    ...this.contacts[contactIndex].phoneFields, 
-                    ...this.contacts[contactIndex].emailFields
+                    ...currentContact.phoneFields, 
+                    ...currentContact.emailFields
                 ]);
                 const newContact = {
                     client_id: clientId,
-                    name: this.contacts[contactIndex].name,
-                    position: this.contacts[contactIndex].position,
+                    name: currentContact.name,
+                    position: currentContact.position,
                     client_contacts_textinfo: textinfoFields
                 }
                 return this.addContact(newContact)

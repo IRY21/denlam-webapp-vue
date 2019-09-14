@@ -8,7 +8,7 @@
         <div>
           <p 
             class="Input-Text"
-            v-for="(phone, index) of clientPhones"
+            v-for="(phone, index) of chooseByTypeOfField('Телефон')"
             :key="index"
           >
             {{ phone.value1 | formatPhone }}
@@ -22,7 +22,7 @@
         <div>
           <p 
             class="Input-Text"
-            v-for="(email, index) of clientEmails"
+            v-for="(email, index) of chooseByTypeOfField('Email')"
             :key="index"
           >
             {{ email.value1 }}
@@ -42,17 +42,16 @@ export default {
     }
   },
   computed: {
-    clientPhones() {
+  },
+  methods: {
+    chooseByTypeOfField(type) {
+      if (this.contact.client_contact_textinfo) {
         return this.contact.client_contact_textinfo.filter(item => {
-            return item.textinfo_type === 'Телефон';
+            return item.textinfo_type === type;
         });
-        
-    },
-    clientEmails() {
-        return this.contact.client_contact_textinfo.filter(item => {
-            return item.textinfo_type === 'Email';
-        });
-    },
+      }
+      return '';
+    }
   }
 }
 </script>
