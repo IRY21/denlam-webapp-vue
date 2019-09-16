@@ -34,7 +34,10 @@
             </div>
         </div>
     </div>
-    <div class="MainSection-Row">
+    <div 
+        v-if="pageLoader_isDataLoaded"
+        class="MainSection-Row"
+    >
         <div class="Table Table_workers">
             <div class="Table-Row Table-Row_head">
                 <div class="Table-Column">
@@ -64,8 +67,10 @@
                 </div>
             </div>
             <router-link
-              class="Table-Row Link"
-              :to="'/worker/1'"
+                class="Table-Row Link"
+                v-for="worker of workers"
+                :key="worker.id"
+                :to="{name: 'PageWorker', params: { workerId: worker.id }}" 
             >
                 <div class="Table-Column">
                     <div class="Avatar Avatar_small">
@@ -74,9 +79,8 @@
                 </div>
                 <div class="Table-Column">
                     <p class="Table-Text">
-                        Иванов<br>
-                        Петросян Самойлович<br>
-                        <span style="color: #008acc;">Фрилансер</span>
+                        {{ workerName(worker) }}<br>
+                        <span style="color: #008acc;">{{ worker.position }}</span>
                     </p>
                 </div>
                 <div class="Table-Column">
@@ -85,9 +89,13 @@
                     </p>
                 </div>
                 <div class="Table-Column">
-                    <p class="Table-Text">
-                        8 (960) 999-99-99
-                    </p>
+                        <p 
+                            class="Table-Text"
+                            v-for="contact of worker.worker_textinfo"
+                            :key="contact.id"
+                        >
+                            {{ contact.value1 | formatPhone }}
+                        </p>
                 </div>
                 <div class="Table-Column">
                     <p class="Table-Text" style="color: #898989;">
@@ -98,14 +106,95 @@
                     </p>
                 </div>
             </router-link>
+            <infinite-loading 
+                spinner="bubbles" 
+                @infinite="debounceInfiniteHandler"
+                ref="infiniteLoading"
+            >
+                <div class="Infinite-End" slot="no-more"></div>
+                <div class="Infinite-End" slot="no-results"></div>
+            </infinite-loading>
         </div>
+    </div>
+    <div v-else>
+        <AppSpinner />
     </div>
   </div>
 </template>
 
 <script>
-export default {
+import { mapGetters, mapActions } from 'vuex';
+import { debounce } from '@/_helpers';
 
+export default {
+    data() {
+        return {
+            searchParams: {
+                qlimit: 15,
+                qskipstep: 0,
+                search: '',
+            }
+        }
+    },
+    computed: {
+        ...mapGetters({
+            workers: 'workers/getWorkers'
+        }),
+        debouncedSearch() {
+            let DELAY = 300;
+            return debounce(this.searchHandler, DELAY);
+        },
+        debounceInfiniteHandler() {
+            let DELAY = 300;
+            return debounce(this.infiniteHandler, DELAY);
+        }
+    },
+    created() {
+
+        Promise.all([this.fetchWorkers(this.searchParams)])
+            .then((res) => {
+                this.searchParams.qskipstep = res[0].length;
+                this.pageLoader_resolveData();
+            })
+    },
+    methods: {
+        ...mapActions('workers', ['fetchWorkers', 'searchWorkers']),
+        infiniteHandler($state) {
+            this.fetchWorkers(this.searchParams)
+                .then((res) => {
+                    if (res.length > 0) {
+                        this.searchParams.qskipstep += res.length;
+                        $state.loaded();
+                    } else {
+                        $state.complete();
+                    }
+                })
+        },
+        searchHandler() {
+            // emit $state.reset like in infiniteHandler
+            this.$refs.infiniteLoading.$emit('$InfiniteLoading:reset');
+
+            this.searchParams.qskipstep = 0;
+            this.searchWorkers(this.searchParams)
+                .then((res) => {
+                    this.searchParams.qskipstep = res.length;
+                })
+        },
+        workerName(worker) {
+            let name = '';
+            switch (worker.worker_type_id) {
+                case '1': {
+                    name = `${worker.fizlico_firstname} ${worker.fizlico_name} ${worker.fizlico_lastname}`;
+                    break;
+                }
+                case '2': {
+                    name = `${worker.yurlico_name}`;
+                    break;
+                }
+            }
+            return name;
+        }
+    }
 }
 </script>
 

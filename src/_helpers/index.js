@@ -12,12 +12,12 @@ export const rejectError = ({ response = null}) => {
   return Promise.reject(message)
 }
 
-export const Role = {
-  Admin: 'Администратор',
-  Manager: 'Менеджер',
-  Buhgalter: 'Бухгалтер',
-  Worker: 'Сотрудник' 
-}
+// export const Role = {
+//   Admin: 'Администратор',
+//   Manager: 'Менеджер',
+//   Buhgalter: 'Бухгалтер',
+//   Worker: 'Сотрудник' 
+// }
 
 export const programName = 'OKO';
 

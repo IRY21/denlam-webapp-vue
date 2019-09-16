@@ -90,19 +90,20 @@ export default {
       return this.$route.params.clientId
     },
     clientName() {
-      const currentClient = this.client;
-      let clientName = '';
-      switch (currentClient.client_type) {
-        case 'yurlico': {
-          clientName = currentClient.yurlico_name;
-          break;
+        const currentClient = this.client;
+        let clientName = '';
+        
+        switch (currentClient.client_type_id) {
+            case '2': {
+                clientName = currentClient.yurlico_name;
+            break;
+            }
+            case '1': {
+                clientName =  `${currentClient.fizlico_firstname} ${currentClient.fizlico_name} ${currentClient.fizlico_lastname}`;
+            break;
+            }
         }
-        case 'fizlico': {
-          clientName =  `${currentClient.fizlico_firstname} ${currentClient.fizlico_name} ${currentClient.fizlico_lastname}`;
-          break;
-        }
-      }
-      return clientName;
+        return clientName;
     }
   },
   created() {    

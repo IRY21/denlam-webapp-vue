@@ -18,15 +18,15 @@ const mutations = {
 }
 
 const actions = {
-  getAuthUser({ commit, getters, dispatch }) {
+  getAuthUser({ commit, dispatch }) {
     dispatch('shared/setLoading', null, { root: true });
-    const authUser = getters['getProfile'];
-    const token = localStorage.getItem('oko-jwt');
+    // const authUser = getters['getProfile'];
+    // const token = localStorage.getItem('oko-jwt');
 
-    if (authUser && token) { 
-      dispatch('shared/clearLoading', null, { root: true });
-      return Promise.resolve(authUser);
-    }
+    // if (authUser && token) { 
+    //   dispatch('shared/clearLoading', null, { root: true });
+    //   return Promise.resolve(authUser);
+    // }
 
     return axiosInstance.get(`${config.apiUrl}/user/show`)
       .then((res) => {

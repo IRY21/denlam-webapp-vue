@@ -361,7 +361,6 @@ export default {
                 const textInfoFields = resClient.client_textinfo || [];
                 const contactsFields = resClient.client_contacts || [];
                 const self = this;
-
                 this.client = {
                     id: resClient.id,
                     client_type_id: resClient.client_type_id,

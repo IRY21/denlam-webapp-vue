@@ -11,6 +11,7 @@ import roles from './modules/roles/';
 import products from './modules/products/';
 import clients from './modules/clients/';
 import contacts from './modules/contacts/';
+import workers from './modules/workers/';
 
 Vue.use(Vuex)
 
@@ -25,6 +26,7 @@ export default new Vuex.Store({
     products,
     clients,
     contacts,
+    workers,
   },
   mutations: {
     [SET_ITEMS](state, { resource, items }) {

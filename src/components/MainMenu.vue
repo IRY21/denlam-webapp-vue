@@ -146,8 +146,13 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+
 export default {
     computed: {
+        ...mapGetters({
+            profile: 'user/getProfile'
+        }),
         currentRoute() {
             return this.$route.matched[0].name
         }

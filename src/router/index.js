@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import store from '@/store'
-import { Role } from '@/_helpers'
+//import { Role } from '@/_helpers'
 
 import PageLogin from '@/pages/Auth/PageLogin'
 
@@ -74,7 +74,7 @@ const router = new Router({
       meta: {
         layout: 'default-layout',
         permissions: {
-          role: [Role.Admin]
+          // role: [Role.Admin]
         },
         title: `Проекты`
       }
@@ -86,7 +86,7 @@ const router = new Router({
       meta: {
         layout: 'default-layout',
         permissions: {
-          role: [Role.Admin]
+          // role: [Role.Admin]
         },
         title: `Проекты || Добавить`
       }
@@ -98,7 +98,7 @@ const router = new Router({
       meta: {
         layout: 'default-layout',
         permissions: {
-          role: [Role.Admin]
+          // role: [Role.Admin]
         },
         title: `Проект`
       },
@@ -110,7 +110,7 @@ const router = new Router({
           meta: {
             layout: 'default-layout',
             permissions: {
-              role: [Role.Admin]
+              // role: [Role.Admin]
             },
             title: `Проект || О проекте`
           }
@@ -122,7 +122,7 @@ const router = new Router({
           meta: {
             layout: 'default-layout',
             permissions: {
-              role: [Role.Admin]
+              // role: [Role.Admin]
             },
             title: `Проект || Документы`
           }
@@ -134,7 +134,7 @@ const router = new Router({
           meta: {
             layout: 'default-layout',
             permissions: {
-              role: [Role.Admin]
+              // role: [Role.Admin]
             },
             title: `Проект || Оплаты`
           }
@@ -146,7 +146,7 @@ const router = new Router({
           meta: {
             layout: 'default-layout',
             permissions: {
-              role: [Role.Admin]
+              // role: [Role.Admin]
             },
             title: `Проект || Исполнители`
           }
@@ -160,7 +160,7 @@ const router = new Router({
       meta: {
         layout: 'default-layout',
         permissions: {
-          role: [Role.Admin]
+          // role: [Role.Admin]
         },
         title: `Поиск`
       }
@@ -172,7 +172,7 @@ const router = new Router({
     //   meta: {
     //     layout: 'default-layout',
     //     permissions: {
-    //       role: [Role.Admin]
+    //       // role: [Role.Admin]
     //     },
     //     title: `Планы`
     //   }
@@ -184,7 +184,7 @@ const router = new Router({
       meta: {
         layout: 'default-layout',
         permissions: {
-          role: [Role.Admin]
+          // role: [Role.Admin]
         },
         title: `Задачи`
       }
@@ -196,7 +196,7 @@ const router = new Router({
       meta: {
         layout: 'default-layout',
         permissions: {
-          role: [Role.Admin]
+          // role: [Role.Admin]
         },
         title: `Акты`
       },
@@ -208,7 +208,7 @@ const router = new Router({
           meta: {
             layout: 'default-layout',
             permissions: {
-              role: [Role.Admin]
+              // role: [Role.Admin]
             },
             title: `Акты || На подписании`
           }
@@ -220,7 +220,7 @@ const router = new Router({
           meta: {
             layout: 'default-layout',
             permissions: {
-              role: [Role.Admin]
+              // role: [Role.Admin]
             },
             title: `Акты || Подписанные акты`
           }
@@ -234,7 +234,7 @@ const router = new Router({
       meta: {
         layout: 'default-layout',
         permissions: {
-          role: [Role.Admin]
+          // role: [Role.Admin]
         },
         title: `Оплаты`
       }
@@ -246,7 +246,7 @@ const router = new Router({
       meta: {
         layout: 'default-layout',
         permissions: {
-          role: [Role.Admin]
+          // role: [Role.Admin]
         },
         title: `Должники`
       }
@@ -258,7 +258,7 @@ const router = new Router({
       meta: {
         layout: 'default-layout',
         permissions: {
-          role: [Role.Admin]
+          // role: [Role.Admin]
         },
         title: `Клиенты`
       }
@@ -270,7 +270,7 @@ const router = new Router({
       meta: {
         layout: 'default-layout',
         permissions: {
-          role: [Role.Admin]
+          // role: [Role.Admin]
         },
         title: `Клиенты || Добавить`
       }
@@ -282,7 +282,7 @@ const router = new Router({
       meta: {
         layout: 'default-layout',
         permissions: {
-          role: [Role.Admin]
+          // role: [Role.Admin]
         },
         title: `Клиент || `
       },
@@ -294,7 +294,7 @@ const router = new Router({
           meta: {
             layout: 'default-layout',
             permissions: {
-              role: [Role.Admin]
+              // role: [Role.Admin]
             },
             title: `Клиент || Данные о клиенте`
           }
@@ -306,7 +306,7 @@ const router = new Router({
           meta: {
             layout: 'default-layout',
             permissions: {
-              role: [Role.Admin]
+              // role: [Role.Admin]
             },
             title: `Клиент || Проекты`
           }
@@ -318,7 +318,7 @@ const router = new Router({
           meta: {
             layout: 'default-layout',
             permissions: {
-              role: [Role.Admin]
+              // role: [Role.Admin]
             },
             title: `Клиент || Акты выполненных работ`
           }
@@ -330,7 +330,7 @@ const router = new Router({
           meta: {
             layout: 'default-layout',
             permissions: {
-              role: [Role.Admin]
+              // role: [Role.Admin]
             },
             title: `Клиент || Поступившие оплаты`
           }
@@ -344,7 +344,7 @@ const router = new Router({
       meta: {
         layout: 'default-layout',
         permissions: {
-          role: [Role.Admin]
+          // role: [Role.Admin]
         },
         title: `Клиент || Редактировать`
       }
@@ -356,7 +356,7 @@ const router = new Router({
     //   meta: {
     //     layout: 'default-layout',
     //     permissions: {
-    //       role: [Role.Admin]
+    //       // role: [Role.Admin]
     //     },
     //     title: `Зарплаты`
     //   }
@@ -368,7 +368,7 @@ const router = new Router({
       meta: {
         layout: 'default-layout',
         permissions: {
-          role: [Role.Admin]
+          // role: [Role.Admin]
         },
         title: `Сотрудники`
       }
@@ -380,7 +380,7 @@ const router = new Router({
       meta: {
         layout: 'default-layout',
         permissions: {
-          role: [Role.Admin]
+          // role: [Role.Admin]
         },
         title: `Сотрудники || Добавить`
       }
@@ -392,7 +392,7 @@ const router = new Router({
       meta: {
         layout: 'default-layout',
         permissions: {
-          role: [Role.Admin]
+          // role: [Role.Admin]
         },
         title: `Сотрудник`
       }
@@ -404,7 +404,7 @@ const router = new Router({
       meta: {
         layout: 'default-layout',
         permissions: {
-          role: [Role.Admin]
+          // role: [Role.Admin]
         },
         title: `Сотрудник || Расчет`
       }
@@ -416,7 +416,7 @@ const router = new Router({
       meta: {
         layout: 'default-layout',
         permissions: {
-          role: [Role.Admin]
+          // role: [Role.Admin]
         },
         title: `Настройки`
       },
@@ -428,7 +428,7 @@ const router = new Router({
           meta: {
             layout: 'default-layout',
             permissions: {
-              role: [Role.Admin]
+              // role: [Role.Admin]
             },
             title: `Настройки || Пользователи`
           }
@@ -440,7 +440,7 @@ const router = new Router({
           meta: {
             layout: 'default-layout',
             permissions: {
-              role: [Role.Admin]
+              // role: [Role.Admin]
             },
             title: `Настройки || Услуги`
           }
@@ -452,7 +452,7 @@ const router = new Router({
           meta: {
             layout: 'default-layout',
             permissions: {
-              role: [Role.Admin]
+              // role: [Role.Admin]
             },
             title: `Настройки || Филиалы`
           }
@@ -492,7 +492,7 @@ router.beforeEach((to, from, next) => {
   if (permissions) {
     store.dispatch('user/getAuthUser')
       .then(() => {
-        const pageRole = permissions.role;
+        //const pageRole = permissions.role;
         const currentUser = store.getters['user/getProfile'];
           if (entryUrl) {
             const url = entryUrl;
@@ -506,12 +506,12 @@ router.beforeEach((to, from, next) => {
               return next({ name: 'PageLogin' });
           }
           // check if route is restricted by role
-          if (pageRole.length && !pageRole.includes(currentUser.role_name)) {
+          // if (pageRole.length && !pageRole.includes(currentUser.role_name)) {
               
-              // role not authorised so redirect to home page
-              entryUrl = to.path; // store entry url before redirect
-              return next({ name: 'PageNotAuthenticated' });
-          }
+          //     // role not authorised so redirect to home page
+          //     entryUrl = to.path; // store entry url before redirect
+          //     return next({ name: 'PageNotAuthenticated' });
+          // }
       })
       .catch(() => {
         entryUrl = to.path; // store entry url before redirect
