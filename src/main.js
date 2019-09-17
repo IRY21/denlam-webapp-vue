@@ -30,6 +30,7 @@ import okoModal from '@/_mixins/okoModal';
 import pageLoader from "@/_mixins/pageLoader"
 import checkInputType from "@/_mixins/checkInputType"
 import vuelidateCheck from "@/_mixins/vuelidateCheck"
+import computedParam from "@/_mixins/computedParam"
 
 Vue.config.productionTip = false
 Vue.component('default-layout', DefaultLayout)
@@ -50,6 +51,7 @@ Vue.mixin(okoModal);
 Vue.mixin(pageLoader);
 Vue.mixin(checkInputType);
 Vue.mixin(vuelidateCheck);
+Vue.mixin(computedParam);
 
 /**
  * Formats a phone number.

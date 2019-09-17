@@ -56,12 +56,12 @@
                     class="Table-Row Link"
                     v-for="client of clients"
                     :key="client.id"
-                    :to="{name: 'PageClientAbout', params: { clientId: client.id }}" 
+                    :to="{name: 'PageClientAbout', params: { id: client.id }}" 
                 >
                     <div class="Table-Column">
                         <p class="Table-Text Table-Text_counterparties">
                             <span>
-                                {{ clientName(client) }}
+                                {{ computedParam_name('client', client) }}
                             </span>
                             <br>
                             <span 
@@ -170,20 +170,6 @@ export default {
                 .then((res) => {
                     this.searchParams.qskipstep = res.length;
                 })
-        },
-        clientName(client) {
-            let name = '';
-            switch (client.client_type_id) {
-                case '1': {
-                    name = `${client.fizlico_firstname} ${client.fizlico_name} ${client.fizlico_lastname}`;
-                    break;
-                }
-                case '2': {
-                    name = `${client.yurlico_name}`;
-                    break;
-                }
-            }
-            return name;
         },
         firstContactInClient(client) {
             if (!client.client_contacts[0]) return '';

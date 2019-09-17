@@ -1,7 +1,7 @@
 <template>
   <div>
     <OkoTitle 
-      :title="`${clientName} || Данные о клиенте`" />
+      :title="`${ clientName } || Данные о клиенте`" />
 
     <div class="MainSection-Row MainSection-Row_size_add">
         <div class="Form-Row Form-Row_col2">

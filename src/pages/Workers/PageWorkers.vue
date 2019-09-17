@@ -70,7 +70,7 @@
                 class="Table-Row Link"
                 v-for="worker of workers"
                 :key="worker.id"
-                :to="{name: 'PageWorker', params: { workerId: worker.id }}" 
+                :to="{name: 'PageWorker', params: { id: worker.id }}" 
             >
                 <div class="Table-Column">
                     <div class="Avatar Avatar_small">
@@ -79,7 +79,7 @@
                 </div>
                 <div class="Table-Column">
                     <p class="Table-Text">
-                        {{ workerName(worker) }}<br>
+                        {{ computedParam_name('worker', worker) }}<br>
                         <span style="color: #008acc;">{{ worker.position }}</span>
                     </p>
                 </div>
@@ -150,7 +150,6 @@ export default {
         }
     },
     created() {
-
         Promise.all([this.fetchWorkers(this.searchParams)])
             .then((res) => {
                 this.searchParams.qskipstep = res[0].length;
@@ -179,20 +178,6 @@ export default {
                 .then((res) => {
                     this.searchParams.qskipstep = res.length;
                 })
-        },
-        workerName(worker) {
-            let name = '';
-            switch (worker.worker_type_id) {
-                case '1': {
-                    name = `${worker.fizlico_firstname} ${worker.fizlico_name} ${worker.fizlico_lastname}`;
-                    break;
-                }
-                case '2': {
-                    name = `${worker.yurlico_name}`;
-                    break;
-                }
-            }
-            return name;
         }
     }
 }

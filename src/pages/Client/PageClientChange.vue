@@ -1,17 +1,17 @@
 <template>
   <div>
     <OkoTitle 
-      :title="`${clientName} || Редактирование`" />
+      :title="`${ computedParam_name('client', client) } || Редактирование`" />
 
     <div>
         <div class="MainSection-Row MainSection-Row_bgGrey MainSection-Row_title">
             <router-link
                 class="Link Link_back"
-                :to="{ name: 'PageClientAbout', params: {clientId: currentClientId}}"
+                :to="{ name: 'PageClientAbout', params: {id: computedParam_currentRouteId}}"
             >
                 Вернуться назад
             </router-link>
-            <h1 class="Heading_lvl1">{{ clientName }}</h1>
+            <h1 class="Heading_lvl1">{{ computedParam_name('client', client) }}</h1>
         </div>
         <form 
             class="Form"
@@ -136,7 +136,7 @@
                             </div>
                             <svg 
                                 class="Input-ChangeBtn ChangeBtn ChangeBtn_type_cancel"
-                                @click="deleteField('phone', index)"
+                                @click="clientMixin_deleteTextinfoField('phone', index)"
                             >
                                 <use 
                                     xlink:href="/img/sprite.svg#cancel" 
@@ -147,7 +147,7 @@
                     <div class="Form-Row">
                         <div 
                             class="Link Link_dashed Link_line_add"
-                            @click="addField('phone', $event)"
+                            @click="clientMixin_addTextinfoField('phone', $event)"
                         >
                             +  добавить
                         </div>
@@ -171,7 +171,7 @@
                             </div>
                             <svg 
                                 class="Input-ChangeBtn ChangeBtn ChangeBtn_type_cancel"
-                                @click="deleteField('email', index)"
+                                @click="clientMixin_deleteTextinfoField('email', index)"
                             >
                                 <use 
                                     xlink:href="/img/sprite.svg#cancel" 
@@ -182,7 +182,7 @@
                     <div class="Form-Row">
                         <div 
                             class="Link Link_dashed Link_line_add"
-                            @click="addField('email', $event)"
+                            @click="clientMixin_addTextinfoField('email', $event)"
                         >
                             +  добавить
                         </div>
@@ -206,7 +206,7 @@
                     <div class="Card Card_bd Card_contact-face">
                         <div 
                             class="Card_add"
-                            @click="addContactForm"
+                            @click="clientMixin_addContactCard"
                         >
                             + добавить контактное лицо
                         </div>
@@ -241,8 +241,8 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex';
-
 import { required, email, minLength } from 'vuelidate/lib/validators';
+import clientMixin from '@/_mixins/client';
 
 import { ClientContactCard } from '@/components/pages/Clients/ClientsAdd';
 
@@ -266,6 +266,7 @@ export default {
             loading: false,
         }
     },
+    mixins: [clientMixin],
     validations() {
         if (this.client.client_type_id === '1') {
             return {
@@ -334,29 +335,32 @@ export default {
         ...mapGetters({
             clientData: 'clients/getClient'
         }),
-        currentClientId() {
-            return this.$route.params.clientId
-        },
-        clientName() {
-            const currentClient = this.client;
-            let clientName = '';
-            
-            switch (currentClient.client_type_id) {
-                case '2': {
-                    clientName = currentClient.yurlico_name;
-                break;
-                }
-                case '1': {
-                    clientName =  `${currentClient.fizlico_firstname} ${currentClient.fizlico_name} ${currentClient.fizlico_lastname}`;
-                break;
-                }
-            }
-            return clientName;
-        }
     },
     created() {
-        Promise.all([this.fetchClient(this.currentClientId)])
+        Promise.all([this.fetchClient(this.computedParam_currentRouteId)])
             .then((res) => {
+                function textinfoSplit(fieldToFill, textinfo) {
+                    textinfo.forEach(function (item) {
+                        switch (item.textinfo_type_id) {
+                            case '1': {
+                                fieldToFill.phoneFields.push({
+                                    textinfo_type_id: '1',
+                                    value1: item.value1,
+                                    value2: item.value2,
+                                })
+                                break;
+                            }
+                            case '2': {
+                                fieldToFill.emailFields.push({
+                                    textinfo_type_id: '2',
+                                    value1: item.value1,
+                                })
+                                break;
+                            }
+                        }
+                    });
+                }
+
                 const resClient = res[0];
                 const textInfoFields = resClient.client_textinfo || [];
                 const contactsFields = resClient.client_contacts || [];
@@ -374,25 +378,7 @@ export default {
                     emailFields: [],
                 };
 
-                textInfoFields.forEach(function (item) {
-                    switch (item.textinfo_type_id) {
-                        case '1': {
-                            self.client.phoneFields.push({
-                                textinfo_type_id: '1',
-                                value1: item.value1,
-                                value2: item.value2,
-                            })
-                            break;
-                        }
-                        case '2': {
-                            self.client.emailFields.push({
-                                textinfo_type_id: '2',
-                                value1: item.value1,
-                            })
-                            break;
-                        }
-                    }
-                });
+                textinfoSplit(self.client, textInfoFields);
 
                 contactsFields.forEach(function (item, index) {
                     const textInfoFields = item.client_contact_textinfo || [];
@@ -405,25 +391,7 @@ export default {
                         emailFields: [],
                     });
 
-                    textInfoFields.forEach(function (item) {
-                        switch (item.textinfo_type_id) {
-                            case '1': {
-                                self.contacts[index].phoneFields.push({
-                                    textinfo_type_id: '1',
-                                    value1: item.value1,
-                                    value2: item.value2,
-                                })
-                                break;
-                            }
-                            case '2': {
-                                self.contacts[index].emailFields.push({
-                                    textinfo_type_id: '2',
-                                    value1: item.value1,
-                                })
-                                break;
-                            }
-                        }
-                    })
+                    textinfoSplit(self.contacts[index], textInfoFields);
                 });
 
                 this.pageLoader_resolveData()
@@ -432,91 +400,10 @@ export default {
     methods: {
         ...mapActions('clients', ['fetchClient', 'updateClient', 'deleteClient']),
         ...mapActions('contacts', ['addContact', 'updateContact', 'deleteContact']),
-        clientDelete() {
-            this.deleteClient({  id: this.currentClientId })
-                .then(() => {
-                    this.okoModal_response({ type: 'success', 
-                                            message: 'Клиент успешно изменен'});
-                    
-                    this.$router.push({ name: 'PageClients' });
-                })
-                .catch((err) => {
-                    this.okoModal_response({type:'error', message: err});
-                })
-        },
-        addContactForm() {
-            this.contacts.push({
-                client_id: "",
-                name: "",
-                position: "",
-                phoneFields: [{
-                        textinfo_type_id: '1',
-                        value1: "",
-                        value2: "",
-                    }],
-                emailFields: [{
-                        textinfo_type_id: '2',
-                        value1: "",
-                    }],
-            })
-        },
-        deleteContactCard(index) {
-            this.contacts.splice(index, 1);
-        },
-        addField(type, evt) {
-            switch (type) {
-                case 'phone': {
-                    this.client.phoneFields.push({
-                        textinfo_type_id: '1',
-                        value1: "",
-                        value2: "",
-                    })
-                    break;
-                }
-                case 'email': {
-                    this.client.emailFields.push({
-                        textinfo_type_id: '2',
-                        value1: "",
-                    })
-                    break;
-                }
-            }
-            setTimeout(() => {
-                evt.target.parentElement.previousElementSibling.querySelector('input').focus();
-            }, 0)
-        },
-        deleteField(type, index) {
-            switch (type) {
-                case 'phone': {
-                    this.client.phoneFields.splice(index, 1);
-                    break;
-                }
-                case 'email': {
-                    this.client.emailFields.splice(index, 1);
-                    break;
-                }
-            }
-        },
-        checkTextinfoField(fields) {
-            const valuesArr = fields.map(x => x.value1);
-            const result = fields.reduce((acc, field, index) => {
-                const indexInArr = valuesArr.indexOf(field.value1);
-                if(field.value1 &&  indexInArr === index) { 
-                    if (field.textinfo_type_id === '1') {
-                        field.value1 = field.value1.replace(/[^0-9]/g, '');
-                    }
-                    acc.push(field);
-                }
-
-                return acc;
-            }, []);
-
-            return result;
-        },
         updateClientHandler() {
             this.loading = true;
 
-            const textinfoFields = this.checkTextinfoField([ 
+            const textinfoFields = this.clientMixin_checkTextinfoField([ 
                     ...this.client.phoneFields, 
                     ...this.client.emailFields
                 ]);
@@ -559,12 +446,24 @@ export default {
                     this.okoModal_response({type:'error', message: err});  
                 })
         },
+        clientDelete() {
+            this.deleteClient({  id: this.computedParam_currentRouteId })
+                .then(() => {
+                    this.okoModal_response({ type: 'success', 
+                                            message: 'Клиент успешно изменен'});
+                    
+                    this.$router.push({ name: 'PageClients' });
+                })
+                .catch((err) => {
+                    this.okoModal_response({type:'error', message: err});
+                })
+        },
         addContactHandler(clientId, contactIndex) {
             const currentContact = this.contacts[contactIndex];
 
 
             if (currentContact.name) {
-                const textinfoFields = this.checkTextinfoField([ 
+                const textinfoFields = this.clientMixin_checkTextinfoField([ 
                     ...currentContact.phoneFields, 
                     ...currentContact.emailFields
                 ]);
@@ -584,14 +483,14 @@ export default {
         deleteContactHandler(index) {
             const contactId = this.contacts[index].id;
             if(!contactId) {
-                return this.deleteContactCard(index);
+                return this.clientMixin_deleteContactCard(index);
             }
 
             this.okoModal_confirm()
                 .then(() => {
                     return this.deleteContact(contactId)
                         .then(() => {
-                            this.deleteContactCard(index);
+                            this.clientMixin_deleteContactCard(index);
                             this.okoModal_response({ type: 'success', 
                                                 message: 'Контакт успешно удален'});
                         })

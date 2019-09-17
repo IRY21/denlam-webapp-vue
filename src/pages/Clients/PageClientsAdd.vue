@@ -1,7 +1,7 @@
 <template>
   <div>
     <OkoTitle 
-      :title="`${clientName} ||  Новый клиент`" />
+      :title="`Клиенты ||  Новый клиент`" />
 
     <div class="MainSection-Row MainSection-Row_bgGrey MainSection-Row_title">
         <router-link
@@ -134,7 +134,7 @@
                         </div>
                         <svg 
                             class="Input-ChangeBtn ChangeBtn ChangeBtn_type_cancel"
-                            @click="deleteField('phone', index)"
+                            @click="clientMixin_deleteTextinfoField('phone', index)"
                         >
                             <use 
                                 xlink:href="/img/sprite.svg#cancel" 
@@ -145,7 +145,7 @@
                 <div class="Form-Row">
                     <div 
                         class="Link Link_dashed Link_line_add"
-                        @click="addField('phone', $event)"
+                        @click="clientMixin_addTextinfoField('phone', $event)"
                     >
                         +  добавить
                     </div>
@@ -169,7 +169,7 @@
                         </div>
                         <svg 
                             class="Input-ChangeBtn ChangeBtn ChangeBtn_type_cancel"
-                            @click="deleteField('email', index)"
+                            @click="clientMixin_deleteTextinfoField('email', index)"
                         >
                             <use 
                                 xlink:href="/img/sprite.svg#cancel" 
@@ -180,7 +180,7 @@
                 <div class="Form-Row">
                     <div 
                         class="Link Link_dashed Link_line_add"
-                        @click="addField('email', $event)"
+                        @click="clientMixin_addTextinfoField('email', $event)"
                     >
                         +  добавить
                     </div>
@@ -197,13 +197,14 @@
                     v-for="(contact, index) in contacts"
                     :key="index"
                     :contact="contact"
-                    :deleteHandler="deleteContactCard"
+                    :arrIndex="index"
+                    :deleteHandler="clientMixin_deleteContactCard"
                 />
                 
                 <div class="Card Card_bd Card_contact-face">
                     <div 
                         class="Card_add"
-                        @click="addContactForm"
+                        @click="clientMixin_addContactCard"
                     >
                         + добавить контактное лицо
                     </div>
@@ -226,8 +227,8 @@
 
 <script>
 import { mapActions } from 'vuex';
-
 import { required, email, minLength } from 'vuelidate/lib/validators';
+import clientMixin from '@/_mixins/client';
 
 import { ClientContactCard } from '@/components/pages/Clients/ClientsAdd'
 
@@ -273,6 +274,7 @@ export default {
             loading: false,
         }
     },
+    mixins: [clientMixin],
     validations() {
         if (this.client.client_type_id === '1') {
             return {
@@ -343,93 +345,11 @@ export default {
     methods: {
         ...mapActions('clients', ['addClient']),
         ...mapActions('contacts', ['addContact']),
-        clientName(client) {
-            let name = '';
-            switch (client.client_type_id) {
-                case '1': {
-                    name = `${client.fizlico_firstname} ${client.fizlico_name} ${client.fizlico_lastname}`;
-                    break;
-                }
-                case '2': {
-                    name = `${client.yurlico_name}`;
-                    break;
-                }
-            }
-            return name;
-        },
-        addContactForm() {
-            this.contacts.push({
-                client_id: "",
-                name: "",
-                position: "",
-                phoneFields: [{
-                        textinfo_type_id: '1',
-                        value1: "",
-                        value2: "",
-                    }],
-                emailFields: [{
-                        textinfo_type_id: '2',
-                        value1: "",
-                    }],
-            })
-        },
-        deleteContactCard(index) {
-            this.contacts.splice(index, 1);
-        },
-        addField(type, evt) {
-            switch (type) {
-                case 'phone': {
-                    this.client.phoneFields.push({
-                        textinfo_type_id: '1',
-                        value1: "",
-                        value2: "",
-                    })
-                    break;
-                }
-                case 'email': {
-                    this.client.emailFields.push({
-                        textinfo_type_id: '2',
-                        value1: "",
-                    })
-                    break;
-                }
-            }
-            setTimeout(() => {
-                evt.target.parentElement.previousElementSibling.querySelector('input').focus();
-            }, 0)
-        },
-        deleteField(type, index) {
-            switch (type) {
-                case 'phone': {
-                    this.client.phoneFields.splice(index, 1);
-                    break;
-                }
-                case 'email': {
-                    this.client.emailFields.splice(index, 1);
-                    break;
-                }
-            }
-        },
-        checkTextinfoField(fields) {
-            const valuesArr = fields.map(x => x.value1);
-            const result = fields.reduce((acc, field, index) => {
-                const indexInArr = valuesArr.indexOf(field.value1);
-                if(field.value1 &&  indexInArr === index) { 
-                    if (field.textinfo_type_id === '1') {
-                        field.value1 = field.value1.replace(/[^0-9]/g, '');
-                    }
-                    acc.push(field);
-                }
-
-                return acc;
-            }, []);
-
-            return result;
-        },
+        
         addClientHandler() {
             this.loading = true;
 
-            const textinfoFields = this.checkTextinfoField([ 
+            const textinfoFields = this.clientMixin_checkTextinfoField([ 
                     ...this.client.phoneFields, 
                     ...this.client.emailFields
                 ]);
@@ -475,7 +395,7 @@ export default {
             const currentContact = this.contacts[contactIndex];
 
             if (currentContact.name) {
-                const textinfoFields = this.checkTextinfoField([ 
+                const textinfoFields = this.clientMixin_checkTextinfoField([ 
                     ...currentContact.phoneFields, 
                     ...currentContact.emailFields
                 ]);

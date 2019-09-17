@@ -92,7 +92,7 @@ const router = new Router({
       }
     },
     {
-      path: '/project/:projectId',
+      path: '/project/:id',
       name: 'PageProject',
       component: PageProject,
       meta: {
@@ -276,7 +276,7 @@ const router = new Router({
       }
     },
     {
-      path: '/clients/:clientId',
+      path: '/clients/:id',
       name: 'PageClient',
       component: PageClient,
       meta: {
@@ -338,7 +338,7 @@ const router = new Router({
       ]
     },
     {
-      path: '/clients/:clientId/change',
+      path: '/clients/:id/change',
       name: 'PageClientChange',
       component: PageClientChange,
       meta: {
@@ -386,7 +386,7 @@ const router = new Router({
       }
     },
     {
-      path: '/worker/:workerId', 
+      path: '/worker/:id', 
       name: 'PageWorker',
       component: PageWorker,
       meta: {
@@ -398,7 +398,7 @@ const router = new Router({
       }
     },
     {
-      path: '/worker/:workerId/salary',
+      path: '/worker/:id/salary',
       name: 'PageWorkerSalary',
       component: PageWorkerSalary,
       meta: {

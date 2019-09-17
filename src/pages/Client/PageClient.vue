@@ -14,10 +14,10 @@
                       v-if="pageLoader_isDataLoaded"
                       class="Input-Text Heading_lvl1"
                     >
-                      {{ clientName }}
+                      {{ computedParam_name('client', client) }}
                     </p>
                     <router-link 
-                      :to="{ name: 'PageClientChange', params: {clientId: currentClientId}}"
+                      :to="{ name: 'PageClientChange', params: {id: computedParam_currentRouteId}}"
                     >
                         <svg class="Input-ChangeBtn ChangeBtn ChangeBtn_type_edit">
                             <use
@@ -64,7 +64,7 @@
     
     <router-view
       v-if="pageLoader_isDataLoaded"
-      :clientName="clientName"
+      :clientName="computedParam_name('client', client)"
     >
     </router-view>
     
@@ -86,28 +86,9 @@ export default {
     currentRoute() {
       return this.$route.name
     },
-    currentClientId() {
-      return this.$route.params.clientId
-    },
-    clientName() {
-        const currentClient = this.client;
-        let clientName = '';
-        
-        switch (currentClient.client_type_id) {
-            case '2': {
-                clientName = currentClient.yurlico_name;
-            break;
-            }
-            case '1': {
-                clientName =  `${currentClient.fizlico_firstname} ${currentClient.fizlico_name} ${currentClient.fizlico_lastname}`;
-            break;
-            }
-        }
-        return clientName;
-    }
   },
   created() {    
-      Promise.all([this.fetchClient(this.currentClientId)])
+      Promise.all([this.fetchClient(this.computedParam_currentRouteId)])
         .then(() => {
           this.pageLoader_resolveData()
         })

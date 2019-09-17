@@ -132,7 +132,13 @@
 
 <script>
 export default {
-
+    data() {
+        return {
+            worker: {
+                
+            }
+        }
+    }
 }
 </script>
 
