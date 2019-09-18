@@ -12,7 +12,7 @@ export default function configureModerator (store, router) {
       }
       case `user/${AUTH_USER_LOGOUT}`: {
         //return store.commit(`auth/${AUTH_LOGOUT}`)
-        return store.dispatch(`auth/logout`);
+        //return store.dispatch(`auth/logout`);
       }
     }
   })
@@ -22,7 +22,7 @@ export default function configureModerator (store, router) {
     switch (type) {
       // При выходе перекинуть на страницу входа
       case 'auth/logout': {
-        store.commit(`auth/${AUTH_LOGOUT}`)
+        //store.commit(`auth/${AUTH_LOGOUT}`)
         store.dispatch(`user/userLogout`);
         return router.push('/');
       }

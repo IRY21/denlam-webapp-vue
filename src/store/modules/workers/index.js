@@ -2,17 +2,21 @@ import { config, rejectError, axiosDataWrap } from '@/_helpers'
 import axiosInstance from '@/_services/axios';
 
 import { SET_ITEMS, SET_ITEM } from '@/store/mutation-types/setItems'
-import { SET_TYPES, REMOVE_WORKER } from '@/store/mutation-types/workers'
+import { SET_TYPES, SET_POSITIONS, REMOVE_WORKER } from '@/store/mutation-types/workers'
 
 const state = {
   items: [],
   item: null,
-  types: null
+  types: null,
+  positions: null
 }
 
 const mutations = {
   [SET_TYPES] (state, payload) {
     state.types = payload;
+  },
+  [SET_POSITIONS] (state, payload) {
+    state.positions = payload;
   },
   [REMOVE_WORKER] (state, workerToRemove) {
     const index = state.items.findIndex(function (item) {
@@ -69,20 +73,6 @@ const actions = {
         return rejectError(err);
       })
   },
-  fetchWorkerTypes({ commit, dispatch }) {
-    dispatch('shared/setLoading', null, { root: true });
-    return axiosInstance.post(`${config.apiUrl}/worker_type/show_all`)
-      .then((res) => {
-        const workerTypes = res.data;
-        commit(SET_TYPES, workerTypes);
-        dispatch('shared/clearLoading', null, { root: true });
-        return workerTypes;
-      })
-      .catch((err) => {
-        dispatch('shared/clearLoading', null, { root: true });
-        return rejectError(err);
-      })
-  },
   fetchWorker({ commit, dispatch }, workerId) {
     dispatch('shared/setLoading', null, { root: true });
     return axiosInstance.post(`${config.apiUrl}/worker/show`, axiosDataWrap({id: workerId}))
@@ -91,6 +81,34 @@ const actions = {
         commit(SET_ITEM, { resource: 'clients', item: worker}, {root: true});
         dispatch('shared/clearLoading', null, { root: true });
         return worker;
+      })
+      .catch((err) => {
+        dispatch('shared/clearLoading', null, { root: true });
+        return rejectError(err);
+      })
+  },
+  fetchWorkerPosition({ commit, dispatch }) {
+    dispatch('shared/setLoading', null, { root: true });
+    return axiosInstance.get(`${config.apiUrl}/worker_position/show_all`)
+      .then((res) => {
+        const workerPosition = res.data;
+        commit(SET_POSITIONS, workerPosition);
+        dispatch('shared/clearLoading', null, { root: true });
+        return workerPosition; 
+      })
+      .catch((err) => {
+        dispatch('shared/clearLoading', null, { root: true });
+        return rejectError(err);
+      })
+  },
+  fetchWorkerTypes({ commit, dispatch }) {
+    dispatch('shared/setLoading', null, { root: true });
+    return axiosInstance.get(`${config.apiUrl}/worker_type/show_all`)
+      .then((res) => {
+        const workerTypes = res.data;
+        commit(SET_TYPES, workerTypes);
+        dispatch('shared/clearLoading', null, { root: true });
+        return workerTypes; 
       })
       .catch((err) => {
         dispatch('shared/clearLoading', null, { root: true });

@@ -31,6 +31,7 @@ import pageLoader from "@/_mixins/pageLoader"
 import checkInputType from "@/_mixins/checkInputType"
 import vuelidateCheck from "@/_mixins/vuelidateCheck"
 import computedParam from "@/_mixins/computedParam"
+import textinfoMixin from "@/_mixins/textinfoMixin"
 
 Vue.config.productionTip = false
 Vue.component('default-layout', DefaultLayout)
@@ -52,6 +53,7 @@ Vue.mixin(pageLoader);
 Vue.mixin(checkInputType);
 Vue.mixin(vuelidateCheck);
 Vue.mixin(computedParam);
+Vue.mixin(textinfoMixin);
 
 /**
  * Formats a phone number.

@@ -136,7 +136,7 @@
                             </div>
                             <svg 
                                 class="Input-ChangeBtn ChangeBtn ChangeBtn_type_cancel"
-                                @click="clientMixin_deleteTextinfoField('phone', index)"
+                                @click="textinfoMixin_deleteTextinfoField(client, 'phone', index)"
                             >
                                 <use 
                                     xlink:href="/img/sprite.svg#cancel" 
@@ -147,7 +147,7 @@
                     <div class="Form-Row">
                         <div 
                             class="Link Link_dashed Link_line_add"
-                            @click="clientMixin_addTextinfoField('phone', $event)"
+                            @click="textinfoMixin_addTextinfoField(client, 'phone', $event)"
                         >
                             +  добавить
                         </div>
@@ -171,7 +171,7 @@
                             </div>
                             <svg 
                                 class="Input-ChangeBtn ChangeBtn ChangeBtn_type_cancel"
-                                @click="clientMixin_deleteTextinfoField('email', index)"
+                                @click="textinfoMixin_deleteTextinfoField(client, 'email', index)"
                             >
                                 <use 
                                     xlink:href="/img/sprite.svg#cancel" 
@@ -182,7 +182,7 @@
                     <div class="Form-Row">
                         <div 
                             class="Link Link_dashed Link_line_add"
-                            @click="clientMixin_addTextinfoField('email', $event)"
+                            @click="textinfoMixin_addTextinfoField(client, 'email', $event)"
                         >
                             +  добавить
                         </div>
@@ -403,7 +403,7 @@ export default {
         updateClientHandler() {
             this.loading = true;
 
-            const textinfoFields = this.clientMixin_checkTextinfoField([ 
+            const textinfoFields = this.textinfoMixin_checkTextinfoField([ 
                     ...this.client.phoneFields, 
                     ...this.client.emailFields
                 ]);
@@ -463,7 +463,7 @@ export default {
 
 
             if (currentContact.name) {
-                const textinfoFields = this.clientMixin_checkTextinfoField([ 
+                const textinfoFields = this.textinfoMixin_checkTextinfoField([ 
                     ...currentContact.phoneFields, 
                     ...currentContact.emailFields
                 ]);

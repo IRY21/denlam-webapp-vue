@@ -272,7 +272,7 @@ const router = new Router({
         permissions: {
           // role: [Role.Admin]
         },
-        title: `Клиенты || Добавить`
+        title: `Клиенты || Новый клиент`
       }
     },
     {
@@ -370,7 +370,7 @@ const router = new Router({
         permissions: {
           // role: [Role.Admin]
         },
-        title: `Сотрудники`
+        title: `Исполнители`
       }
     },
     {
@@ -382,7 +382,7 @@ const router = new Router({
         permissions: {
           // role: [Role.Admin]
         },
-        title: `Сотрудники || Добавить`
+        title: `Исполнители || Добавить`
       }
     },
     {
@@ -394,7 +394,7 @@ const router = new Router({
         permissions: {
           // role: [Role.Admin]
         },
-        title: `Сотрудник`
+        title: `Исполнители`
       }
     },
     {
@@ -406,7 +406,7 @@ const router = new Router({
         permissions: {
           // role: [Role.Admin]
         },
-        title: `Сотрудник || Расчет`
+        title: `Исполнители || Расчет`
       }
     },
     { 

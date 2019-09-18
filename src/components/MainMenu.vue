@@ -128,7 +128,7 @@
                 xlink:href="/img/sprite.svg#employees"
                 href="/img/sprite.svg#employees"></use>
         </svg>
-        Сотрудники
+        Исполнители
     </router-link>
     <router-link 
       class="MainMenu-Item MainMenu-Item_Icon MainMenu-Item_IconSetting"

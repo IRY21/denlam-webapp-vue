@@ -3,34 +3,30 @@
     <div class="MainSection-Row MainSection-Row_bgGrey MainSection-Row_title">
         <div class="Flex Flex_align_center">
             <h1 class="Heading_lvl1">
-                Сотрудники
+                Исполнители
             </h1>
             <router-link
               class="Btn Btn_theme_green Btn_type_add"
               :to="{name: 'PageWorkersAdd'}"
             >
-                Добавить сотрудника
+                Добавить исполнителя
             </router-link>
         </div>
     </div>
-    <div class="MainSection-Row">
-        <div class="Filter">
-            <p class="Filter-Title">Фильтр</p>
-            <div class="Filter-Column">
-                <div class="Select Select_theme_arrow">
-                    <p class="Label">Город</p>
-                    <select name="" id="" class="Select-Control">
-                        <option value="0">Все города</option>
-                    </select>
-                </div>
-            </div>
-            <div class="Filter-Column">
-                <div class="Select Select_theme_arrow">
-                    <p class="Label">Тип сотрудника</p>
-                    <select name="" id="" class="Select-Control">
-                        <option value="0">Все типы сотрудников</option>
-                    </select>
-                </div>
+    <div class="MainSection-Row MainSection-Row_noTopPadding">
+        <div class="Search">
+            <OkoInput 
+                type="text"
+                v-model="searchParams.search"
+                placeholder="Введите название или ИНН для поиска.."
+                @keyup.enter="debouncedSearch"
+                @input="debouncedSearch"
+            />
+            <div 
+                class="Btn Btn_theme_blue"
+                @click="searchHandler"
+            >
+                Найти
             </div>
         </div>
     </div>
@@ -42,27 +38,22 @@
             <div class="Table-Row Table-Row_head">
                 <div class="Table-Column">
                     <p class="Table-Text">
-
+                        Фото
                     </p>
                 </div>
                 <div class="Table-Column">
                     <p class="Table-Text">
-                        ФИО и тип
+                        Наименование
                     </p>
                 </div>
                 <div class="Table-Column">
                     <p class="Table-Text">
-                        Город
+                        Должность
                     </p>
                 </div>
                 <div class="Table-Column">
                     <p class="Table-Text">
-                        Контакты
-                    </p>
-                </div>
-                <div class="Table-Column">
-                    <p class="Table-Text">
-                        Дополнительная информация
+                        Данные для связи
                     </p>
                 </div>
             </div>
@@ -74,35 +65,32 @@
             >
                 <div class="Table-Column">
                     <div class="Avatar Avatar_small">
-                        <img src="/img/workers/avatar/no.jpg" alt="" class="Avatar-Img">
+                        <img :src="workerAvatarLink(worker)" alt="" class="Avatar-Img">
                     </div>
                 </div>
                 <div class="Table-Column">
                     <p class="Table-Text">
                         {{ computedParam_name('worker', worker) }}<br>
-                        <span style="color: #008acc;">{{ worker.position }}</span>
+                        <span 
+                            v-if="worker.worker_inn"
+                            class="inn"
+                        >
+                            ИНН {{ worker.worker_inn }}
+                        </span>
                     </p>
                 </div>
                 <div class="Table-Column">
                     <p class="Table-Text">
-                        Уфа
+                        {{ worker.worker_position }}
                     </p>
                 </div>
                 <div class="Table-Column">
-                        <p 
-                            class="Table-Text"
-                            v-for="contact of worker.worker_textinfo"
-                            :key="contact.id"
-                        >
-                            {{ contact.value1 | formatPhone }}
-                        </p>
-                </div>
-                <div class="Table-Column">
-                    <p class="Table-Text" style="color: #898989;">
-                        Наличие приборов:<br>
-                        Возможность выезда:<br>
-                        Опыт работы до 1000Вт:<br>
-                        Опыт работы свыше 1000Вт:
+                    <p 
+                        class="Table-Text"
+                        v-for="contact of worker.worker_textinfo"
+                        :key="contact.id"
+                    >
+                        {{ contact.value1 | formatPhone }}
                     </p>
                 </div>
             </router-link>
@@ -147,7 +135,8 @@ export default {
         debounceInfiniteHandler() {
             let DELAY = 300;
             return debounce(this.infiniteHandler, DELAY);
-        }
+        },
+        
     },
     created() {
         Promise.all([this.fetchWorkers(this.searchParams)])
@@ -158,6 +147,15 @@ export default {
     },
     methods: {
         ...mapActions('workers', ['fetchWorkers', 'searchWorkers']),
+        workerAvatarLink(worker) {
+            let link = '/img/workers/avatar/no.jpg';
+            
+            if (worker.photo_link) {
+                link = worker.photo_link
+            }
+
+            return link;
+        },
         infiniteHandler($state) {
             this.fetchWorkers(this.searchParams)
                 .then((res) => {
@@ -191,19 +189,22 @@ export default {
 
 .Table_workers .Table-Row_head {
   margin-bottom: 5px; }
+.Table_workers .Table-Row_head .Table-Text{
+  text-align: left; }
 
 .Table_workers .Table-Column:nth-of-type(1) {
   width: 80px; }
 
 .Table_workers .Table-Column:nth-of-type(2) {
-  width: 30%; }
+  width: calc(50% - 80px); }
 
 .Table_workers .Table-Column:nth-of-type(3) {
-  width: 15%; }
+  width: 35%; }
 
 .Table_workers .Table-Column:nth-of-type(4) {
   width: 15%; }
 
-.Table_workers .Table-Column:nth-of-type(5) {
-  width: 25%; }
+.Table_workers .Table-Text .inn {
+font-size: 11px;
+color: #898989; }
 </style>
