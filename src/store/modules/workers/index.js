@@ -128,6 +128,23 @@ const actions = {
         return rejectError(err);
       })
   },
+  addWorkerPhoto({ dispatch }, workerPhoto) {
+    let data = new FormData();
+    data.append('worker_id', workerPhoto.worker_id);
+    data.append('photo', workerPhoto.photo);
+    let options = { headers: { 'Content-Type': 'multipart/form-data' } }
+    dispatch('shared/setLoading', null, { root: true });
+    return axiosInstance.post(`${config.apiUrl}/worker/photoadd`, data, options)
+      .then((res) => {
+        const workerPhoto = res.data;
+        dispatch('shared/clearLoading', null, { root: true });
+        return workerPhoto;
+      })
+      .catch((err) => {
+        dispatch('shared/clearLoading', null, { root: true });
+        return rejectError(err);
+      })
+  },
   updateWorker({ dispatch, commit }, workerToUpdate) {
     dispatch('shared/setLoading', null, { root: true });
     return axiosInstance.post(`${config.apiUrl}/worker/update`, axiosDataWrap(workerToUpdate))

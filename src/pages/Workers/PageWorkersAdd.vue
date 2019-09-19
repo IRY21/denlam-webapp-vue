@@ -14,6 +14,7 @@
     <form 
         v-if="pageLoader_isDataLoaded"
         class="Form"
+        id="uploadForm"
     >
         <div class="MainSection-Row MainSection-Row_size_add">
             <h2 class="Heading_lvl2">Тип исполнителя</h2>
@@ -42,11 +43,23 @@
             <div class="Form-Row">
                 <div class="Form-Row Form-Row_col2">
                     <div class="Form-Column">
+                        <OkoFileImage
+                            v-model="worker.photo_link"
+                            :size="'default'"
+                            :label="'Фото'"
+                            :btnText="'Прикрепить файл'"
+                        />
+                    </div>
+                </div>
+            </div>
+            <div class="Form-Row">
+                <div class="Form-Row Form-Row_col2">
+                    <div class="Form-Column">
                         <OkoInput
                             type="text" 
                             :label="'Логин'"
                             v-model="worker.worker_login"
-                            @blur="vuelidateCheck_input($event, 'login', 'worker')"
+                            @blur="vuelidateCheck_input($event, 'worker_login', 'worker')"
                         />
                     </div>
                 </div>
@@ -58,13 +71,13 @@
                             type="password" 
                             :label="'Пароль'"
                             v-model="worker.worker_password"
-                            @blur="vuelidateCheck_input($event, 'password', 'worker')"
+                            @blur="vuelidateCheck_input($event, 'worker_password', 'worker')"
                         />
                     </div>
                 </div>
             </div>
             <div 
-                v-if="worker.worker_type_id === '1'"
+                v-show="worker.worker_type_id === '1'"
                 class="Form-Row"
             >
                 <div class="Form-Row Form-Row_col2">
@@ -99,7 +112,7 @@
                 </div>
             </div>
             <div 
-                v-if="worker.worker_type_id === '2'"
+                v-show="worker.worker_type_id === '2'"
                 class="Form-Row Form-Row_col2"
             >
                 <div class="Form-Column">
@@ -270,6 +283,7 @@ export default {
         return {
             worker: {
                 worker_type_id: '1',
+                photo_link: null,
                 worker_login: '',
                 worker_password: '',
                 worker_inn: '',
@@ -300,6 +314,12 @@ export default {
         if (this.worker.worker_type_id === '1') {
             return {
                 worker: {
+                    worker_login: {
+                        required
+                    },
+                    worker_password: {
+                        required
+                    },
                     worker_inn: {
                         required
                     },
@@ -332,6 +352,12 @@ export default {
         } else if (this.worker.worker_type_id === '2') {
             return {
                 worker: {
+                    worker_login: {
+                        required
+                    },
+                    worker_password: {
+                        required
+                    },
                     worker_inn: {
                         required
                     },
@@ -366,7 +392,7 @@ export default {
             })
     },
     methods: {
-        ...mapActions('workers', ['addWorker', 'fetchWorkerPosition', 'fetchWorkerTypes']),
+        ...mapActions('workers', ['fetchWorkerPosition', 'fetchWorkerTypes', 'addWorker', 'addWorkerPhoto']),
         customPostionsLabel (option) {
             return `${option.name}`;
         },
@@ -391,14 +417,23 @@ export default {
                 yurlico_name: addEntity.yurlico_name,
                 yurlico_ogrn: addEntity.yurlico_ogrn,
                 yurlico_kpp: addEntity.yurlico_kpp,
-                client_textinfo: textinfoFields
+                worker_textinfo: textinfoFields
             }
 
             this.addWorker(newClient)
                 .then((res) => {
-                    this.loading = false;
-                    const clientId = res.id;
-                    //this.addContactHandler(clientId, i)
+                    if(addEntity.photo_link) {
+                        const workerId = res.id;
+                        
+                        this.addWorkerPhoto({worker_id: workerId, photo: addEntity.photo_link})
+                            .then(() => {
+                                this.loading = false;
+                            })
+                            .catch((err) => {
+                                this.loading = false;
+                                this.okoModal_response({type:'error', message: err});  
+                            })
+                    }
                 })
                 .catch((err) => {
                     this.loading = false;

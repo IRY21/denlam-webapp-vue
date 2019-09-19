@@ -1,5 +1,5 @@
-import { AUTH_LOGIN, AUTH_LOGOUT } from '@/store/mutation-types/auth'
-import { SET_AUTH_USER, AUTH_USER_LOGOUT } from '@/store/mutation-types/user'
+import { AUTH_LOGIN } from '@/store/mutation-types/auth'
+import { SET_AUTH_USER } from '@/store/mutation-types/user'
 
 export default function configureModerator (store, router) {
   // listen to mutations
@@ -10,10 +10,6 @@ export default function configureModerator (store, router) {
       case `user/${SET_AUTH_USER}`: {
         return store.commit(`auth/${AUTH_LOGIN}`)
       }
-      case `user/${AUTH_USER_LOGOUT}`: {
-        //return store.commit(`auth/${AUTH_LOGOUT}`)
-        //return store.dispatch(`auth/logout`);
-      }
     }
   })
   // listen to actions
@@ -22,7 +18,6 @@ export default function configureModerator (store, router) {
     switch (type) {
       // При выходе перекинуть на страницу входа
       case 'auth/logout': {
-        //store.commit(`auth/${AUTH_LOGOUT}`)
         store.dispatch(`user/userLogout`);
         return router.push('/');
       }
