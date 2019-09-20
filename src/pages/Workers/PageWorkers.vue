@@ -61,11 +61,14 @@
                 class="Table-Row Link"
                 v-for="worker of workers"
                 :key="worker.id"
-                :to="{name: 'PageWorker', params: { id: worker.id }}" 
+                :to="{name: 'PageWorkerAbout', params: { id: worker.id }}" 
             >
                 <div class="Table-Column">
                     <div class="Avatar Avatar_small">
-                        <img :src="workerAvatarLink(worker)" alt="" class="Avatar-Img">
+                        <img 
+                            :src="workerAvatarLink(worker)" 
+                            alt="" 
+                            class="Avatar-Img">
                     </div>
                 </div>
                 <div class="Table-Column">

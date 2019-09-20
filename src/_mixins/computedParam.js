@@ -1,12 +1,15 @@
 export default {
   computed: {
+    computedParam_currentRouteName() {
+      return this.$route.name;
+    },
     computedParam_currentRouteId() {
       return this.$route.params.id;
     }
   },
   methods: {
     /** 
-    * @param { String } - object name
+    * @param { String } - object field name
     * @param { Object } - object from which compute the name
     *
     */

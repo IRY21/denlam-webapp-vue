@@ -89,13 +89,13 @@ export default {
     },
     methods: {
         chooseByTypeOfField(type) {
-        if (this.client.client_textinfo) {
-            
-            return this.client.client_textinfo.filter(item => {
-                return item.textinfo_type === type;
-            });
-        }
-        return '';
+            if (this.client.client_textinfo) {
+                
+                return this.client.client_textinfo.filter(item => {
+                    return item.textinfo_type === type;
+                });
+            }
+            return '';
         }
     }
 }

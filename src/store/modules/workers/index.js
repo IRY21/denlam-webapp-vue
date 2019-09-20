@@ -78,7 +78,7 @@ const actions = {
     return axiosInstance.post(`${config.apiUrl}/worker/show`, axiosDataWrap({id: workerId}))
       .then((res) => {
         const worker = res.data;
-        commit(SET_ITEM, { resource: 'clients', item: worker}, {root: true});
+        commit(SET_ITEM, { resource: 'workers', item: worker}, {root: true});
         dispatch('shared/clearLoading', null, { root: true });
         return worker;
       })
@@ -151,6 +151,20 @@ const actions = {
       .then((res) => {
         const worker = res.data;
         commit(SET_ITEM, { resource: 'workers', item: worker}, {root: true});
+        dispatch('shared/clearLoading', null, { root: true });
+        return worker;
+      })
+      .catch((err) => {
+        dispatch('shared/clearLoading', null, { root: true });
+        return rejectError(err);
+      })
+  },
+  deleteWorker({ dispatch, commit }, workerId) {
+    dispatch('shared/setLoading', null, { root: true });
+    return axiosInstance.post(`${config.apiUrl}/worker/delete`, axiosDataWrap(workerId))
+      .then((res) => {
+        const worker = res.data;
+        commit(REMOVE_WORKER, worker);
         dispatch('shared/clearLoading', null, { root: true });
         return worker;
       })

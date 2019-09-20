@@ -35,8 +35,8 @@ import PageClient from '@/pages/Client/PageClient'
 import PageClientAbout from '@/pages/Client/PageClientAbout'
 import PageClientProjects from '@/pages/Client/PageClientProjects'
 import PageClientAkts from '@/pages/Client/PageClientAkts'
-import PageClientChange from '@/pages/Client/PageClientChange'
 import PageClientPayments from '@/pages/Client/PageClientPayments'
+import PageClientChange from '@/pages/Client/PageClientChange'
 
 //import PageSalary from '@/pages/Salary/PageSalary'
 
@@ -44,6 +44,11 @@ import PageWorkers from '@/pages/Workers/PageWorkers'
 import PageWorkersAdd from '@/pages/Workers/PageWorkersAdd'
 
 import PageWorker from '@/pages/Worker/PageWorker'
+import PageWorkerAbout from '@/pages/Worker/PageWorkerAbout'
+import PageWorkerDocs from '@/pages/Worker/PageWorkerDocs'
+import PageWorkerProjects from '@/pages/Worker/PageWorkerProjects'
+import PageWorkerChange from '@/pages/Worker/PageWorkerChange'
+
 import PageWorkerSalary from '@/pages/Worker/PageWorkerSalary'
 
 import PageSettings from '@/pages/Settings/PageSettings'
@@ -300,7 +305,7 @@ const router = new Router({
           }
         },
         {
-          path: 'akts',
+          path: 'projects',
           name: 'PageClientProjects',
           component: PageClientProjects,
           meta: {
@@ -395,7 +400,45 @@ const router = new Router({
           // role: [Role.Admin]
         },
         title: `Исполнители`
-      }
+      },
+      children: [
+        {
+          path: 'about',
+          name: 'PageWorkerAbout',
+          component: PageWorkerAbout,
+          meta: {
+            layout: 'default-layout',
+            permissions: {
+              // role: [Role.Admin]
+            },
+            title: `Исполнитель || Данные о исполнителе`
+          }
+        },
+        {
+          path: 'docs',
+          name: 'PageWorkerDocs',
+          component: PageWorkerDocs,
+          meta: {
+            layout: 'default-layout',
+            permissions: {
+              // role: [Role.Admin]
+            },
+            title: `Исполнитель || Документы`
+          }
+        },
+        {
+          path: 'projects',
+          name: 'PageWorkerProjects',
+          component: PageWorkerProjects,
+          meta: {
+            layout: 'default-layout',
+            permissions: {
+              // role: [Role.Admin]
+            },
+            title: `Исполнитель || Проекты`
+          }
+        },
+      ]
     },
     {
       path: '/worker/:id/salary',
@@ -407,6 +450,18 @@ const router = new Router({
           // role: [Role.Admin]
         },
         title: `Исполнители || Расчет`
+      }
+    },
+    {
+      path: '/worker/:id/change',
+      name: 'PageWorkerChange',
+      component: PageWorkerChange,
+      meta: {
+        layout: 'default-layout',
+        permissions: {
+          // role: [Role.Admin]
+        },
+        title: `Исполнитель || Редактировать`
       }
     },
     { 

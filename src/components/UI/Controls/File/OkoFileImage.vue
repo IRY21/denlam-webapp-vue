@@ -100,6 +100,8 @@ export default {
       border: 1px solid lightgrey
       overflow: hidden
     &-Preview
+      width: 100%
+      height: 100%
       max-width: 100%
       max-height: 100%
       object-fit: cover
