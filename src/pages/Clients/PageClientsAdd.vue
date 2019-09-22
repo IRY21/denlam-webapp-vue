@@ -376,7 +376,7 @@ export default {
                             this.loading = false;
                             this.$router.push({ name: 'PageClientAbout', 
                                                 params: {
-                                                    clientId: clientId
+                                                    id: clientId
                                                 }});
                         })
                         .catch((err) => {

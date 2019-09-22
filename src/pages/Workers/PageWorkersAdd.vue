@@ -112,7 +112,7 @@
             <multiselect
               v-model="worker.worker_position_id"
               :options="workerPositions"
-              track-by="id"
+              track-by="name"
               :value="worker.worker_position_id"
               :custom-label="customPostionsLabel"
               :searchable="false"
@@ -390,6 +390,10 @@ export default {
             })
               .then(() => {
                 this.loading = false;
+                this.$router.push({ name: 'PageWorkerAbout', 
+                                    params: {
+                                        id: workerId
+                                    }});
               })
               .catch(err => {
                 this.loading = false;

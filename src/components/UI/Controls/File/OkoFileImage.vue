@@ -31,13 +31,16 @@ export default {
       required: true,
       type: String
     },
-    value: File,
+    //value: File,
     label: {
       type: String
     },
     size: {
       type: String
-    }
+    },
+    img: {
+      
+    } 
   },
   data() {
     return {
@@ -48,6 +51,9 @@ export default {
     fileSize() {
       return 'File_size_' + this.size
     }
+  },
+  created() {
+    this.imageData = this.img;
   },
   methods: {
     handleDragover(e) {

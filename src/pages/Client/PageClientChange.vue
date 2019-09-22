@@ -395,7 +395,7 @@ export default {
         .then(() => {
           this.okoModal_response({
             type: "success",
-            message: "Клиент успешно изменен"
+            message: "Клиент успешно удален"
           });
 
           this.$router.push({ name: "PageClients" });

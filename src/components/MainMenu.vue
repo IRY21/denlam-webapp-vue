@@ -119,6 +119,8 @@
       class="MainMenu-Item MainMenu-Item_Icon MainMenu-Item_IconEmployees"
       :class="{'active': (currentRoute === 'PageWorkers') || 
                          (currentRoute === 'PageWorkersAdd') || 
+                         (currentRoute === 'PageWorkerChange') || 
+                         (currentRoute === 'PageWorkerSalary') || 
                          (currentRoute === 'PageWorker') 
                          }"
       :to="{name: 'PageWorkers'}" 
