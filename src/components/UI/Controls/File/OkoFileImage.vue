@@ -53,7 +53,9 @@ export default {
     }
   },
   created() {
-    this.imageData = this.img;
+    if(this.img) {
+      this.imageData = this.img;
+    }
   },
   methods: {
     handleDragover(e) {

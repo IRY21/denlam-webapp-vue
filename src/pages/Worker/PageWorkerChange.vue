@@ -451,17 +451,17 @@ export default {
               photo: addEntity.photo_link
             })
               .then(() => {
-                this.loading = false;
-                this.okoModal_response({
-                  type: "success",
-                  message: "Исполнитель успешно отредактирован"
-                });
               })
               .catch(err => {
-                this.loading = false;
                 this.okoModal_response({ type: "error", message: err });
               });
           }
+          
+          this.loading = false;
+          this.okoModal_response({
+            type: "success",
+            message: "Исполнитель успешно отредактирован"
+          });
         })
         .catch(err => {
           this.loading = false;
@@ -469,18 +469,21 @@ export default {
         });
     },
     deleteWorkerHandler() {
-      this.deleteWorker({ id: this.computedParam_currentRouteId })
+      this.okoModal_confirm()
         .then(() => {
-          this.okoModal_response({
-            type: "success",
-            message: "Исполнитель успешно удален"
-          });
+          this.deleteWorker({ id: this.computedParam_currentRouteId })
+            .then(() => {
+              this.okoModal_response({
+                type: "success",
+                message: "Исполнитель успешно удален"
+              });
 
-          this.$router.push({ name: "PageWorkers" });
+              this.$router.push({ name: "PageWorkers" });
+            })
+            .catch(err => {
+              this.okoModal_response({ type: "error", message: err });
+            });
         })
-        .catch(err => {
-          this.okoModal_response({ type: "error", message: err });
-        });
     }
   }
 };

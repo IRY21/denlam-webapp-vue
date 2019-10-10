@@ -48,11 +48,6 @@
                 </div>
                 <div class="Table-Column">
                     <p class="Table-Text">
-                        Должность
-                    </p>
-                </div>
-                <div class="Table-Column">
-                    <p class="Table-Text">
                         Данные для связи
                     </p>
                 </div>
@@ -81,19 +76,24 @@
                             ИНН {{ worker.worker_inn }}
                         </span>
                     </p>
-                </div>
-                <div class="Table-Column">
                     <p class="Table-Text">
-                        {{ worker.worker_position }}
+                        <span class="position">{{ worker.worker_position }}</span>
                     </p>
                 </div>
                 <div class="Table-Column">
                     <p 
                         class="Table-Text"
-                        v-for="contact of worker.worker_textinfo"
+                        v-for="contact of workerPhones(worker)"
                         :key="contact.id"
                     >
                         {{ contact.value1 | formatPhone }}
+                    </p>
+                    <p 
+                        class="Table-Text"
+                        v-for="contact of workerEmails(worker)"
+                        :key="contact.id"
+                    >
+                        {{ contact.value1 }}
                     </p>
                 </div>
             </router-link>
@@ -139,7 +139,6 @@ export default {
             let DELAY = 300;
             return debounce(this.infiniteHandler, DELAY);
         },
-        
     },
     created() {
         Promise.all([this.fetchWorkers(this.searchParams)])
@@ -179,6 +178,20 @@ export default {
                 .then((res) => {
                     this.searchParams.qskipstep = res.length;
                 })
+        },
+        workerPhones(worker) {
+            if (worker.worker_textinfo) {
+                return worker.worker_textinfo.filter(item => {
+                    return item.textinfo_type_id === '1';
+                })      
+            }          
+        },
+        workerEmails(worker) {
+            if (worker.worker_textinfo) {
+                return worker.worker_textinfo.filter(item => {
+                    return item.textinfo_type_id === '2';
+                })      
+            }          
         }
     }
 }
@@ -202,12 +215,13 @@ export default {
   width: calc(50% - 80px); }
 
 .Table_workers .Table-Column:nth-of-type(3) {
-  width: 35%; }
-
-.Table_workers .Table-Column:nth-of-type(4) {
-  width: 15%; }
-
+  width: 50%; }
+.Table_workers .Table-Text {
+    padding: 0;
+}
 .Table_workers .Table-Text .inn {
-font-size: 11px;
-color: #898989; }
+    font-size: 11px;
+    color: #898989; }
+.Table_workers .Table-Text .position {
+    color: #008acc; }
 </style>

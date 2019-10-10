@@ -381,8 +381,8 @@ export default {
 
       this.addWorker(newClient)
         .then(res => {
+          const workerId = res.id;
           if (addEntity.photo_link) {
-            const workerId = res.id;
 
             this.addWorkerPhoto({
               worker_id: workerId,
@@ -390,16 +390,16 @@ export default {
             })
               .then(() => {
                 this.loading = false;
-                this.$router.push({ name: 'PageWorkerAbout', 
-                                    params: {
-                                        id: workerId
-                                    }});
               })
               .catch(err => {
                 this.loading = false;
                 this.okoModal_response({ type: "error", message: err });
               });
           }
+          this.$router.push({ name: 'PageWorkerAbout', 
+                              params: {
+                                  id: workerId
+                              }});
         })
         .catch(err => {
           this.loading = false;
