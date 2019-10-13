@@ -2,16 +2,32 @@ import { config, rejectError, axiosDataWrap } from '@/_helpers'
 import axiosInstance from '@/_services/axios';
 
 import { SET_ITEMS, SET_ITEM } from '@/store/mutation-types/setItems'
-import { REMOVE_CLIENT } from '@/store/mutation-types/projects'
+import { REMOVE_PROJECT, SET_NEW_PROJECTS, SET_IN_PROGRESS_PROJECTS, SET_DONE_PROJECTS, SET_SIGNED_PROJECTS } from '@/store/mutation-types/projects'
 
 const state = {
   items: [],
-  item: null,
-  types: null
+  item: null, 
+  types: null,
+  new: [],
+  inProgress: [],
+  done: [],
+  signed: [],
 }
 
 const mutations = {
-  [REMOVE_CLIENT] (state, projectToRemove) {
+  [SET_NEW_PROJECTS] (state, payload) {
+    state.new = payload;
+  },
+  [SET_IN_PROGRESS_PROJECTS] (state, payload) {
+    state.inProgress = payload;
+  },
+  [SET_DONE_PROJECTS] (state, payload) {
+    state.done = payload;
+  },
+  [SET_SIGNED_PROJECTS] (state, payload) {
+    state.signed = payload;
+  },
+  [REMOVE_PROJECT] (state, projectToRemove) {
     const index = state.items.findIndex(function (item) {
       if (item.id === projectToRemove.id) return true;
       return false;
@@ -21,12 +37,36 @@ const mutations = {
 }
 
 const actions = {
-  fetchProjects({ state, commit, dispatch }, newProjectsParam ) {
+  fetchProjects({ state, commit, dispatch }, newProjectsParam) {
     dispatch('shared/setLoading', null, { root: true });
+    let type = null;
+    const statusId = newProjectsParam.status_id;
+    switch (statusId) {
+      case 1: {
+        type = 'new';
+        break;
+      }
+      case 2: {
+        type = 'inProgress';
+        break;
+      }
+      case 3: {
+        type = 'done';
+        break;
+      }
+      case 4: {
+        type = 'signed';
+        break;
+      }
+      default: {
+        type = null;
+      }
+    }
     return axiosInstance.post(`${config.apiUrl}/project/show_all`, axiosDataWrap(newProjectsParam))
       .then((res) => {
         const projects = res.data;
-        let uniqueProjects = state.items;
+        
+        let uniqueProjects = state[type];
         if (uniqueProjects.length !== 0) {
           // concatenate state.items and projects without duplicates
           for(var i = 0, l = uniqueProjects.length; i < l; i++) {
@@ -38,9 +78,54 @@ const actions = {
                 }
             }
           }
-          commit(SET_ITEMS, { resource: 'projects', items: [...uniqueProjects, ...projects]}, {root: true});
+          if (statusId) {
+            switch (statusId) {
+              case 1: {
+                commit(SET_NEW_PROJECTS, [...uniqueProjects, ...projects]);
+                break;
+              }
+              case 2: {
+                commit(SET_IN_PROGRESS_PROJECTS, [...uniqueProjects, ...projects]);
+                break;
+              }
+              case 3: {
+                commit(SET_DONE_PROJECTS, [...uniqueProjects, ...projects]);
+                break;
+              }
+              case 4: {
+                commit(SET_SIGNED_PROJECTS, [...uniqueProjects, ...projects]);
+                break;
+              }
+            }
+          } else {
+            commit(SET_ITEMS, { resource: 'projects', items: [...uniqueProjects, ...projects]}, {root: true});
+          }
         } else {
-          commit(SET_ITEMS, { resource: 'projects', items: projects}, {root: true});
+          if (type) {
+            switch (statusId) {
+              case 1: {
+                commit(SET_NEW_PROJECTS, projects);
+                break;
+              }
+              case 2: {
+                commit(SET_IN_PROGRESS_PROJECTS, projects);
+                break;
+              }
+              case 3: {
+                commit(SET_DONE_PROJECTS, projects);
+                break;
+              }
+              case 4: {
+                commit(SET_SIGNED_PROJECTS, projects);
+                break;
+              }
+              default: {
+                type = null;
+              }
+            }
+          } else {
+            commit(SET_ITEMS, { resource: 'projects', items: projects}, {root: true});
+          }
         }
 
         dispatch('shared/clearLoading', null, { root: true });
@@ -53,11 +138,59 @@ const actions = {
   },
   searchProjects({ commit, dispatch }, searchProjectsParam ) {
     dispatch('shared/setLoading', null, { root: true });
+    let type = null;
+    const statusId = searchProjectsParam.status_id;
+    switch (statusId) {
+      case 1: {
+        type = 'new';
+        break;
+      }
+      case 2: {
+        type = 'inProgress';
+        break;
+      }
+      case 3: {
+        type = 'done';
+        break;
+      }
+      case 4: {
+        type = 'signed';
+        break;
+      }
+      default: {
+        type = null;
+      }
+    }
 
     return axiosInstance.post(`${config.apiUrl}/project/show_all`, axiosDataWrap(searchProjectsParam))
       .then((res) => {
         const projects = res.data;
-        commit(SET_ITEMS, { resource: 'projects', items: projects}, {root: true});
+        
+        if (type) {
+          switch (statusId) {
+            case 1: {
+              commit(SET_NEW_PROJECTS, projects);
+              break;
+            }
+            case 2: {
+              commit(SET_IN_PROGRESS_PROJECTS, projects);
+              break;
+            }
+            case 3: {
+              commit(SET_DONE_PROJECTS, projects);
+              break;
+            }
+            case 4: {
+              commit(SET_SIGNED_PROJECTS, projects);
+              break;
+            }
+            default: {
+              type = null;
+            }
+          }
+        } else {
+          commit(SET_ITEMS, { resource: 'projects', items: projects}, {root: true});
+        }
         dispatch('shared/clearLoading', null, { root: true });
         return projects;
       })
@@ -66,20 +199,20 @@ const actions = {
         return rejectError(err);
       })
   },
-  fetchProjectStatus({ commit, dispatch }) {
-    dispatch('shared/setLoading', null, { root: true });
-    return axiosInstance.post(`${config.apiUrl}/project_status/show_all`)
-      .then((res) => {
-        const projectStatuses = res.data;
-        commit(SET_TYPES, projectStatuses);
-        dispatch('shared/clearLoading', null, { root: true });
-        return projectStatuses;
-      })
-      .catch((err) => {
-        dispatch('shared/clearLoading', null, { root: true });
-        return rejectError(err);
-      })
-  },
+  // fetchProjectStatus({ commit, dispatch }) {
+  //   dispatch('shared/setLoading', null, { root: true });
+  //   return axiosInstance.post(`${config.apiUrl}/project_status/show_all`)
+  //     .then((res) => {
+  //       const projectStatuses = res.data;
+  //       commit(SET_TYPES, projectStatuses);
+  //       dispatch('shared/clearLoading', null, { root: true });
+  //       return projectStatuses;
+  //     })
+  //     .catch((err) => {
+  //       dispatch('shared/clearLoading', null, { root: true });
+  //       return rejectError(err);
+  //     })
+  // },
   fetchProject({ commit, dispatch }, projectId) {
     dispatch('shared/setLoading', null, { root: true });
     return axiosInstance.post(`${config.apiUrl}/project/show`, axiosDataWrap({id: projectId}))
@@ -139,6 +272,10 @@ const actions = {
 
 const getters = {
   getProjects: state => state.items,
+  getNewProjects: state => state.new,
+  getInProgressProjects: state => state.inProgress,
+  getDoneProjects: state => state.done,
+  getSignedProjects: state => state.signed,
   isProjectsLoaded: state => !!state.items.length,
 }
 
