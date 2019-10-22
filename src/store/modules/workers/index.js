@@ -28,7 +28,7 @@ const mutations = {
 }
 
 const actions = {
-  fetchWorkers({ state, commit, dispatch }, newWorkerParam ) {
+  fetchWorkers({ state, commit, dispatch }, newWorkerParam = {} ) {
     dispatch('shared/setLoading', null, { root: true });
     return axiosInstance.post(`${config.apiUrl}/worker/show_all`, axiosDataWrap(newWorkerParam))
       .then((res) => {

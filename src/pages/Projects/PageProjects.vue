@@ -9,18 +9,29 @@
         >Добавить проект</router-link>
       </div>
     </div>
-    <div class="MainSection-Row">
+    <div class="MainSection-Row MainSection-Row_noBottomPadding">
       <div class="Filter">
         <p class="Filter-Title">Фильтр</p>
         <div class="Filter-Column">
-          <label>
-            <OkoInput
-              type="text"
-              v-model="searchParams.search"
-              placeholder="Поиск по сотруднику"
-              @keyup.enter="debouncedSearch"
-              @input="debouncedSearch"
-            />
+          <label class="Select Select_theme_arrow Select_sort">
+            <span class="Label">По сотруднику</span>
+            <select name="city" 
+                    class="Select-Control"
+                    @change="searchHandler"
+                    v-model="searchParams.worker_id">
+              <option 
+                value=""
+              >
+                Все сотрудники
+              </option>
+              <option 
+                v-for="worker of workers"
+                :key="worker.id"
+                :value="worker.id"
+              >
+                {{ computedParam_name('worker', worker) }}
+              </option>
+            </select>
           </label>
         </div>
         <div class="Filter-Column">
@@ -79,29 +90,49 @@
       </div>
     </div>
     <div class="MainSection-Row">
+      <div class="Filter">
+        <p class="Filter-Title hidden">Фильтр</p>
+        <div class="Filter-Column">
+          <OkoInput
+            type="text"
+            v-model="searchParams.search"
+            placeholder="Поиск"
+            @keyup.enter="debouncedSearch"
+            @input="debouncedSearch"
+          />
+        </div>
+        <div class="Filter-Column">
+        </div>
+        <div class="Filter-Column">
+        </div>
+        <div class="Filter-Column">
+        </div>
+      </div>
+    </div>
+    <div class="MainSection-Row">
       <div class="Flex Flex_justify_space-between">
         <div class="Project-Column">
           <div class="Project-TypeTitle Project-TypeTitle_theme_new-contract">
             Новый договор
-            <span>2 131 897,22 руб.</span>
+            <span>{{ totalProjectsSum(newProjects) }} руб.</span>
           </div>
         </div>
         <div class="Project-Column">
           <div class="Project-TypeTitle Project-TypeTitle_theme_in-work">
             В работе
-            <span>2 131 897,22 руб.</span>
+            <span>{{ totalProjectsSum(inProgressProjects) }} руб.</span>
           </div>
         </div>
         <div class="Project-Column">
           <div class="Project-TypeTitle Project-TypeTitle_theme_submitted">
             Отчет сдан
-            <span>2 131 897,22 руб.</span>
+            <span>{{ totalProjectsSum(doneProjects) }} руб.</span>
           </div>
         </div>
         <div class="Project-Column">
           <div class="Project-TypeTitle Project-TypeTitle_theme_signed">
             Акт подписан
-            <span>2 131 897,22 руб.</span>
+            <span>{{ totalProjectsSum(signedProjects) }} руб.</span>
           </div>
         </div>
       </div>
@@ -111,26 +142,27 @@
         <div class="Project-Column">
 
           <article 
+            v-for="project of newProjects"
+            :key="project.id"
             class="ProjectCard Project-ProjectCard"
-            v-for="projects of newProjects"
-            :key="projects.id"
+            :class="projectClass(project)"
           >
             <router-link
               class="ProjectCard-Link"
-              :to="{name: 'PageProjectAbout', params: {id: projects.id}}"
+              :to="{name: 'PageProjectAbout', params: {id: project.id}}"
             >
               <p
                 class="ProjectCard-Title"
                 title="Транснефть-Сибирь Транснефть-Сибирь"
-              >{{ projects.title }}</p>
-              <p class="ProjectCard-Cost">{{ projects.project_budget_sum }} руб.</p>
-              <p class="ProjectCard-DateUntil">срок до {{ projects.plandate_end | moment }}</p>
+              >{{ project.title }}</p>
+              <p class="ProjectCard-Cost">{{ projectSum(project.project_budget) }} руб.</p>
+              <p class="ProjectCard-DateUntil">срок до {{ project.plandate_end | moment }}</p>
               <div class="Flex Flex_justify_end Flex_align_center">
                 <p 
                     class="ProjectCard-WorkType"
                 >
                     <span
-                    v-for="product of projects.projects_products"
+                    v-for="product of project.projects_products"
                     :key="product.id">{{ product.title }}</span> 
                 </p>
               </div>
@@ -142,26 +174,27 @@
         <div class="Project-Column">
 
           <article 
+            v-for="project of inProgressProjects"
+            :key="project.id"
             class="ProjectCard Project-ProjectCard"
-            v-for="projects of inProgressProjects"
-            :key="projects.id"
+            :class="projectClass(project)"
           >
             <router-link
               class="ProjectCard-Link"
-              :to="{name: 'PageProjectAbout', params: {id: projects.id}}"
+              :to="{name: 'PageProjectAbout', params: {id: project.id}}"
             >
               <p
                 class="ProjectCard-Title"
                 title="Транснефть-Сибирь Транснефть-Сибирь"
-              >{{ projects.title }}</p>
-              <p class="ProjectCard-Cost">{{ projects.project_budget_sum }} руб.</p>
-              <p class="ProjectCard-DateUntil">срок до {{ projects.plandate_end | moment }}</p>
+              >{{ project.title }}</p>
+              <p class="ProjectCard-Cost">{{ projectSum(project.project_budget) }} руб.</p>
+              <p class="ProjectCard-DateUntil">срок до {{ project.plandate_end | moment }}</p>
               <div class="Flex Flex_justify_end Flex_align_center">
                 <p 
                     class="ProjectCard-WorkType"
                 >
                     <span
-                    v-for="product of projects.projects_products"
+                    v-for="product of project.projects_products"
                     :key="product.id">{{ product.title }}</span> 
                 </p>
               </div>
@@ -173,26 +206,27 @@
         <div class="Project-Column">
 
           <article 
+            v-for="project of doneProjects"
+            :key="project.id"
             class="ProjectCard Project-ProjectCard"
-            v-for="projects of doneProjects"
-            :key="projects.id"
+            :class="projectClass(project)"
           >
             <router-link
               class="ProjectCard-Link"
-              :to="{name: 'PageProjectAbout', params: {id: projects.id}}"
+              :to="{name: 'PageProjectAbout', params: {id: project.id}}"
             >
               <p
                 class="ProjectCard-Title"
                 title="Транснефть-Сибирь Транснефть-Сибирь"
-              >{{ projects.title }}</p>
-              <p class="ProjectCard-Cost">{{ projects.project_budget_sum }} руб.</p>
-              <p class="ProjectCard-DateUntil">срок до {{ projects.plandate_end | moment }}</p>
+              >{{ project.title }}</p>
+              <p class="ProjectCard-Cost">{{ projectSum(project.project_budget) }} руб.</p>
+              <p class="ProjectCard-DateUntil">срок до {{ project.plandate_end | moment }}</p>
               <div class="Flex Flex_justify_end Flex_align_center">
                 <p 
                     class="ProjectCard-WorkType"
                 >
                     <span
-                    v-for="product of projects.projects_products"
+                    v-for="product of project.projects_products"
                     :key="product.id">{{ product.title }}</span> 
                 </p>
               </div>
@@ -204,31 +238,34 @@
         <div class="Project-Column">
 
           <article 
+            v-for="project of signedProjects"
+            :key="project.id"
             class="ProjectCard Project-ProjectCard"
-            v-for="projects of signedProjects"
-            :key="projects.id"
+            :class="projectClass(project)"
           >
             <router-link
               class="ProjectCard-Link"
-              :to="{name: 'PageProjectAbout', params: {id: projects.id}}"
+              :to="{name: 'PageProjectAbout', params: {id: project.id}}"
             >
               <p
                 class="ProjectCard-Title"
                 title="Транснефть-Сибирь Транснефть-Сибирь"
-              >{{ projects.title }}</p>
-              <p class="ProjectCard-Cost">{{ projects.project_budget_sum }} руб.</p>
-              <p class="ProjectCard-DateUntil">срок до {{ projects.plandate_end | moment }}</p>
+              >{{ project.title }}</p>
+              <p class="ProjectCard-Cost">{{ projectSum(project.project_budget) }} руб.</p>
+              <p class="ProjectCard-DateUntil">срок до {{ project.plandate_end | moment }}</p>
               <div class="Flex Flex_justify_end Flex_align_center">
                 <p 
                     class="ProjectCard-WorkType"
                 >
                     <span
-                    v-for="product of projects.projects_products"
+                    v-for="product of project.projects_products"
                     :key="product.id">{{ product.title }}</span> 
                 </p>
               </div>
             </router-link>
-            <div class="ProjectCard-BtnChangeColor"></div>
+            <div 
+              class="ProjectCard-BtnChangeColor"
+            ></div>
           </article>
 
         </div>
@@ -272,7 +309,8 @@ export default {
       doneProjects: "projects/getDoneProjects",
       signedProjects: "projects/getSignedProjects",
       filials: "filials/getFilials",
-      products: "products/getProducts"
+      products: "products/getProducts",
+      workers: "workers/getWorkers"
     }),
     debouncedSearch() {
       let DELAY = 300;
@@ -289,6 +327,7 @@ export default {
                  this.fetchProjects({ ...this.searchParams, status_id: 3 }),
                  this.fetchProjects({ ...this.searchParams, status_id: 4 }),
                  this.fetchProducts(),
+                 this.fetchWorkers(),
                  this.fetchFilials()]).then(res => {
       this.searchParams.qskipstep = res[0].length;
       this.pageLoader_resolveData();
@@ -298,6 +337,7 @@ export default {
     ...mapActions("projects", ["fetchProjects", "searchProjects"]),
     ...mapActions("products", ["fetchProducts"]),
     ...mapActions("filials", ["fetchFilials"]),
+    ...mapActions("workers", ["fetchWorkers"]),
     infiniteHandler($state) {
         Promise.all([this.fetchProjects({ ...this.searchParams, status_id: 1 }),
                     this.fetchProjects({ ...this.searchParams, status_id: 2 }),
@@ -342,11 +382,47 @@ export default {
                 this.searchParams.qskipstep = res[0].length;
             });
     },
+    projectSum(projectBudget) {
+      return projectBudget.reduce(function(acc, item) {
+        
+        let num = parseFloat(item.sum);
+        acc += num;
+        return acc;
+      }, 0).toFixed(2);
+    },
+    totalProjectsSum(projects) {
+      return projects.reduce((acc, item) => {
+        
+        let num = parseFloat(this.projectSum(item.project_budget));
+        return acc += num;
+      }, 0).toFixed(2);
+    },
+    projectClass(project) {
+      let arr = [];
+      const now = new Date();
+      const plandate_end = new Date(project.plandate_end);
+      const factdate_end = new Date(project.factdate_end);
+      
+      if (plandate_end < factdate_end) {
+        arr.push('ProjectCard_theme_prosrocheno');
+      }
+      
+      if (now > plandate_end) {
+        arr.push('ProjectCard_theme_out-of-date');
+      }
+
+      arr.push(`ProjectCard_theme_${project.color}`);
+
+      return arr;
+    }
   }
 };
 </script>
 
 <style scoped>
+.hidden {
+  visibility: hidden;
+}
 .MainSection-Row_title .Btn_type_add {
   margin-left: 30px;
 }
@@ -470,27 +546,6 @@ export default {
     content: '';
     padding-right: 0;
 }
-.ProjectCard_out-of-date .ProjectCard-DateUntil {
-  padding-left: 22px;
-  color: #ff0000;
-  position: relative;
-}
-.ProjectCard_out-of-date .ProjectCard-DateUntil:before {
-  content: "!";
-  width: 16px;
-  height: 16px;
-  background: #ff0000;
-  font-size: 12px;
-  font-weight: 700;
-  color: #ffffff;
-  text-align: center;
-  line-height: 16px;
-  -webkit-border-radius: 100%;
-  border-radius: 100%;
-  position: absolute;
-  top: -2px;
-  left: 0;
-}
 
 .ProjectCard_theme_green .ProjectCard-Link {
   border-color: #cfdf9c;
@@ -603,10 +658,31 @@ export default {
 .ProjectCard_theme_light-gold .ProjectCard-BtnChangeColor {
   border-color: #fee894;
 }
-
 .ProjectCard_theme_prosrocheno .ProjectCard-Link {
   border-color: #ff0000;
   -webkit-box-shadow: 0 1px #ede7ce;
   box-shadow: 0 1px #ede7ce;
 }
+.ProjectCard_theme_out-of-date .ProjectCard-DateUntil {
+  padding-left: 22px;
+  color: #ff0000;
+  position: relative;
+}
+.ProjectCard_theme_out-of-date .ProjectCard-DateUntil:before {
+  content: "!";
+  width: 16px;
+  height: 16px;
+  background: #ff0000;
+  font-size: 12px;
+  font-weight: 700;
+  color: #ffffff;
+  text-align: center;
+  line-height: 16px;
+  -webkit-border-radius: 100%;
+  border-radius: 100%;
+  position: absolute;
+  top: -2px;
+  left: 0;
+}
+
 </style>
