@@ -92,7 +92,7 @@
 
 <script>
   import { required, minLength, maxLength } from 'vuelidate/lib/validators';
-import { setTimeout } from 'timers';
+  import { setTimeout } from 'timers';
 
   export default {
     props: {

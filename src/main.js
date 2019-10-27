@@ -21,6 +21,8 @@ import Multiselect from 'vue-multiselect'
 
 import InfiniteLoading from 'vue-infinite-loading';
 
+import Datepicker from 'vuejs-datepicker';
+
 // Layouts
 import DefaultLayout from '@/layouts/DefaultLayout.vue'
 import AuthLayout from '@/layouts/AuthLayout.vue'
@@ -47,6 +49,7 @@ Vue.use(vuelidate)
 Vue.use(Autocomplete)
 Vue.use(VModal, { dynamic: true, injectModalsContainer: true })
 Vue.use(InfiniteLoading);
+Vue.use(Datepicker);
 
 Vue.mixin(okoModal);
 Vue.mixin(pageLoader);

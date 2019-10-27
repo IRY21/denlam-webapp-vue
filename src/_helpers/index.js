@@ -1,5 +1,5 @@
 export const config = {
-  apiUrl: 'http://api2.denlam.ru'
+  apiUrl: 'http://api.oko365.ru'
 }
 
 export const rejectError = ({ response = null}) => {

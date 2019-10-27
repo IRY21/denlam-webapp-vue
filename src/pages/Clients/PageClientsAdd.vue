@@ -214,7 +214,7 @@
                 class="Btn Btn_theme_green Btn_size_m"
                 :class="{'Btn_theme_wait': loading}"
                 :disabled="$v.$invalid || loading"
-                @click="addClientHandler()"
+                @click="addClientHandler"
             >
                 Добавить контрагента
             </button>

@@ -199,20 +199,6 @@ const actions = {
         return rejectError(err);
       })
   },
-  // fetchProjectStatus({ commit, dispatch }) {
-  //   dispatch('shared/setLoading', null, { root: true });
-  //   return axiosInstance.post(`${config.apiUrl}/project_status/show_all`)
-  //     .then((res) => {
-  //       const projectStatuses = res.data;
-  //       commit(SET_TYPES, projectStatuses);
-  //       dispatch('shared/clearLoading', null, { root: true });
-  //       return projectStatuses;
-  //     })
-  //     .catch((err) => {
-  //       dispatch('shared/clearLoading', null, { root: true });
-  //       return rejectError(err);
-  //     })
-  // },
   fetchProject({ commit, dispatch }, projectId) {
     dispatch('shared/setLoading', null, { root: true });
     return axiosInstance.post(`${config.apiUrl}/project/show`, axiosDataWrap({id: projectId}))

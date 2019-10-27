@@ -9,110 +9,86 @@
         <div class="MainSection-Row MainSection-Row_size_add">
             <div class="Form-Row Form-Row_col2">
                 <div class="Form-Column">
-                    <div class="Input">
-                        <p class="Label">Наименование проекта (заказчика)</p>
-                        <input type="text"
-                              value=""
-                              class="Input-Control"
-                        />
-                    </div>
+                    <OkoInput 
+                        type="text"
+                        v-model="projectData.title"
+                        :label="'Наименование проекта (заказчика)'"
+                        @blur="vuelidateCheck_input($event, 'title', 'projectData')"
+                    />
                 </div>
                 <div class="Form-Column">
-                    <div class="Input Input_theme_ruble">
-                        <p class="Label">Бюджет сделки</p>
-                        <div class="Input-Wrap">
-                            <input
-                                name="budget"
-                                id="budget"
-                                type="number"
-                                min="0"
-                                step="0.01"
-                                class="Input-Control"/>
-                            <input type="hidden" class="project_id" value="60">
-                        </div>
-                    </div>
+                    <OkoInput 
+                        type="number"
+                        v-model="projectData.budget"
+                        :label="'Бюджет сделки'"
+                        @blur="vuelidateCheck_input($event, 'budget', 'projectData')"
+                        theme="ruble"
+                        min="0"
+                        step="0.01"
+                    />
                 </div>
             </div>
             <div class="Form-Row Form-Row_col2">
                 <div class="Form-Column">
                     <div class="Select Select_theme_arrow">
                         <p class="Label">Выберите продукт</p>
-                        <select name="product_id" id="product_id" class="Select-Control">
-                            <option value="8">РНИ</option><option value="4">Энергоаудит</option><option value="9">ЭТЛ</option>
-                        </select>
+                        <multiselect
+                            v-model="projectData.products_ids" 
+                            :value="projectData.products_ids" 
+                            :options="products"
+                            :multiple="true"
+                            track-by="title"
+                            :custom-label="customPostionsLabel"
+                            placeholder=""
+                            :selectLabel="''"
+                            :deselectLabel="''"
+                            :selectedLabel="'Выбрано'"
+                        />
                     </div>
                 </div>
                 <div class="Form-Column">
-                    <div class="Select Select_theme_arrow">
-                        <p class="Label">Филиал (привязанность)</p>
-                        <select name="filial_id" id="filial_id" class="Select-Control">
-                            <option value="0">Выберите филиал</option>
-                            <option value="2">Москва</option>
-                            <option value="1">Уфа</option>
-                        </select>
-                    </div>
+                    <label class="Select Select_theme_arrow">
+                        <span class="Label">Филиал (привязанность)</span>
+                        <multiselect
+                            v-model="projectData.filial_id"
+                            :options="filials"
+                            track-by="title"
+                            :value="projectData.filial_id"
+                            :custom-label="customPostionsLabel"
+                            :searchable="false"
+                            :show-labels="false"
+                            :allow-empty="false"
+                            placeholder
+                        />
+                    </label>
                 </div>
             </div>
             <div class="Form-Row Form-Row_col2">
                 <div class="Form-Column">
-                    <div class="Input">
-                        <p class="Label">Дата начала работ по договору</p>
-                        <input type="text"
-                              name="plan_data_start"
-                              id="plan_data_start"
-                              placeholder="дд.мм.гггг"
-                              value=""
-                              class="Input-Control datepicker-here"
-                        />
-                    </div>
+                    <OkoDatepicker
+                        type="text"
+                        v-model="projectData.plandate_start"
+                        :label="'Дата начала работ по договору'"
+                        :format="'dd.MM.yyyy'"
+                        placeholder="дд.мм.гггг"
+                    />
                 </div>
                 <div class="Form-Column">
-                    <div class="Input">
-                        <p class="Label">Дата окончания работ по договору</p>
-                        <input type="text"
-                              name="plan_data_end"
-                              id="plan_data_end"
-                              placeholder="дд.мм.гггг"
-                              value=""
-                              class="Input-Control datepicker-here"
-                        />
-                    </div>
+                    <OkoDatepicker
+                        type="text"
+                        v-model="projectData.plandate_end"
+                        :label="'Дата окончания работ по договору'"
+                        :format="'dd.MM.yyyy'"
+                        placeholder="дд.мм.гггг"
+                    />
                 </div>
-            </div>
-            <div class="Form-Row Form-Row_col2">
-                <div class="Form-Column">
-                    <div class="Input">
-                        <p class="Label">Место проведения работ</p>
-                        <input type="text"
-                              name="zakazchik_mesto"
-                              id="zakazchik_mesto"
-                              value=""
-                              class="Input-Control"
-                        />
-                    </div>
-                </div>
-                <div class="Form-Column">
-                    <div class="Input">
-                        <p class="Label">Адрес заказчика</p>
-                        <input type="text"
-                              name="zakazchik_address"
-                              id="zakazchik_address"
-                              value=""
-                              class="Input-Control"
-                        />
-                    </div>
-                </div>
-            </div>
-            <div class="Form-Row">
-                <oko-file 
-                    :size="'default'"
-                    :label="'Файл договора'"
-                    :btnText="'Выберите файл'"
-                />
             </div>
             <div class="Form-Row">
                 <p class="Label">Примечание</p>
-                <textarea name="primechanie" id="primechanie" cols="30" rows="10" class="Textarea" placeholder="Введите текст..."></textarea>
+                <textarea 
+                    v-model="projectData.primechanie"
+                    class="Textarea" 
+                    placeholder="Введите текст..."></textarea>
             </div>
         </div>
         <div class="MainSection-Row MainSection-Row_title-lvl2 MainSection-Row_noBottomPadding">
@@ -120,13 +96,15 @@
         </div>
         <div class="MainSection-Row MainSection-Row_size_add">
             <div class="Form-Row Form-Row_col2">
-                <div class="Form-Column">
+                <div class="Form-Column Form-Column_full-line">
                     <div class="Input Input_type_search">
-                        <p class="Label">Наименование организации или ФИО</p>
+                        <p class="Label">Наименование организации, ФИО или ИНН</p>
                         <autocomplete
                             :search="search"
-                            placeholder="Введите наименование"
+                            placeholder=""
                             aria-label="Поиск контрагентов"
+                            :get-result-value="getResultValue"
+                            @submit="handleAutocompleteSubmit"
                         >
                             <template
                                 v-slot="{
@@ -145,34 +123,28 @@
                                         v-on="inputListeners"
                                         :class="[
                                                 'autocomplete-input',
-                                                { 'autocomplete-input-no-results': noResults },
                                                 { 'autocomplete-input-focused': autocomleteComponent.focused }
                                             ]"
                                         @focus="handleFocus"
                                         @blur="handleBlur"
                                     ></AutocompleteInput>
                                     <ul
-                                        v-if="noResults"
-                                        class="autocomplete-result-list"
-                                        style="position: absolute; z-index: 1; width: 100%; top: 100%;"
-                                    >
-                                        <li class="autocomplete-result">No results found</li>
-                                    </ul>
-                                    <ul
-                                         class="Input-SearchResult" 
+                                        class="Input-SearchResult SearchResult" 
                                         v-bind="resultListProps" 
                                         v-on="resultListListeners"
                                     >
                                         <li
+                                            class="SearchResult-Item" 
                                             v-for="(result, index) in results"
                                             :key="resultProps[index].id"
                                             v-bind="resultProps[index]"
-                                        >{{ result }}</li>
-                                        <li 
-                                            class="Input-SearchResult-Item Input-SearchResult-Item_all"
-                                            @click="toggleCounteragentFullListPopup"
                                         >
-                                            смотреть полный список
+                                            <div class="SearchResult-Column">
+                                                {{ computedParam_name('client', result) }}
+                                            </div>
+                                            <div class="SearchResult-Column">
+                                                ИНН: {{ result.inn }}
+                                            </div>
                                         </li>
                                     </ul>
                                 </div>
@@ -180,7 +152,7 @@
                         </autocomplete>
                     </div>
                 </div>
-                <div class="Form-Column">
+                <!-- <div class="Form-Column">
                     <p class="Label">&nbsp;</p>
                     <div 
                         class="Btn Btn_theme_blue chooseFromList"
@@ -188,118 +160,177 @@
                     >
                         смотреть полный список
                     </div>
+                </div> -->
+            </div>
+        </div>
+        <div class="MainSection-Row MainSection-Row_size_add">
+            <h2 class="Heading_lvl2">Тип клиента</h2>
+            <div class="Form-Row Flex Flex_justify_start">
+                <div class="Form-Column Form-Column_auto" style="margin-right: 40px;">
+                    <OkoRadio 
+                        v-model="client.client_type_id" 
+                        name="options"
+                        :value="'1'"
+                    >
+                        Физ. лицо
+                    </OkoRadio>
+                </div>
+                <div class="Form-Column Form-Column_auto">
+                    <OkoRadio 
+                        v-model="client.client_type_id" 
+                        name="options"
+                        value="2"
+                    >
+                        Юр. лицо
+                    </OkoRadio>
                 </div>
             </div>
-            <div class="Form-Row">
-                <div class="Form-Column">
-                    <div class="Input">
-                        <p class="Label">ИНН организации или физ. лица</p>
-                        <input type="text"
-                              value=""
-                              class="Input-Control"
-                              placeholder="Введите ИНН"
+        </div>
+        <div class="MainSection-Row MainSection-Row_size_add">
+            <div 
+                v-if="client.client_type_id === '1'"
+                class="Form-Row"
+            >
+                <div class="Form-Row Form-Row_col2">
+                    <div class="Form-Column">
+                        <OkoInput 
+                            type="text"
+                            v-model="client.fizlico_firstname"
+                            :label="'Фамилия'"
+                            @blur="vuelidateCheck_input($event, 'fizlico_firstname', 'client')"
+                        />
+                    </div>
+                </div>
+                <div class="Form-Row Form-Row_col2">
+                    <div class="Form-Column">
+                        <OkoInput 
+                            type="text"
+                            v-model="client.fizlico_name"
+                            :label="'Имя'"
+                            @blur="vuelidateCheck_input($event, 'fizlico_name', 'client')"
+                        />
+                    </div>
+                </div>
+                <div class="Form-Row Form-Row_col2">
+                    <div class="Form-Column">
+                        <OkoInput 
+                            type="text"
+                            v-model="client.fizlico_lastname"
+                            :label="'Отчество'"
+                            @blur="vuelidateCheck_input($event, 'fizlico_lastname', 'client')"
                         />
                     </div>
                 </div>
             </div>
+            <div 
+                v-if="client.client_type_id === '2'"
+                class="Form-Row Form-Row_col2"
+            >
+                <div class="Form-Column">
+                    <OkoInput 
+                        type="text"
+                        v-model="client.yurlico_name"
+                        :label="'Наименование организации'"
+                        @blur="vuelidateCheck_input($event, 'yurlico_name', 'client')"
+                    />
+                </div>
+            </div>
             <div class="Form-Row">
                 <div class="Form-Column">
-                    <div class="Select Select_theme_arrow">
-                        <p class="Label">Город</p>
-                        <select name="" id="" class="Select-Control">
-                            <option value="1">Уфа</option>
-                            <option value="2">Москва</option>
-                        </select>
-                    </div>
+                    <OkoInput 
+                        type="text"
+                        v-model="client.inn"
+                        @keypress="checkInputType_isNumber()"
+                        :label="'Введите ИНН'"
+                        @blur="vuelidateCheck_input($event, 'inn', 'client')"
+                    />
+                </div>
+            </div>
+            <div class="Form-Row">
+                <div class="Form-Column">
+                    <OkoInput 
+                        type="text"
+                        v-model="client.address"
+                        :label="'Полный адрес'"
+                    />
                 </div>
             </div>
             <div class="Form-Row">
                 <p class="Label">Телефоны</p>
-                <div class="Form-Row">
-                    <div class="Flex Flex_justify_space-between">
+                <div 
+                    class="Form-Row"
+                    v-for="(phone, index) in client.phoneFields"
+                    :key="index"
+                >
+                    <div class="Flex Flex_justify_flex-start Flex_align_center">
                         <div class="Form-Column">
-                            <div class="Input">
-                                <input type="text"
-                                      value=""
-                                      class="Input-Control"
-                                      placeholder="8 (999) 999-99-99"
-                                />
-                            </div>
+                            <OkoInputPhone
+                                type="text"
+                                v-model="phone.value1"
+                                placeholder="8 (999) 999-99-99"
+                                @blur="vuelidateCheck_input($event, 'phoneFields', 'client')"
+                            />
                         </div>
-                        <div class="Form-Column">
-                            <div class="Input Input_num_add">
-                                <input type="text"
-                                      value=""
-                                      class="Input-Control"
-                                      placeholder="доб. 11"
-                                />
-                            </div>
+                        <div class="Form-Column Form-Column_auto">
+                            <OkoInput 
+                                :class="'Input_num_add'"
+                                type="text"
+                                v-model="phone.value2"
+                                @keypress="checkInputType_isNumber()"
+                                placeholder="доб. 11"
+                            />
                         </div>
+                        <svg 
+                            class="Input-ChangeBtn ChangeBtn ChangeBtn_type_cancel"
+                            @click="textinfoMixin_deleteTextinfoField(client, 'phone', index)"
+                        >
+                            <use 
+                                xlink:href="/img/sprite.svg#cancel" 
+                                href="/img/sprite.svg#cancel"></use>
+                        </svg>
                     </div>
                 </div>
                 <div class="Form-Row">
-                    <div class="Flex Flex_justify_space-between">
-                        <div class="Form-Column">
-                            <div class="Input">
-                                <input type="text"
-                                      value=""
-                                      class="Input-Control"
-                                      placeholder="8 (999) 999-99-99"
-                                />
-                            </div>
-                        </div>
-                        <div class="Form-Column">
-                            <div class="Input Input_num_add">
-                                <input type="text"
-                                      value=""
-                                      class="Input-Control"
-                                      placeholder="доб. 11"
-                                />
-                            </div>
-                        </div>
+                    <div 
+                        class="Link Link_dashed Link_line_add"
+                        @click="textinfoMixin_addTextinfoField(client, 'phone', $event)"
+                    >
+                        +  добавить
                     </div>
-                </div>
-                <div class="Form-Row">
-                    <div class="Link Link_dashed Link_line_add Link_js-add" data-type="phone">+  добавить еще</div>
                 </div>
             </div>
             <div class="Form-Row">
                 <p class="Label">Email</p>
-                <div class="Form-Row">
-                    <div class="Form-Column">
-                        <div class="Input">
-                            <input type="email"
-                                  value=""
-                                  class="Input-Control"
-                                  placeholder="ivanov@mail.ru"
+                <div 
+                    class="Form-Row"
+                    v-for="(email, index) in client.emailFields"
+                    :key="index"
+                >
+                    <div class="Flex Flex_justify_flex-start Flex_align_center">
+                        <div class="Form-Column">
+                            <OkoInput 
+                                type="text"
+                                v-model="email.value1"
+                                placeholder="ivanov@mail.ru"
+                                @blur="vuelidateCheck_input($event, 'emailFields', 'client')"
                             />
                         </div>
+                        <svg 
+                            class="Input-ChangeBtn ChangeBtn ChangeBtn_type_cancel"
+                            @click="textinfoMixin_deleteTextinfoField(client, 'email', index)"
+                        >
+                            <use 
+                                xlink:href="/img/sprite.svg#cancel" 
+                                href="/img/sprite.svg#cancel"></use>
+                        </svg>
                     </div>
                 </div>
                 <div class="Form-Row">
-                    <div class="Form-Column">
-                        <div class="Input">
-                            <input type="email"
-                                  value=""
-                                  class="Input-Control"
-                                  placeholder="ivanov@mail.ru"
-                            />
-                        </div>
-                    </div>
-                </div>
-                <div class="Form-Row">
-                    <div class="Link Link_dashed Link_line_add Link_js-add" data-type="email">+  добавить еще</div>
-                </div>
-            </div>
-            <div class="Form-Row">
-                <div class="Form-Column">
-                    <div class="Input">
-                        <p class="Label">Полный адрес (если имеется)</p>
-                        <input type="text"
-                              value=""
-                              class="Input-Control"
-                              placeholder="Введите адрес"
-                        />
+                    <div 
+                        class="Link Link_dashed Link_line_add"
+                        @click="textinfoMixin_addTextinfoField(client, 'email', $event)"
+                    >
+                        +  добавить
                     </div>
                 </div>
             </div>
@@ -309,131 +340,32 @@
         </div>
         <div class="MainSection-Row">
             <div class="Flex Flex_wrap">
+
+                <ClientContactCard 
+                    v-for="(contact, index) in contacts"
+                    :key="index"
+                    :contact="contact"
+                    :arrIndex="index"
+                    :deleteHandler="clientMixin_deleteContactCard"
+                />
+                
                 <div class="Card Card_bd Card_contact-face">
-                    <div class="Form-Row">
-                        <div class="Form-Column">
-                            <div class="Input">
-                                <p class="Label">Наименование организации или ФИО</p>
-                                <input type="text"
-                                      value=""
-                                      class="Input-Control"
-                                      placeholder="Введите наименование"
-                                />
-                            </div>
-                        </div>
+                    <div 
+                        class="Card_add"
+                        @click="clientMixin_addContactCard"
+                    >
+                        + добавить контактное лицо
                     </div>
-                    <div class="Form-Row">
-                        <div class="Form-Column">
-                            <div class="Input">
-                                <p class="Label">ИНН организации или физ. лица</p>
-                                <input type="text"
-                                      value=""
-                                      class="Input-Control"
-                                      placeholder="Введите ИНН"
-                                />
-                            </div>
-                        </div>
-                    </div>
-                    <div class="Form-Row">
-                        <div class="Form-Column">
-                            <div class="Select Select_theme_arrow">
-                                <p class="Label">Город</p>
-                                <select name="" id="" class="Select-Control">
-                                    <option value="1">Уфа</option>
-                                    <option value="2">Москва</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="Form-Row">
-                        <p class="Label">Телефоны</p>
-                        <div class="Form-Row">
-                            <div class="Flex Flex_justify_space-between">
-                                <div class="Form-Column">
-                                    <div class="Input">
-                                        <input type="text"
-                                              value=""
-                                              class="Input-Control"
-                                              placeholder="8 (999) 999-99-99"
-                                        />
-                                    </div>
-                                </div>
-                                <div class="Form-Column">
-                                    <div class="Input Input_num_add">
-                                        <input type="text"
-                                              value=""
-                                              class="Input-Control"
-                                              placeholder="доб. 11"
-                                        />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="Form-Row">
-                            <div class="Flex Flex_justify_space-between">
-                                <div class="Form-Column">
-                                    <div class="Input">
-                                        <input type="text"
-                                              value=""
-                                              class="Input-Control"
-                                              placeholder="8 (999) 999-99-99"
-                                        />
-                                    </div>
-                                </div>
-                                <div class="Form-Column">
-                                    <div class="Input Input_num_add">
-                                        <input type="text"
-                                              value=""
-                                              class="Input-Control"
-                                              placeholder="доб. 11"
-                                        />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="Form-Row">
-                            <div class="Link Link_dashed Link_line_add Link_js-add" data-type="phone">+  добавить еще</div>
-                        </div>
-                    </div>
-                    <div class="Form-Row">
-                        <p class="Label">Email</p>
-                        <div class="Form-Row">
-                            <div class="Form-Column">
-                                <div class="Input">
-                                    <input type="email"
-                                          value=""
-                                          class="Input-Control"
-                                          placeholder="ivanov@mail.ru"
-                                    />
-                                </div>
-                            </div>
-                        </div>
-                        <div class="Form-Row">
-                            <div class="Form-Column">
-                                <div class="Input">
-                                    <input type="email"
-                                          value=""
-                                          class="Input-Control"
-                                          placeholder="ivanov@mail.ru"
-                                    />
-                                </div>
-                            </div>
-                        </div>
-                        <div class="Form-Row">
-                            <div class="Link Link_dashed Link_line_add Link_js-add" data-type="email">+  добавить еще</div>
-                        </div>
-                    </div>
-                    <div class="Form-Row">
-                        <div class="Btn Btn_theme_delete">Удалить</div>
-                    </div>
-                </div>
-                <div class="Card Card_bd Card_contact-face">
-                    <div class="Card_add Link_js-add" data-type="card">+ добавить контактное лицо</div>
                 </div>
             </div>
         </div>
         <div class="MainSection-Row MainSection-Row_noTopPadding">
-            <div class="Btn Btn_theme_green Btn_size_m">Добавить проект</div>
+            <div 
+                class="Btn Btn_theme_green Btn_size_m"
+                @click="addProjectHandler"
+            >
+                Добавить проект
+            </div>
         </div>
     </form>
     
@@ -506,61 +438,444 @@
 </template>
 
 <script>
+import moment from 'moment';
+import { mapActions } from 'vuex';
+import { required, email, minLength } from 'vuelidate/lib/validators';
+import clientMixin from '@/_mixins/client';
+
+import { ClientContactCard } from '@/components/pages/Clients/ClientsAdd'
+
 export default {
     name: 'PageProjectsAdd',
     data() {
         return {
-            form: {
-                counteragentData: {
-                    name: ''
-                }
+            filials: [],
+            products: [],
+            projectData: {
+                title: '',
+                budget: '',
+                filial_id: [],
+                plandate_start: '',
+                plandate_end: '',
+                primechanie: '',
+                products_ids: [],
+                color_id: '1',
+                client_id: '132'
             },
+            client: {
+                client_type_id: '1',
+                inn: '',
+                fizlico_firstname: '',
+                fizlico_name: '',
+                fizlico_lastname: '',
+                yurlico_name: '',
+                address: '',
+                phoneFields: [{
+                        textinfo_type_id: '1',
+                        value1: "",
+                        value2: "",
+                    }],
+                emailFields: [{
+                        textinfo_type_id: '2',
+                        value1: "",
+                        value2: "",
+                    }],
+            },
+            
+            contacts: [{
+                client_id: "",
+                name: "",
+                position: "",
+                phoneFields: [{
+                        textinfo_type_id: '1',
+                        value1: "",
+                        value2: "",
+                    }],
+                emailFields: [{
+                        textinfo_type_id: '2',
+                        value1: "",
+                        value2: "",
+                    }],
+            }],
             autocomleteComponent: {
-                counteragents: [
-                    'I',
-                    'I1',
-                    'I2',
-                    'I3',
-                    'I4',
-                    'I5',
-                    'I6',
-                    'R',
-                    'a'
-                ],
                 focused: false,
-                results: [],
             },
             counteragentFullListPopupShow: false,
+
+            formClientType: "add",
+            loading: false,
+            error: false
         }
     },
-    computed: {
-        noResults() {
-            return this.form.counteragentData.name && this.autocomleteComponent.results.length === 0;
+    mixins: [clientMixin],
+    validations() {
+        if (this.client.client_type_id === '1') {
+            return {
+                projectData: {
+                    title: { required },
+                    filial_id: { required },
+                    plandate_start: { required },
+                    plandate_end: { required },
+                    budget: { required },
+                    products_ids: { required },
+                },
+                client: {
+                    inn: {
+                        required
+                    },
+                    fizlico_firstname: {
+                        required
+                    },
+                    fizlico_name: {
+                        required
+                    },
+                    fizlico_lastname: {
+                        required
+                    },
+                    phoneFields: {
+                        $each: {
+                            value1: {
+                                minLength: minLength(11)
+                            }
+                        }
+                    },
+                    emailFields: {
+                        $each: {
+                            value1: {
+                                email
+                            }
+                        }
+                    },
+                }
+            }
+        } else if (this.client.client_type_id === '2') {
+            return {
+                projectData: {
+                    title: { required },
+                    filial_id: { required },
+                    plandate_start: { required },
+                    plandate_end: { required },
+                    budget: { required },
+                    products_ids: { required },
+                },
+                client: {
+                    inn: {
+                        required
+                    },
+                    yurlico_name: {
+                        required
+                    },
+                    phoneFields: {
+                        $each: {
+                            value1: {
+                                minLength: minLength(11)
+                            }
+                        },
+                    },
+                    emailFields: {
+                        $each: {
+                            value1: {
+                                email
+                            }
+                        }
+                    },
+                }
+            }
         }
+        
     },
+    components: {
+        ClientContactCard
+    },
+    created() {
+        Promise.all([this.fetchFilials(), this.fetchProducts()])
+            .then((res) => {
+                this.filials = res[0];
+                this.products = res[1];
+                this.projectData.filial_id = res[0][0];
+                this.projectData.products_ids = res[1][0];
+                this.pageLoader_resolveData();
+            })
+    },
+    computed: {},
     methods: {
+        ...mapActions("projects", ["addProject"]),
+        ...mapActions("clients", ["addClient", "searchClients", "fetchClient", "updateClient", "deleteClient"]),
+        ...mapActions("contacts", ["addContact", "updateContact", "deleteContact"]),
+        ...mapActions('filials', ['fetchFilials']),
+        ...mapActions('products', ['fetchProducts']),
         toggleCounteragentFullListPopup() {
             this.counteragentFullListPopupShow = !this.counteragentFullListPopupShow;
         },
         search(input) {
-            this.form.counteragentData.name = input
-            if (input.length < 1) {
-                this.autocomleteComponent.results = []
+            if (input.length === 0) {
+                return []
             } else {
-                this.autocomleteComponent.results = this.autocomleteComponent.counteragents.filter(counteragent => {
-                    return counteragent.toLowerCase()
-                        .startsWith(input.toLowerCase())
-                })
+                return this.searchClients(
+                    {
+                        qlimit: 5,
+                        qskipstep: 0,
+                        search: input,
+                    }
+                    )
             }
-            return this.autocomleteComponent.results.slice(0, 5)
         },
         handleFocus() {
-            this.autocomleteComponent.focused = true
+            this.autocomleteComponent.focused = true;
+        },
+        handleBlur() {
+            this.autocomleteComponent.focused = false;
+            //this.client
+        },
+        getResultValue(result) {
+            return this.computedParam_name('client', result);
         },
         
-        handleBlur() {
-            this.autocomleteComponent.focused = false
-        }
+        handleAutocompleteSubmit(result)  {
+            const resClient = result;
+            const textInfoFields = resClient.client_textinfo || [];
+            const contactsFields = resClient.client_contacts || [];
+            const self = this;
+
+            this.autocomleteComponent.focused = false;
+
+            function textinfoSplit(fieldToFill, textinfo) {
+                textinfo.forEach(function(item) {
+                    switch (item.textinfo_type_id) {
+                        case "1": {
+                            fieldToFill.phoneFields.push({
+                                textinfo_type_id: "1",
+                                value1: item.value1,
+                                value2: item.value2
+                            });
+                            break;
+                        }
+                        case "2": {
+                            fieldToFill.emailFields.push({
+                                textinfo_type_id: "2",
+                                value1: item.value1
+                            });
+                            break;
+                        }
+                    }
+                });
+            }
+
+            this.client = {
+                id: resClient.id,
+                client_type_id: resClient.client_type_id,
+                inn: resClient.inn,
+                fizlico_firstname: resClient.fizlico_firstname,
+                fizlico_name: resClient.fizlico_name,
+                fizlico_lastname: resClient.fizlico_lastname,
+                yurlico_name: resClient.yurlico_name,
+                address: resClient.address,
+                phoneFields: [],
+                emailFields: []
+            };
+
+            textinfoSplit(self.client, textInfoFields);
+
+            contactsFields.forEach(function(item, index) {
+                const textInfoFields = item.client_contact_textinfo || [];
+                self.contacts.push({
+                    client_id: resClient.id,
+                    id: item.id,
+                    name: item.name,
+                    position: item.position,
+                    phoneFields: [],
+                    emailFields: []
+                });
+
+                textinfoSplit(self.contacts[index], textInfoFields);
+            });
+        },
+
+        customPostionsLabel(option) {
+            return `${option.title}`;
+        },
+
+        addProjectHandler() {
+            const self = this;
+            this.loading = true;
+
+            function projectProductsIds(products) {
+                if (!(products instanceof Array)) {
+                    products = [products];
+                }
+                return products.map((item) => {
+                    return item.id;
+                }, []);
+            }
+
+            const newProject = {
+                title: this.projectData.title,
+                budget: this.projectData.budget,
+                filial_id: this.projectData.filial_id.id,
+                plandate_start: moment(this.projectData.plandate_start).format('YYYY-MM-DD hh:mm:ss'),
+                plandate_end: moment(this.projectData.plandate_end).format('YYYY-MM-DD hh:mm:ss'),
+                primechanie: this.projectData.primechanie,
+                products_ids: projectProductsIds(this.projectData.products_ids),
+                color_id: this.projectData.color_id,
+                client_id: this.projectData.client_id
+            }
+            
+            if (this.client.inn && this.formClientType === 'add') {
+                this.addClientHandler();
+                    /* .then(() => {
+
+                    }) */
+            } else if (this.client.inn && this.formClientType === 'update') {
+                this.updateClientHandler();
+            }
+
+            if (!this.error) {
+                this.addProject(newProject)
+                    .then((res) => {
+                        const projectId = res.id;
+                        
+                        /* this.$router.push({ name: 'PageProjectAbout', 
+                                            params: {
+                                                id: projectId
+                                            }}); */
+                    })
+                    .catch(err => {
+                        this.loading = false;
+                        this.okoModal_response({ type: "error", message: err });
+                    });
+            }
+            
+        },
+        addClientHandler() {
+            this.loading = true;
+
+            const textinfoFields = this.textinfoMixin_checkTextinfoField([ 
+                    ...this.client.phoneFields, 
+                    ...this.client.emailFields
+                ]);
+
+            const newClient = {
+                client_type_id: this.client.client_type_id,
+                inn: this.client.inn,
+                fizlico_firstname: this.client.fizlico_firstname,
+                fizlico_name: this.client.fizlico_name,
+                fizlico_lastname: this.client.fizlico_lastname,
+                yurlico_name: this.client.yurlico_name,
+                address: this.client.address,
+                client_textinfo: textinfoFields
+            }
+            
+            this.addClient(newClient)
+                .then((res) => {
+                    const clientId = res.id;
+                    this.projectData.client_id = clientId;
+                    let contactsToAdd = [];
+
+                    for (let i = 0; i < this.contacts.length; ++i) {
+                        contactsToAdd.push(this.addContactHandler(clientId, i));
+                    }
+                    Promise.all(contactsToAdd)
+                        .then(() => {
+                            this.loading = false;
+                        })
+                        .catch((err) => {
+                            this.loading = false;
+                            this.error = true;
+                            this.okoModal_response({type:'error', message: err}); 
+                        })
+                })
+                .catch((err) => {
+                    this.loading = false;
+                    this.error = true;
+                    this.okoModal_response({type:'error', message: err});  
+                })
+        },
+        updateClientHandler() {
+            this.loading = true;
+
+            const textinfoFields = this.textinfoMixin_checkTextinfoField([
+                ...this.client.phoneFields,
+                ...this.client.emailFields
+            ]);
+
+            const newClient = {
+                id: this.client.id,
+                client_type_id: this.client.client_type_id,
+                inn: this.client.inn,
+                fizlico_firstname: this.client.fizlico_firstname,
+                fizlico_name: this.client.fizlico_name,
+                fizlico_lastname: this.client.fizlico_lastname,
+                yurlico_name: this.client.yurlico_name,
+                address: this.client.address,
+                client_textinfo: textinfoFields
+            };
+
+            this.updateClient(newClient)
+                .then(res => {
+                const clientId = res.id;
+                let contactsToAdd = [];
+
+                for (let i = 0; i < this.contacts.length; ++i) {
+                    contactsToAdd.push(this.addContactHandler(clientId, i));
+                }
+                Promise.all(contactsToAdd)
+                    .then(() => {
+                        this.loading = false;
+                        this.$router.push({
+                            name: "PageClientAbout",
+                            params: {
+                            clientId: clientId
+                            }
+                        });
+                    })
+                    .catch(err => {
+                        this.loading = false;
+                        this.error = true;
+                        this.okoModal_response({ type: "error", message: err });
+                    });
+                })
+                .catch(err => {
+                    this.loading = false;
+                    this.error = true;
+                    this.okoModal_response({ type: "error", message: err });
+                });
+            },
+            clientDelete() {
+                this.deleteClient({ id: this.computedParam_currentRouteId })
+                    .then(() => {
+                        this.okoModal_response({
+                            type: "success",
+                            message: "Клиент успешно удален"
+                        });
+
+                        this.$router.push({ name: "PageClients" });
+                    })
+                    .catch(err => {
+                        this.error = true;
+                        this.okoModal_response({ type: "error", message: err });
+                    });
+            },
+            addContactHandler(clientId, contactIndex) {
+                const currentContact = this.contacts[contactIndex];
+
+                if (currentContact.name) {
+                    const textinfoFields = this.textinfoMixin_checkTextinfoField([
+                        ...currentContact.phoneFields,
+                        ...currentContact.emailFields
+                    ]);
+                    const newContact = {
+                        client_id: clientId,
+                        name: currentContact.name,
+                        position: currentContact.position,
+                        client_contacts_textinfo: textinfoFields
+                    };
+
+                    if (currentContact.id) {
+                        return this.updateContact({ id: currentContact.id, ...newContact });
+                    }
+                    return this.addContact(newContact);
+                }
+        },
     }
 }
 </script>
@@ -637,4 +952,18 @@ export default {
     z-index: 500;
 }
 
+.Form-Column {
+    margin-right: 10px;
+}
+.Form-Column_full-line {
+    width: 100%;
+}
+
+.SearchResult-Item {
+    display: flex;
+    cursor: pointer;
+}
+.SearchResult-Column {
+    width: 50%;
+}
 </style>

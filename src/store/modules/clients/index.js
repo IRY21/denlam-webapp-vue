@@ -24,7 +24,7 @@ const mutations = {
 }
 
 const actions = {
-  fetchClients({ state, commit, dispatch }, newClientsParam ) {
+  fetchClients({ state, commit, dispatch }, newClientsParam = {} ) {
     dispatch('shared/setLoading', null, { root: true });
     return axiosInstance.post(`${config.apiUrl}/client/show_all`, axiosDataWrap(newClientsParam))
       .then((res) => {

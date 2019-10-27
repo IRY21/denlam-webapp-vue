@@ -1,5 +1,5 @@
 <template>
-  <label class="Input">
+  <!-- <label class="Input">
     <span class="Label" v-if="label">{{ label }}</span>
     <input
       class="Input-Control"
@@ -8,6 +8,21 @@
       v-on="listeners"
       @input="handleInput"
     >
+  </label> -->
+  <label 
+    class="Input"
+    :class="[theme ? `Input_theme_${theme}` : '']"
+  >
+    <span class="Label" v-if="label">{{ label }}</span>
+      <div class="Input-Wrap">
+          <input
+            class="Input-Control"
+            v-bind="$attrs"
+            :value="value"
+            v-on="listeners"
+            @input="handleInput"
+            />
+      </div>
   </label>
 </template>
 
@@ -22,6 +37,9 @@ export default {
     label: {
       type: String,
       default: null
+    },
+    theme: {
+      type: String
     }
   },
   computed: {
@@ -39,6 +57,8 @@ export default {
 }
 </script>
 
-<style>
-
+<style scoped>
+.Input-Control {
+  width: 100%;
+}
 </style>

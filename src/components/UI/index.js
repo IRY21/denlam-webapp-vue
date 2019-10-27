@@ -12,6 +12,8 @@ import OkoRadio from './Controls/Radio/OkoRadio';
 
 import AutocompleteInput from './Controls/Autocomplete/AutocompleteInput';
 
+import OkoDatepicker from './Controls/Datepicker/OkoDatepicker';
+
 export default [
   OkoTitle,
   OkoError,
@@ -22,4 +24,5 @@ export default [
   OkoInputPhone,
   OkoRadio,
   AutocompleteInput,
+  OkoDatepicker,
 ];
