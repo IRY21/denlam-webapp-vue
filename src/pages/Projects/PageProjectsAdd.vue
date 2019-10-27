@@ -460,7 +460,7 @@ export default {
                 primechanie: '',
                 products_ids: [],
                 color_id: '1',
-                client_id: '132'
+                client_id: ''
             },
             client: {
                 client_type_id: '1',
@@ -635,7 +635,7 @@ export default {
             const resClient = result;
             const textInfoFields = resClient.client_textinfo || [];
             const contactsFields = resClient.client_contacts || [];
-            const self = this;
+            //const self = this;
 
             this.autocomleteComponent.focused = false;
 
@@ -696,7 +696,7 @@ export default {
         },
 
         addProjectHandler() {
-            const self = this;
+            //const self = this;
             this.loading = true;
 
             function projectProductsIds(products) {
@@ -734,15 +734,15 @@ export default {
                     .then((res) => {
                         const projectId = res.id;
                         
-                        /* this.$router.push({ name: 'PageProjectAbout', 
+                        this.$router.push({ name: 'PageProjectAbout', 
                                             params: {
                                                 id: projectId
-                                            }}); */
+                                            }});
                     })
                     .catch(err => {
                         this.loading = false;
                         this.okoModal_response({ type: "error", message: err });
-                    });
+                    }); 
             }
             
         },
